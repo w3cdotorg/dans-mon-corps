@@ -294,200 +294,28 @@ svg#body{display:block;width:100%;height:auto;max-height:min(66vh,660px);margin:
 .mu-band{fill:none;stroke:#ffe6c9;stroke-width:3.6;stroke-linecap:butt;opacity:.95}
 .mu-navel{fill:#c33049;opacity:.5}
 
-/* Gonflement discret du biceps et du mollet.
-   Le <g class="mu-pulse-*"> est un groupe INTERMEDIAIRE : aucune des formes
-   animees ne porte d'attribut transform=, donc pas de conflit.
+/* Nouveaux utilitaires : creux sombres (orbites, bouche), nappe superficielle
+   du platysma, et tendons larges des doigts / orteils. */
+.mu-hole{fill:url(#mu-gHole);stroke:#8f2338;stroke-width:1.8}
+.mu-sheet{fill:#ff7887;fill-opacity:.3;stroke:#c33049;stroke-width:1.8;stroke-linejoin:round}
+.mu-fin{fill:none;stroke:#ffe6c9;stroke-width:4;stroke-linecap:round;opacity:.95}
+
+/* Gonflement discret du biceps, du mollet et du masseter.
+   Chaque classe mu-pulse-... est portee par un groupe INTERMEDIAIRE : aucune
+   des formes animees ne porte d'attribut transform=, donc pas de conflit.
    transform-origin est donne en coordonnees viewBox (transform-box:view-box)
-   pour rester juste aussi dans la copie miroir du <use>. */
-.mu-pulse-bi,.mu-pulse-calf{transform-box:view-box}
+   pour rester juste aussi dans la copie miroir faite par le miroir du groupe.
+   (Aucun chevron dans ce commentaire : il resterait litteral si la feuille
+   de style etait placee dans un element style a l'interieur du SVG.) */
+.mu-pulse-bi,.mu-pulse-calf,.mu-pulse-mass{transform-box:view-box}
 .mu-pulse-bi{transform-origin:132px 263px;animation:mu-bi-flex 5s ease-in-out infinite}
 .mu-pulse-calf{transform-origin:183px 634px;animation:mu-calf-flex 6.4s ease-in-out infinite}
+.mu-pulse-mass{transform-origin:166px 136px;animation:mu-mass-chew 4.2s ease-in-out infinite}
 @keyframes mu-bi-flex{0%,100%{transform:scale(1)}46%{transform:scale(1.04)}}
 @keyframes mu-calf-flex{0%,100%{transform:scale(1)}52%{transform:scale(1.03)}}
+@keyframes mu-mass-chew{0%,100%{transform:scaleY(1)}40%{transform:scaleY(.94)}72%{transform:scaleY(1.02)}}
 @media (prefers-reduced-motion:reduce){
-  .mu-pulse-bi,.mu-pulse-calf{animation:none}
-}
-
-/* ===== couche 3 ===== */
-/* ============ COUCHE APPAREIL CIRCULATOIRE — prefixe bl- ============ */
-
-/* Halo « circulation qui brille dans le noir » */
-#bl-net {
-  filter: drop-shadow(0 0 2.5px rgba(255, 80, 120, .40))
-          drop-shadow(0 0 2.5px rgba(90, 170, 255, .34));
-}
-#bl-heart-g { filter: drop-shadow(0 0 6px rgba(232, 33, 63, .55)); }
-
-/* --- tracés de FOND : continus, plus sombres (evite le clignotement) --- */
-.bl-ab { fill: none; stroke: #8e1030; stroke-linecap: round; stroke-linejoin: round; }
-.bl-vb { fill: none; stroke: #12518f; stroke-linecap: round; stroke-linejoin: round; }
-
-/* --- tracés de FLUX : pointillés clairs animés par-dessus --- */
-.bl-af, .bl-vf, .bl-caf, .bl-cvf {
-  fill: none; stroke-linecap: round; stroke-dasharray: 13 19;
-  animation-name: bl-flow; animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.bl-af  { stroke: #ff4266; animation-duration: 1.4s; }   /* artériel : rapide */
-.bl-vf  { stroke: #4aa6ff; animation-duration: 2.3s; }   /* veineux : plus lent */
-.bl-caf { stroke: #ff7a93; animation-duration: 3.2s; }   /* capillaire rouge */
-.bl-cvf { stroke: #7ab6ff; animation-duration: 3.6s; }   /* capillaire bleu */
-
-/* --- calibres : le sang part gros du coeur et s'affine vers les doigts --- */
-.bl-1 { stroke-width: 9; }   .bl-1f { stroke-width: 6; }
-.bl-2 { stroke-width: 7; }   .bl-2f { stroke-width: 4.6; }
-.bl-3 { stroke-width: 5.4; } .bl-3f { stroke-width: 3.4; }
-.bl-4 { stroke-width: 4.2; } .bl-4f { stroke-width: 2.6; }
-.bl-5 { stroke-width: 3.2; } .bl-5f { stroke-width: 2.5; }
-
-/* sens du courant : les pointillés avancent toujours dans le sens du tracé
-   (les artères sont tracées coeur -> extrémités, les veines extrémités -> coeur) */
-@keyframes bl-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -64; } }
-
-/* --- le coeur : deux temps, ~0,9 s --- */
-.bl-heart-beat {
-  transform-box: fill-box; transform-origin: center;
-  animation: bl-beat .9s ease-in-out infinite;
-}
-@keyframes bl-beat {
-  0%   { transform: scale(1); }
-  7%   { transform: scale(1.05, 1.04); }  /* systole des oreillettes */
-  15%  { transform: scale(1.02); }
-  26%  { transform: scale(.90, .93); }    /* systole des ventricules */
-  40%  { transform: scale(1.035); }
-  56%  { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-/* auréole du coeur, synchronisée sur le battement */
-.bl-heart-halo {
-  transform-box: fill-box; transform-origin: center;
-  animation: bl-halo .9s ease-in-out infinite;
-}
-@keyframes bl-halo {
-  0%, 100% { opacity: .18; transform: scale(1); }
-  26%      { opacity: .50; transform: scale(1.18); }
-  60%      { opacity: .22; transform: scale(1.02); }
-}
-/* les coronaires se remplissent en diastole */
-.bl-coro { animation: bl-flow 1.1s linear infinite; }
-
-.bl-hstroke { stroke: #9c0d26; stroke-linejoin: round; stroke-linecap: round; }
-.bl-groove  { fill: none; stroke: #9c0d26; stroke-width: 2.6; stroke-linecap: round; opacity: .85; }
-
-@media (prefers-reduced-motion: reduce) {
-  .bl-af, .bl-vf, .bl-caf, .bl-cvf, .bl-heart-beat, .bl-heart-halo, .bl-coro { animation: none; }
-  .bl-af, .bl-vf, .bl-caf, .bl-cvf { stroke-dasharray: none; }
-}
-
-/* ===== couche 4 ===== */
-/* ===== ORGANES : traits communs ===== */
-.or-s{stroke-linecap:round;stroke-linejoin:round}
-.or-t{fill:none;stroke-linecap:round;stroke-linejoin:round}
-
-/* ===== encéphale ===== */
-.or-brain{fill:#c9648c;stroke:#8f3a5c;stroke-width:2.2}
-.or-lobefr{fill:#d6759b}
-.or-lobetemp{fill:#bd5880}
-.or-lobeocc{fill:#b24f77}
-.or-gyr{fill:none;stroke:#ffb3d1;stroke-width:6;stroke-linecap:round}
-.or-fis{fill:none;stroke:#7d2a4b;stroke-width:3.2;stroke-linecap:round}
-.or-cbl{fill:#e2839f;stroke:#8e4159;stroke-width:2}
-.or-lam{fill:none;stroke:#a04d69;stroke-width:1.9;stroke-linecap:round}
-.or-verm{fill:#cb6484;stroke:#8e4159;stroke-width:1.8}
-.or-stem{fill:#f4cdda;stroke:#a86381;stroke-width:2}
-.or-cord{fill:#e9e3f7;stroke:#8f83ad;stroke-width:2}
-.or-caud{fill:none;stroke:#a9a0c4;stroke-width:2;stroke-linecap:round}
-
-/* ===== voies aériennes ===== */
-.or-air{fill:#eef3ff;stroke:#8695ba;stroke-width:2}
-.or-ring{fill:none;stroke:#aebede;stroke-width:2.3;stroke-linecap:round}
-.or-brdark{fill:none;stroke:#8695ba;stroke-linecap:round;stroke-linejoin:round}
-.or-br{fill:none;stroke:#dde7fa;stroke-linecap:round;stroke-linejoin:round}
-.or-bw1{stroke-width:8}
-.or-bw2{stroke-width:5.6}
-.or-bw3{stroke-width:3.8}
-.or-bw4{stroke-width:2.6}
-.or-brdark.or-bw1{stroke-width:10.8}
-.or-brdark.or-bw2{stroke-width:8.2}
-.or-brdark.or-bw3{stroke-width:6.2}
-.or-brdark.or-bw4{stroke-width:4.8}
-
-/* ===== thyroïde ===== */
-.or-thy{fill:#c98fc4;stroke:#7d4a79;stroke-width:2}
-
-/* ===== poumons : 3 teintes = 3 lobes ===== */
-.or-lungA{fill:#ffdce9;stroke:#c96e90;stroke-width:1.8}
-.or-lungB{fill:#ffb0cc;stroke:#c96e90;stroke-width:1.8}
-.or-lungC{fill:#f486af;stroke:#c96e90;stroke-width:1.8}
-.or-scis{fill:none;stroke:#a9476c;stroke-width:3;stroke-linecap:round}
-.or-lungEdge{fill:none;stroke:#a9476c;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
-
-/* ===== coeur et gros vaisseaux ===== */
-.or-heart{fill:#e8213f;stroke:#7d0e1c;stroke-width:2.2}
-.or-hgroove{fill:none;stroke:#9d0f1e;stroke-width:2.1;stroke-linecap:round}
-.or-aorta{fill:none;stroke:#c2152f;stroke-width:5.5;stroke-linecap:round}
-.or-aortaD{fill:none;stroke:#a5122a;stroke-width:4.5;stroke-linecap:round}
-.or-pulm{fill:none;stroke:#f2496a;stroke-width:5;stroke-linecap:round}
-
-/* ===== diaphragme ===== */
-.or-diaph{fill:#f9a68e;stroke:#9b3b28;stroke-width:2.4}
-.or-fib{fill:none;stroke:#c86449;stroke-width:1.7;stroke-linecap:round}
-
-/* ===== oesophage ===== */
-.or-oesoOut{stroke:#94687f;stroke-width:9}
-.or-oesoIn{stroke:#dfb9cb;stroke-width:5.6}
-
-/* ===== foie et vesicule ===== */
-.or-liver{fill:#a04a3e;stroke:#571f18;stroke-width:2.4}
-.or-liverL{fill:#b8604f;stroke:#571f18;stroke-width:2.2}
-.or-lig{fill:none;stroke:#571f18;stroke-width:2.6;stroke-linecap:round}
-.or-gall{fill:#6fbf7a;stroke:#2c6a36;stroke-width:2}
-.or-duct{fill:none;stroke:#2c6a36;stroke-width:2.4;stroke-linecap:round}
-
-/* ===== estomac ===== */
-.or-stom{fill:#ff9878;stroke:#a8402a;stroke-width:2.4}
-.or-ruga{fill:none;stroke:#cc5c3e;stroke-width:1.9;stroke-linecap:round}
-.or-pylo{fill:none;stroke:#a8402a;stroke-width:3.4;stroke-linecap:round}
-
-/* ===== rate ===== */
-.or-spleen{fill:#8e5b7e;stroke:#4b2942;stroke-width:2.2}
-
-/* ===== pancréas ===== */
-.or-panc{fill:#f2cd83;stroke:#a8811f;stroke-width:2.2}
-.or-wirsung{fill:none;stroke:#a8811f;stroke-width:1.8;stroke-linecap:round}
-
-/* ===== reins, uretères, vessie ===== */
-.or-kid{fill:#cb6a40;stroke:#4a1a09;stroke-width:2.7}
-.or-kidin{fill:#f0c3ab;stroke:none}
-.or-adr{fill:#e6c08e;stroke:#8d6236;stroke-width:1.9}
-.or-uriOut{stroke:#8e6c10;stroke-width:5}
-.or-uriIn{stroke:#ffd75e;stroke-width:2.8}
-.or-blad{fill:#ffd75e;stroke:#8e6c10;stroke-width:2.3}
-.or-hl{fill:none;stroke:#ffffff;stroke-opacity:.42;stroke-width:2;stroke-linecap:round}
-
-/* ===== intestins ===== */
-.or-colOut{stroke:#9e5719;stroke-width:16}
-.or-colIn{stroke:#f09a52;stroke-width:12.4}
-.or-haus{fill:none;stroke:#b96c28;stroke-width:2;stroke-linecap:round}
-.or-cec{fill:#f09a52;stroke:#9e5719;stroke-width:2.3}
-.or-appOut{stroke:#9e5719;stroke-width:6.6}
-.or-appIn{stroke:#e9954c;stroke-width:3.8}
-.or-greOut{stroke:#bb7638;stroke-width:12}
-.or-greIn{stroke:#ffd0a8;stroke-width:8.8}
-.or-duoOut{stroke:#bb7638;stroke-width:12}
-.or-duoIn{stroke:#ffbe8e;stroke-width:8.8}
-
-/* ===== animations ===== */
-@keyframes or-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.045,1.055)}}
-.or-lungG{animation:or-breathe 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 8%}
-@keyframes or-diaphmove{0%,100%{transform:translateY(0)}50%{transform:translateY(3.5px)}}
-.or-diaphG{animation:or-diaphmove 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
-@keyframes or-beat{0%,100%{transform:scale(1)}11%{transform:scale(1.07)}24%{transform:scale(.985)}40%{transform:scale(1.028)}58%{transform:scale(1)}}
-.or-heartG{animation:or-beat .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 26%}
-@keyframes or-peristal{from{stroke-dashoffset:0}to{stroke-dashoffset:-168}}
-.or-peri{fill:none;stroke:#fff1dc;stroke-width:4.2;stroke-linecap:round;stroke-dasharray:15 153;opacity:.75;animation:or-peristal 9s linear infinite}
-@media (prefers-reduced-motion:reduce){
-  .or-lungG,.or-diaphG,.or-heartG,.or-peri{animation:none}
+  .mu-pulse-bi,.mu-pulse-calf,.mu-pulse-mass{animation:none}
 }
 
 /* ------------------------------- bulle d'info flottante */
@@ -703,7 +531,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
             <stop offset="100%" stop-color="#8fd3ff" stop-opacity="0"/>
           </linearGradient>
 
-          <!-- ---------- silhouette réutilisable ---------- -->
+          <!-- silhouette réutilisable (peau, silhouette fantôme, masque de découpe) -->
           <g id="armShape">
             <path class="limbP" d="M150 212 C126 222 118 252 114 288 C110 324 102 354 98 382"/>
             <circle class="fillC" cx="96" cy="400" r="19"/>
@@ -985,6 +813,9 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
 <linearGradient id="mu-gT" x1="0" y1="0" x2="1" y2="0.7">
   <stop offset="0" stop-color="#fff3e0"/><stop offset="1" stop-color="#ffe6c9"/>
 </linearGradient>
+<radialGradient id="mu-gHole" cx="0.5" cy="0.45" r="0.65">
+  <stop offset="0" stop-color="#2d1233"/><stop offset="1" stop-color="#150b20"/>
+</radialGradient>
 
 <!-- === MUSCLES : moitie gauche de l'ecran (x < 200), a refleter === -->
 <g id="mu-half">
@@ -1137,11 +968,135 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
   <!-- CHEVILLE / PIED : tendons du tibial anterieur, des fibulaires et des extenseurs -->
   <path class="mu-t" d="M164 690 C167 703 169 714 168 724 L173 723 C174 712 172 700 169 689 Z"/>
   <path class="mu-t" d="M155 697 C154 706 154 714 155 721 L160 720 C159 712 159 704 160 696 Z"/>
+
+  <!-- ===================== PIED (vue de face = face dorsale) =====================
+       Encombrement : ellipse (158,746) rx 30 ry 17 ; orteils x 133 a 178.
+       Le plan de fascia dorsal est pose AVANT les 3 tendons mu-tl deja livres,
+       pour que ces tendons restent visibles par dessus (ils sont superficiels). -->
+
+  <!-- PIED : fascia dorsal, bord distal decoupe en 5 orteils (hallux le plus large, en dedans) -->
+  <path class="mu-t" d="M150 731 C143 735 137 741 134 747 Q138 757 141 748 Q145 764 149 749 Q153 765 158 750 Q163 763 168 750 Q173 762 178 746 C180 740 178 734 171 731 C163 729 156 729 150 731 Z"/>
+
+  <!-- PIED : plan charnu du dos du pied (region des metatarsiens), pose sur le
+       fascia pour que les tendons clairs restent lisibles par dessus -->
+  <path class="mu-b" d="M150 733 C144 737 139 742 137 747 C145 750 156 751 166 750 C172 749 176 747 177 745 C179 740 177 736 171 733 C163 730 156 730 150 733 Z"/>
+
+  <!-- PIED : court extenseur des orteils (masse charnue du bord externe) -->
+  <path class="mu-a" d="M148 737 C142 739 138 743 138 748 C141 750 145 750 149 747 C152 744 152 738 148 737 Z"/>
+  <path class="mu-fx" d="M145 740 C143 743 143 746 145 748"/>
+
+  <!-- PIED : 4 interosseux dorsaux, entre les metatarsiens -->
+  <path class="mu-b" d="M152 738 C149 741 149 745 151 749 C154 749 155 745 154 741 C154 738 153 737 152 738 Z"/>
+  <path class="mu-a" d="M159 738 C156 741 156 745 158 749 C161 749 162 745 161 741 C161 738 160 737 159 738 Z"/>
+  <path class="mu-b" d="M165 738 C162 741 162 745 164 749 C167 749 168 745 167 741 C167 738 166 737 165 738 Z"/>
+  <path class="mu-a" d="M171 738 C168 741 168 745 170 749 C173 749 174 745 173 741 C173 738 172 737 171 738 Z"/>
+
+  <!-- PIED : tendon de l'extenseur de l'hallux, tendon du 2e orteil, tendon du 5e orteil -->
+  <path class="mu-tl" d="M168 731 C171 737 173 743 174 749"/>
+  <path class="mu-tl" d="M166 733 C165 739 164 744 164 748"/>
+  <path class="mu-tl" d="M158 736 C151 741 145 745 139 749"/>
+  <!-- PIED : terminaison du tibial anterieur, sur le bord interne -->
+  <path class="mu-tl" d="M170 730 C173 734 176 738 178 743"/>
+
   <path class="mu-tl" d="M167 730 C159 737 151 743 145 748"/>
   <path class="mu-tl" d="M165 733 C158 741 152 748 147 754"/>
   <path class="mu-tl" d="M162 735 C158 744 154 750 152 756"/>
-</g>
 
+  <!-- ===================== MAIN (vue PALMAIRE) =====================
+       Position anatomique de reference : pouce en dehors et vers le bas,
+       donc la paume regarde l'observateur. Cela colle a l'avant-bras deja
+       livre (flechisseurs en dedans, brachio-radial sur le bord du pouce,
+       tendons flechisseurs au poignet).
+       Encombrement : x 75 a 115, y 381 a 430. -->
+
+  <!-- MAIN : retinaculum des flechisseurs (ligament annulaire du carpe) -->
+  <path class="mu-band" d="M90 386 L110 384"/>
+
+  <!-- MAIN : aponevrose palmaire triangulaire -->
+  <path class="mu-t" d="M99 386 L104 386 C107 391 109 397 110 404 L94 404 C94 397 96 391 99 386 Z"/>
+
+  <!-- MAIN : eminence thenar (court abducteur, opposant, court flechisseur du pouce) -->
+  <path class="mu-b" d="M94 387 C88 390 84 396 83 404 C83 409 87 412 90 408 C93 402 96 396 99 391 C100 387 97 385 94 387 Z"/>
+  <path class="mu-fx" d="M93 392 C88 397 85 402 86 407"/>
+
+  <!-- MAIN : colonne du pouce, en dehors et vers le bas -->
+  <path class="mu-a" d="M86 399 C81 403 78 409 77 414 C78 418 83 418 84 414 C86 409 90 404 94 400 Z"/>
+
+  <!-- MAIN : eminence hypothenar (bord du petit doigt) -->
+  <path class="mu-a" d="M107 386 C111 389 114 396 114 404 C114 409 110 412 107 408 C105 401 104 393 104 388 C104 386 105 385 107 386 Z"/>
+  <path class="mu-fx" d="M107 391 C110 396 111 402 110 407"/>
+
+  <!-- MAIN : 3 interosseux, entre les metacarpiens -->
+  <path class="mu-b" d="M94 400 C91 403 91 408 93 411 C96 411 97 407 96 402 C96 400 95 399 94 400 Z"/>
+  <path class="mu-a" d="M101 400 C98 403 98 408 100 411 C103 411 104 407 103 402 C103 400 102 399 101 400 Z"/>
+  <path class="mu-b" d="M108 400 C105 403 105 408 107 411 C110 411 111 407 110 402 C110 400 109 399 108 400 Z"/>
+
+  <!-- MAIN : tendons flechisseurs filant vers les 4 doigts -->
+  <path class="mu-fin" d="M93 407 C92 414 91 421 91 427"/>
+  <path class="mu-fin" d="M100 408 C100 415 100 422 100 428"/>
+  <path class="mu-fin" d="M106 408 C107 415 107 421 107 426"/>
+  <path class="mu-fin" d="M111 406 C112 412 113 417 113 421"/>
+
+  <!-- ===================== TETE ET VISAGE (muscles peauciers) =====================
+       Ellipse cranienne (200,106) rx 55 ry 61, menton y 167, oreille (146,114) r 13.
+       Tout est contenu dans l'ellipse ; les orbites et la bouche sont laissees
+       en creux sombre pour que la planche se lise comme un visage. -->
+
+  <!-- TETE : muscle temporal, en eventail sur la tempe (masticateur) -->
+  <path class="mu-b" d="M164 118 C158 111 153 101 151 91 C150 84 153 76 159 73 C164 70 169 73 170 79 C169 89 168 99 168 109 C167 113 166 116 164 118 Z"/>
+  <path class="mu-fx" d="M165 114 C161 105 157 95 154 86"/>
+  <path class="mu-fx" d="M167 111 C165 101 163 91 162 81"/>
+
+  <!-- TETE : arc zygomatique (le pont osseux sous lequel passe le temporal) -->
+  <path class="mu-tl" d="M158 121 C165 119 173 121 180 125"/>
+
+  <!-- TETE : masseter en quadrilatere sur la branche de la mandibule (masticateur, anime) -->
+  <g class="mu-pulse-mass">
+    <path class="mu-a" d="M157 124 C163 122 170 123 175 126 C176 134 176 141 174 148 C169 150 164 150 162 148 C159 140 157 132 157 124 Z"/>
+    <path class="mu-fx" d="M172 129 C171 135 170 141 168 147"/>
+    <path class="mu-fx" d="M166 128 C165 134 164 140 164 146"/>
+    <path class="mu-fx" d="M161 128 C160 133 160 138 161 144"/>
+  </g>
+
+  <!-- TETE : occipito-frontal, ventre frontal, avec ses fibres verticales -->
+  <path class="mu-a" d="M199 62 C188 63 178 67 171 74 C166 80 163 88 164 98 L199 98 Z"/>
+  <path class="mu-fx" d="M194 66 C193 78 193 88 194 97"/>
+  <path class="mu-fx" d="M186 67 C184 78 183 88 184 97"/>
+  <path class="mu-fx" d="M177 71 C174 80 172 88 173 97"/>
+  <path class="mu-fx" d="M170 78 C167 85 166 91 167 97"/>
+
+  <!-- TETE : aponevrose epicranienne (le casque tendineux du sommet) -->
+  <path class="mu-t" d="M199 56 C188 57 178 62 170 70 L175 76 C182 69 190 63 199 62 Z"/>
+
+  <!-- TETE : orbite en creux sombre, puis orbiculaire de l'oeil en anneau -->
+  <ellipse class="mu-hole" cx="178" cy="110" rx="7" ry="5.2"/>
+  <path class="mu-b" fill-rule="evenodd" d="M165 110 a13 11 0 1 0 26 0 a13 11 0 1 0 -26 0 Z M171.5 110 a6.5 4.8 0 1 0 13 0 a6.5 4.8 0 1 0 -13 0 Z"/>
+  <path class="mu-fx" d="M169 110 a9 7.6 0 1 0 18 0 a9 7.6 0 1 0 -18 0"/>
+
+  <!-- TETE : grand zygomatique, pommette vers la commissure des levres -->
+  <path class="mu-b" d="M174 125 C177 132 181 140 184 147 L189 145 C186 138 182 130 179 123 Z"/>
+  <!-- TETE : petit zygomatique -->
+  <path class="mu-a" d="M179 124 C182 129 186 134 189 139 L193 137 C190 131 186 126 183 122 Z"/>
+  <!-- TETE : elevateur de la levre superieure -->
+  <path class="mu-b" d="M185 123 C187 129 189 134 191 140 L195 138 C193 132 191 127 189 122 Z"/>
+  <!-- TETE : muscle du nez, faisceau de l'aile (nasal) -->
+  <path class="mu-a" d="M195 130 C192 132 191 135 192 138 C194 139 197 139 198 137 L198 131 Z"/>
+
+  <!-- COU : platysma, nappe superficielle qui descend rejoindre
+       le sterno-cleido-mastoidien et le trapeze (translucide, ils restent visibles) -->
+  <path class="mu-sheet" d="M182 159 C176 165 170 174 165 183 C160 190 157 196 156 201 C163 204 172 205 181 204 C189 203 195 201 198 199 L198 163 C193 164 187 163 182 159 Z"/>
+  <path class="mu-fx" d="M180 166 C174 176 169 188 164 199"/>
+  <path class="mu-fx" d="M187 167 C183 177 179 188 177 201"/>
+  <path class="mu-fx" d="M194 168 C192 178 190 189 189 200"/>
+
+  <!-- TETE : abaisseur de l'angle de la bouche -->
+  <path class="mu-b" d="M176 156 C180 157 184 159 187 160 C186 156 184 152 182 149 C179 150 177 153 176 156 Z"/>
+  <!-- TETE : abaisseur de la levre inferieure -->
+  <path class="mu-a" d="M185 156 C188 154 191 152 194 151 L195 156 C192 157 189 159 187 161 Z"/>
+  <!-- TETE : mentonnier -->
+  <path class="mu-b" d="M191 162 C192 158 194 155 197 154 L199 154 L199 164 C196 165 193 164 191 162 Z"/>
+
+</g>
           <!-- ===== defs couche 3 ===== -->
 <!-- ================= COUCHE SANG (bl-) : gradients ================= -->
 <radialGradient id="bl-gHeart" cx="38%" cy="30%" r="78%">
@@ -1684,7 +1639,17 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
 <use href="#mu-half"/>
 <use href="#mu-half" transform="translate(400 0) scale(-1 1)"/>
 
-<!-- structures medianes impaires : aponevrose sternale + ligne blanche -->
+<!-- structures medianes impaires du visage : procerus entre les sourcils,
+     dos du nez, puis la bouche (creux sombre + orbiculaire en anneau) -->
+<path class="mu-b" d="M196 101 C194 107 194 114 195 120 L205 120 C206 114 206 107 204 101 C201 99 199 99 196 101 Z"/>
+<path class="mu-fx" d="M198 104 C197 110 197 115 198 119"/>
+<path class="mu-fx" d="M202 104 C203 110 203 115 202 119"/>
+<path class="mu-t" d="M196 118 L204 118 C206 124 207 130 206 135 C203 137 197 137 194 135 C193 130 194 124 196 118 Z"/>
+<ellipse class="mu-hole" cx="200" cy="148" rx="10" ry="4.2"/>
+<path class="mu-a" fill-rule="evenodd" d="M182 148 a18 10 0 1 0 36 0 a18 10 0 1 0 -36 0 Z M190 148 a10 4.2 0 1 0 20 0 a10 4.2 0 1 0 -20 0 Z"/>
+<path class="mu-fx" d="M186 148 a14 7 0 1 0 28 0 a14 7 0 1 0 -28 0"/>
+
+<!-- structures medianes impaires du tronc : aponevrose sternale + ligne blanche -->
 <path class="mu-t" d="M196 204 L204 204 L204 296 L203 300 L203 434 L197 434 L197 300 L196 296 Z"/>
 <ellipse class="mu-navel" cx="200" cy="358" rx="4.5" ry="6"/>
 
@@ -1692,6 +1657,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
 <ellipse class="hs" data-p="mu-quadriceps" cx="168" cy="490" rx="27" ry="55"/>
 <ellipse class="hs" data-p="mu-quadriceps" cx="232" cy="490" rx="27" ry="55"/>
 <ellipse class="hs" data-p="mu-abdos" cx="200" cy="360" rx="25" ry="62"/>
+<ellipse class="hs" data-p="mu-front" cx="200" cy="84" rx="40" ry="22"/>
 <ellipse class="hs" data-p="mu-biceps" cx="126" cy="260" rx="20" ry="31"/>
 <ellipse class="hs" data-p="mu-biceps" cx="274" cy="260" rx="20" ry="31"/>
 <ellipse class="hs" data-p="mu-mollet" cx="184" cy="630" rx="19" ry="40"/>
@@ -1708,8 +1674,15 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
 <ellipse class="hs" data-p="mu-tibial" cx="237" cy="655" rx="18" ry="34"/>
 <ellipse class="hs" data-p="mu-sartorius" cx="187" cy="532" rx="18" ry="38"/>
 <ellipse class="hs" data-p="mu-sartorius" cx="213" cy="532" rx="18" ry="38"/>
+<ellipse class="hs" data-p="mu-main" cx="95" cy="406" rx="21" ry="25"/>
+<ellipse class="hs" data-p="mu-main" cx="305" cy="406" rx="21" ry="25"/>
+<ellipse class="hs" data-p="mu-pied" cx="158" cy="748" rx="26" ry="18"/>
+<ellipse class="hs" data-p="mu-pied" cx="242" cy="748" rx="26" ry="18"/>
 <ellipse class="hs" data-p="mu-scm" cx="187" cy="178" rx="18" ry="22"/>
 <ellipse class="hs" data-p="mu-scm" cx="213" cy="178" rx="18" ry="22"/>
+<ellipse class="hs" data-p="mu-masseter" cx="170" cy="136" rx="18" ry="18"/>
+<ellipse class="hs" data-p="mu-masseter" cx="230" cy="136" rx="18" ry="18"/>
+<ellipse class="hs" data-p="mu-sourire" cx="200" cy="146" rx="24" ry="19"/>
 
           </g>
 
@@ -2204,17 +2177,22 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
     "sk-rotule": {n:"La rotule", em:"🛡️", t:"La rotule est un petit os rond posé juste devant ton genou, comme un bouclier. Plie ta jambe et touche-la : elle glisse sous ton doigt !"},
     "sk-tibia": {n:"Le tibia", em:"🦿", t:"Le tibia est le gros os devant ta jambe, sous le genou. Il est juste sous la peau : c'est pour ça que ça fait si mal quand tu te cognes !"},
     "sk-pied": {n:"Les os du pied", em:"🦶", t:"Chaque pied cache une vingtaine de petits os, avec un gros os tout rond au talon. Remue tes orteils : ils bougent grâce à leurs petits os !"},
+    "mu-front": {n:"L'occipito-frontal", em:"🤨", t:"C'est le muscle de ton front. Lève tes sourcils très haut comme si tu étais tout surpris : tu viens de plisser ton front avec lui !"},
+    "mu-masseter": {n:"Le masséter", em:"🍏", t:"C'est le muscle qui mâche, sur ta joue, avec le temporal juste au-dessus. Serre les dents et pose ta main sur ta joue : tu sens la boule bien dure ?"},
+    "mu-sourire": {n:"Le grand zygomatique", em:"😄", t:"C'est le muscle du sourire : il tire le coin de ta bouche vers le haut. Fais un grand sourire, puis un petit rond avec tes lèvres pour bouger l'orbiculaire de la bouche."},
     "mu-scm": {n:"Le sterno-cléido-mastoïdien", em:"🙅", t:"Le muscle au nom le plus rigolo du corps ! Dis non avec la tête, puis touche ton cou : tu sens la grosse corde qui se durcit ?"},
     "mu-deltoide": {n:"Le deltoïde", em:"💪", t:"C'est l'épaulette de ton épaule. C'est lui qui lève ton bras bien haut quand tu fais coucou."},
     "mu-pectoral": {n:"Le grand pectoral", em:"🤗", t:"Un grand éventail posé sur ta poitrine. Il ramène tes bras devant toi pour faire un énorme câlin."},
     "mu-biceps": {n:"Le biceps", em:"🏋️", t:"Plie ton bras très fort : la petite boule qui gonfle, c'est ton biceps. Il tire ton avant-bras vers ton épaule."},
     "mu-brachioradial": {n:"Le brachio-radial", em:"🥛", t:"Un muscle en forme de fuseau sur ton avant-bras, du côté du pouce. Il t'aide à porter ton verre jusqu'à ta bouche."},
+    "mu-main": {n:"Les muscles de la main", em:"✋", t:"Le gros coussin sous ton pouce, c'est le thénar, et l'autre côté c'est l'hypothénar. Serre le poing très fort, puis ouvre grand tes doigts !"},
     "mu-abdos": {n:"Le grand droit de l'abdomen", em:"🧗", t:"C'est le muscle des abdos, avec ses 8 petits carrés séparés par des bandes solides. Il te plie en avant quand tu te relèves du lit."},
     "mu-oblique": {n:"L'oblique externe", em:"🌀", t:"Il est sur les côtés de ton ventre et ses fibres filent en diagonale. C'est lui qui te fait tourner pour ramasser un jouet à côté de toi."},
     "mu-quadriceps": {n:"Le quadriceps", em:"⚽", t:"Quatre muscles en un seul, devant ta cuisse : c'est le plus puissant de ton corps. Il déplie ton genou pour sauter et tirer au ballon."},
     "mu-sartorius": {n:"Le sartorius", em:"🧵", t:"La plus longue bande de muscle de tout ton corps ! On l'appelle le couturier, parce qu'il croise ta cuisse comme quand tu t'assois en tailleur."},
     "mu-mollet": {n:"Le gastrocnémien", em:"🩰", t:"C'est le muscle du mollet, avec ses deux grosses boules. Mets-toi sur la pointe des pieds : tu le sens qui durcit derrière ta jambe !"},
     "mu-tibial": {n:"Le tibial antérieur", em:"🚶", t:"Une bande posée devant ta jambe, tout le long de l'os. Il relève la pointe de ton pied à chaque pas pour que tu ne trébuches pas."},
+    "mu-pied": {n:"Les muscles du pied", em:"🦶", t:"Sur le dessus de ton pied, de longs tendons filent vers chaque orteil. Remue tes orteils : tu vois les petites cordes bouger sous ta peau ?"},
     "bl-coeur": {n:"Le coeur", em:"❤️", t:"Ton coeur est un muscle gros comme ton poing, caché derrière le sternum et un peu penché vers la gauche. Pose ta main sur ta poitrine : tu sens le boum-boum ? Il pousse le sang jour et nuit."},
     "bl-aorte": {n:"L'aorte", em:"🚿", t:"L'aorte est le plus gros tuyau de ton corps. Elle sort du coeur, fait une belle courbe comme une canne, puis descend jusqu'au ventre : c'est la grande autoroute du sang rouge."},
     "bl-carotide": {n:"Les carotides", em:"🧠", t:"Ces deux artères montent dans ton cou pour nourrir ton cerveau. Elles travaillent même quand tu dors !"},
@@ -2566,7 +2544,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
   const QUIZ_LAYER = {
     0:["tete","main","pied","ventre","jambe","bras"],
     1:["sk-femur","sk-tibia","sk-cotes","sk-humerus","sk-avantbras","sk-crane","sk-colonne","sk-bassin","sk-main","sk-pied","sk-rotule","sk-mandibule"],
-    2:["mu-quadriceps","mu-abdos","mu-biceps","mu-mollet","mu-oblique","mu-pectoral","mu-brachioradial","mu-deltoide","mu-tibial","mu-sartorius","mu-scm"],
+    2:["mu-quadriceps","mu-abdos","mu-front","mu-biceps","mu-mollet","mu-oblique","mu-pectoral","mu-brachioradial","mu-deltoide","mu-tibial","mu-sartorius","mu-main","mu-pied","mu-scm","mu-masseter","mu-sourire"],
     3:["bl-poumons","bl-femorale","bl-saphene","bl-artere-bras","bl-aorte","bl-coeur","bl-veinecave","bl-jugulaire","bl-carotide","bl-veine-main","bl-capillaires"],
     4:["or-poumons","or-cerveau","or-diaphragme","or-foie","or-colon","or-estomac","or-grele","or-reins","or-coeur","or-trachee","or-cervelet","or-vessie"],
   };
