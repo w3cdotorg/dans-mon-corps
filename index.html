@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dans mon corps — petit explorateur du corps humain</title>
+<meta name="description" content="Petit explorateur du corps humain pour les enfants : la peau, les os, les muscles, le sang et les organes, garçon ou fille.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   LE CORPS HUMAIN — mini-explorateur pour les 4 ans
+   Inspiré du "Corpus" de Réseau Canopé : corps lumineux au
+   centre, fond de planétarium, une couche par système.
+   Un seul fichier, aucune dépendance obligatoire.
+   ============================================================ */
+
+:root{
+  /* fond planétarium */
+  --night-1:#0a1030;
+  --night-2:#141b4a;
+  --night-3:#1d2668;
+  --cream:#fff4e2;
+  --cream-soft:#cdd4f5;
+
+  /* couleurs des 5 couches */
+  --c-peau:#ffb15c;
+  --c-os:#8fd3ff;
+  --c-muscles:#ff6f7d;
+  --c-sang:#ff3f63;
+  --c-organes:#c58cff;
+  --accent:var(--c-peau);
+
+  /* carnation + cheveux (modifiables par l'enfant) */
+  --skin:#f7c79c;
+  --skin-shade:#d9976a;
+  --hair:#4a2c1a;
+
+  --pad:clamp(12px, 2.2vw, 26px);
+  --r-lg:34px;
+  --r-md:22px;
+
+  --font-display:"Fredoka","Chalkboard SE","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;
+  --font-ui:"Baloo 2","Chalkboard SE","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-ui);
+  color:var(--cream);
+  background:
+    radial-gradient(120% 80% at 50% 8%, #2b3585 0%, transparent 60%),
+    radial-gradient(90% 60% at 12% 92%, #3a2a6e 0%, transparent 55%),
+    radial-gradient(80% 60% at 92% 78%, #16406b 0%, transparent 55%),
+    linear-gradient(175deg, var(--night-1), var(--night-2) 55%, #0b1233);
+  background-attachment:fixed;
+  min-height:100%;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+/* grain + étoiles */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 20% 18%, rgba(255,255,255,.75) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 72% 12%, rgba(255,255,255,.6) 50%, transparent 51%),
+    radial-gradient(1.8px 1.8px at 86% 44%, rgba(255,255,255,.5) 50%, transparent 51%),
+    radial-gradient(1.3px 1.3px at 12% 62%, rgba(255,255,255,.55) 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 46% 86%, rgba(255,255,255,.45) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 62% 68%, rgba(255,255,255,.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 33% 34%, rgba(255,255,255,.4) 50%, transparent 51%);
+  opacity:.9;
+  animation:twinkle 5s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.45}}
+
+/* bulles flottantes décoratives */
+.bubbles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bubbles i{
+  position:absolute;bottom:-140px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.5), rgba(140,200,255,.09) 60%, transparent 70%);
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  0%{transform:translateY(0) scale(.7);opacity:0}
+  12%{opacity:.85}
+  100%{transform:translateY(-118vh) scale(1.15);opacity:0}
+}
+
+/* ------------------------------- en-tête */
+header{
+  position:relative;z-index:2;
+  padding:clamp(14px,3vw,30px) var(--pad) 0;
+  text-align:center;
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:.5em;
+  font-size:clamp(.72rem,1.6vw,.9rem);
+  letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+  color:#9fb0ff;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  padding:.45em 1.1em;border-radius:999px;
+  backdrop-filter:blur(6px);
+}
+h1{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(2rem,6.4vw,4.1rem);
+  line-height:.98;
+  margin:.35em 0 .1em;
+  letter-spacing:-.01em;
+  background:linear-gradient(178deg,#fff9ef,#ffd79a 58%,#ff9ad0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(255,150,90,.28));
+}
+h1 .wave{display:inline-block;animation:hand 2.4s ease-in-out infinite;transform-origin:70% 80%}
+@keyframes hand{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(16deg)}80%{transform:rotate(-8deg)}90%{transform:rotate(12deg)}}
+.tagline{margin:.2em auto 0;max-width:46ch;color:var(--cream-soft);font-size:clamp(.95rem,2.1vw,1.15rem);font-weight:500}
+
+/* ------------------------------- structure */
+.wrap{
+  position:relative;z-index:2;
+  max-width:1240px;margin:0 auto;
+  padding:var(--pad);
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);
+  gap:clamp(14px,2.4vw,30px);
+  align-items:start;
+}
+@media (max-width:900px){ .wrap{grid-template-columns:1fr} }
+
+.card{
+  background:linear-gradient(168deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--r-lg);
+  padding:clamp(14px,2.2vw,22px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 22px 50px -28px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+/* ------------------------------- choix garçon / fille */
+.who{display:flex;gap:10px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
+.who button{
+  font-family:var(--font-display);font-size:clamp(.95rem,2vw,1.15rem);font-weight:600;
+  color:var(--cream);cursor:pointer;
+  display:flex;align-items:center;gap:.5em;
+  padding:.5em 1.1em;border-radius:999px;
+  border:2px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s, border-color .2s, box-shadow .2s;
+}
+.who button .em{font-size:1.5em;line-height:1}
+.who button:hover{transform:translateY(-3px) scale(1.03)}
+.who button[aria-pressed="true"]{
+  background:linear-gradient(160deg,#ffe9a8,#ffb15c);
+  border-color:#fff3d4;color:#41230c;
+  box-shadow:0 10px 28px -12px rgba(255,177,92,.9);
+}
+
+/* ------------------------------- scène (le corps) */
+.stage{position:relative}
+.svgbox{
+  position:relative;
+  margin:2px auto 0;
+  border-radius:var(--r-md);
+  overflow:hidden;
+  background:
+    radial-gradient(60% 45% at 50% 96%, rgba(120,190,255,.25), transparent 70%),
+    radial-gradient(46% 40% at 50% 30%, rgba(255,255,255,.09), transparent 70%);
+  touch-action:pan-y;
+}
+.svgbox.grab{cursor:grab}
+.svgbox.grabbing{cursor:grabbing}
+svg#body{display:block;width:100%;height:auto;max-height:min(66vh,660px);margin:0 auto;overflow:visible}
+@media (max-width:900px){ svg#body{max-height:58vh} }
+
+/* halo lumineux derrière le corps */
+.podium{filter:blur(2px)}
+
+/* couches */
+.layer{transition:opacity .38s ease, transform .45s cubic-bezier(.3,1.2,.5,1);pointer-events:none;transform-box:view-box;transform-origin:200px 420px}
+/* zones cliquables : pas de transform en CSS — plusieurs porteuses ont déjà
+   un attribut transform="rotate(...)" qui serait écrasé */
+.hs{fill:rgba(255,255,255,.001);stroke:transparent;stroke-width:0;
+    pointer-events:none;cursor:pointer;
+    transition:fill .18s ease, stroke .18s ease, stroke-width .18s ease, filter .18s ease}
+.layer.active .hs{pointer-events:auto}
+@media (hover:hover){
+  .hs:hover{
+    fill:rgba(255,247,220,.34);
+    stroke:#fff7dc;stroke-width:4.5;stroke-dasharray:11 8;
+    filter:drop-shadow(0 0 10px rgba(255,238,180,.95));
+    animation:dash 5s linear infinite;
+  }
+}
+.hs.sel{fill:rgba(255,255,255,.2);stroke:#fff8dc;stroke-width:4;stroke-dasharray:10 8;
+        filter:drop-shadow(0 0 12px rgba(255,240,190,.9));animation:dash 9s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-170}}
+
+/* « montrer les zones » : indispensable sur tablette, où il n'y a pas de survol */
+#body.hint .layer.active .hs{
+  fill:rgba(255,255,255,.07);
+  stroke:rgba(255,248,220,.55);stroke-width:2.8;stroke-dasharray:5 9;
+  animation:hspulse 2.6s ease-in-out infinite;
+}
+#body.hint .layer.active .hs:nth-of-type(3n+1){animation-delay:.5s}
+#body.hint .layer.active .hs:nth-of-type(3n+2){animation-delay:1s}
+@keyframes hspulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* --- silhouette / peau --- */
+.limbP{fill:none;stroke:currentColor;stroke-width:42;stroke-linecap:round}
+.legP{stroke-width:55}
+.fillC{fill:currentColor}
+.fingers{fill:none;stroke:currentColor;stroke-width:7;stroke-linecap:round}
+.thumb{stroke-width:8.5}
+.fold{fill:none;stroke:var(--skin-shade);stroke-width:2.6;stroke-linecap:round;opacity:.75}
+.bodyC{color:var(--skin)}
+.ghost{color:#9fc0ff;opacity:.18}
+.ghostLine{fill:none;stroke:#9fc0ff;stroke-width:2.5;opacity:.22;stroke-linecap:round}
+
+.eye .white{fill:#fffdf6}
+.eye .pup{fill:#33200f}
+.eye .glint{fill:#fff}
+.eyes{animation:blink 5.2s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,95.5%,100%{transform:scaleY(1)}97.5%{transform:scaleY(.08)}}
+.mouth{fill:none;stroke:#c05a3d;stroke-width:5;stroke-linecap:round}
+.brow{fill:none;stroke:var(--hair);stroke-width:4.5;stroke-linecap:round;opacity:.85}
+.nose{fill:none;stroke:var(--skin-shade);stroke-width:4;stroke-linecap:round}
+.blush{fill:#ff8f9c;opacity:.34}
+.hairC{fill:var(--hair)}
+.suit{fill:#2fb6cf}
+.suitF{fill:#ff6fa8}
+.suitLine{fill:rgba(255,255,255,.3)}
+.bow{fill:#ff4f96}
+.tuft{fill:var(--hair)}
+
+.breathe{animation:breathe 4.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+
+/* ===== couche 1 ===== */
+/* ============ COUCHE SQUELETTE (prefixe sk-) ============ */
+.sk-layer{
+  animation:sk-glow 6s ease-in-out infinite;
+}
+@keyframes sk-glow{
+  0%,100%{filter:drop-shadow(0 0 2px rgba(130,195,255,.45));}
+  50%    {filter:drop-shadow(0 0 5px rgba(155,210,255,.8));}
+}
+
+/* os pleins */
+.sk-b{fill:url(#sk-boneGrad);stroke:#9fb6dd;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
+/* os situes en arriere-plan (processus transverses) : un peu plus sourds */
+.sk-b2{fill:#dde8fa;stroke:#9fb6dd;stroke-width:2;stroke-linejoin:round;}
+/* scapula : plaque translucide posee sur les cotes, pour rester lisible */
+.sk-b3{fill:#cfe0f7;fill-opacity:.5;stroke:#9fb6dd;stroke-width:2;stroke-linejoin:round;}
+/* petits reliefs osseux suggeres en clair, sans contour */
+.sk-bump{fill:#dfe9fa;stroke:none;}
+/* cavites : orbites, trous, fosses nasales, trous obturateurs */
+.sk-cav{fill:#2b3a63;stroke:#9fb6dd;stroke-width:1.8;stroke-linejoin:round;}
+/* cartilages / surfaces articulaires pleins */
+.sk-car{fill:#bfe6ff;stroke:#7fb9e0;stroke-width:1.6;stroke-linejoin:round;}
+/* cartilages costaux : traits bleutes epais */
+.sk-carl{fill:none;stroke:#bfe6ff;stroke-width:3.6;stroke-linecap:round;}
+/* disques intervertebraux */
+.sk-disc{fill:#bfe6ff;}
+/* cotes : double passe (contour epais + coeur clair) */
+.sk-ro{fill:none;stroke:#9fb6dd;stroke-width:6.6;stroke-linecap:round;}
+.sk-ri{fill:none;stroke:#f2f7ff;stroke-width:3.6;stroke-linecap:round;}
+/* petits os en batonnets (metacarpiens, phalanges, metatarsiens) */
+.sk-so{fill:none;stroke:#9fb6dd;stroke-width:6.2;stroke-linecap:round;}
+.sk-si{fill:none;stroke:#f2f7ff;stroke-width:3.4;stroke-linecap:round;}
+/* dents de lait */
+.sk-t{fill:#ffffff;stroke:#9fb6dd;stroke-width:1.1;}
+/* traits d os fins mais >= 2px (arcade zygomatique, lignes du sacrum) */
+.sk-ln{fill:none;stroke:#9fb6dd;stroke-width:2.2;stroke-linecap:round;}
+.sk-lnc{fill:none;stroke:#8fcdf0;stroke-width:2.2;stroke-linecap:round;}
+/* rotule : legerement plus claire pour se detacher du femur */
+.sk-pat{fill:#eaf5ff;stroke:#7fb9e0;stroke-width:2.2;stroke-linejoin:round;}
+
+/* ===== couche 2 ===== */
+/* ===== COUCHE MUSCLES (prefixe mu-) ===== */
+.mu-a{fill:url(#mu-gA);stroke:#c33049;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.mu-b{fill:url(#mu-gB);stroke:#c33049;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.mu-t{fill:url(#mu-gT);stroke:#d9a06f;stroke-width:1.6;stroke-linejoin:round}
+.mu-sart{stroke-width:2.4}
+.mu-fx{fill:none;stroke:rgba(255,255,255,.32);stroke-width:1.9;stroke-linecap:round}
+.mu-sep{fill:none;stroke:#c33049;stroke-width:1.8;stroke-linecap:round;opacity:.9}
+.mu-tl{fill:none;stroke:#ffe6c9;stroke-width:2.8;stroke-linecap:round;opacity:.95}
+.mu-band{fill:none;stroke:#ffe6c9;stroke-width:3.6;stroke-linecap:butt;opacity:.95}
+.mu-navel{fill:#c33049;opacity:.5}
+
+/* Gonflement discret du biceps et du mollet.
+   Le <g class="mu-pulse-*"> est un groupe INTERMEDIAIRE : aucune des formes
+   animees ne porte d'attribut transform=, donc pas de conflit.
+   transform-origin est donne en coordonnees viewBox (transform-box:view-box)
+   pour rester juste aussi dans la copie miroir du <use>. */
+.mu-pulse-bi,.mu-pulse-calf{transform-box:view-box}
+.mu-pulse-bi{transform-origin:132px 263px;animation:mu-bi-flex 5s ease-in-out infinite}
+.mu-pulse-calf{transform-origin:183px 634px;animation:mu-calf-flex 6.4s ease-in-out infinite}
+@keyframes mu-bi-flex{0%,100%{transform:scale(1)}46%{transform:scale(1.04)}}
+@keyframes mu-calf-flex{0%,100%{transform:scale(1)}52%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){
+  .mu-pulse-bi,.mu-pulse-calf{animation:none}
+}
+
+/* ===== couche 3 ===== */
+/* ============ COUCHE APPAREIL CIRCULATOIRE — prefixe bl- ============ */
+
+/* Halo « circulation qui brille dans le noir » */
+#bl-net {
+  filter: drop-shadow(0 0 2.5px rgba(255, 80, 120, .40))
+          drop-shadow(0 0 2.5px rgba(90, 170, 255, .34));
+}
+#bl-heart-g { filter: drop-shadow(0 0 6px rgba(232, 33, 63, .55)); }
+
+/* --- tracés de FOND : continus, plus sombres (evite le clignotement) --- */
+.bl-ab { fill: none; stroke: #8e1030; stroke-linecap: round; stroke-linejoin: round; }
+.bl-vb { fill: none; stroke: #12518f; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- tracés de FLUX : pointillés clairs animés par-dessus --- */
+.bl-af, .bl-vf, .bl-caf, .bl-cvf {
+  fill: none; stroke-linecap: round; stroke-dasharray: 13 19;
+  animation-name: bl-flow; animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.bl-af  { stroke: #ff4266; animation-duration: 1.4s; }   /* artériel : rapide */
+.bl-vf  { stroke: #4aa6ff; animation-duration: 2.3s; }   /* veineux : plus lent */
+.bl-caf { stroke: #ff7a93; animation-duration: 3.2s; }   /* capillaire rouge */
+.bl-cvf { stroke: #7ab6ff; animation-duration: 3.6s; }   /* capillaire bleu */
+
+/* --- calibres : le sang part gros du coeur et s'affine vers les doigts --- */
+.bl-1 { stroke-width: 9; }   .bl-1f { stroke-width: 6; }
+.bl-2 { stroke-width: 7; }   .bl-2f { stroke-width: 4.6; }
+.bl-3 { stroke-width: 5.4; } .bl-3f { stroke-width: 3.4; }
+.bl-4 { stroke-width: 4.2; } .bl-4f { stroke-width: 2.6; }
+.bl-5 { stroke-width: 3.2; } .bl-5f { stroke-width: 2.5; }
+
+/* sens du courant : les pointillés avancent toujours dans le sens du tracé
+   (les artères sont tracées coeur -> extrémités, les veines extrémités -> coeur) */
+@keyframes bl-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -64; } }
+
+/* --- le coeur : deux temps, ~0,9 s --- */
+.bl-heart-beat {
+  transform-box: fill-box; transform-origin: center;
+  animation: bl-beat .9s ease-in-out infinite;
+}
+@keyframes bl-beat {
+  0%   { transform: scale(1); }
+  7%   { transform: scale(1.05, 1.04); }  /* systole des oreillettes */
+  15%  { transform: scale(1.02); }
+  26%  { transform: scale(.90, .93); }    /* systole des ventricules */
+  40%  { transform: scale(1.035); }
+  56%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+/* auréole du coeur, synchronisée sur le battement */
+.bl-heart-halo {
+  transform-box: fill-box; transform-origin: center;
+  animation: bl-halo .9s ease-in-out infinite;
+}
+@keyframes bl-halo {
+  0%, 100% { opacity: .18; transform: scale(1); }
+  26%      { opacity: .50; transform: scale(1.18); }
+  60%      { opacity: .22; transform: scale(1.02); }
+}
+/* les coronaires se remplissent en diastole */
+.bl-coro { animation: bl-flow 1.1s linear infinite; }
+
+.bl-hstroke { stroke: #9c0d26; stroke-linejoin: round; stroke-linecap: round; }
+.bl-groove  { fill: none; stroke: #9c0d26; stroke-width: 2.6; stroke-linecap: round; opacity: .85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bl-af, .bl-vf, .bl-caf, .bl-cvf, .bl-heart-beat, .bl-heart-halo, .bl-coro { animation: none; }
+  .bl-af, .bl-vf, .bl-caf, .bl-cvf { stroke-dasharray: none; }
+}
+
+/* ===== couche 4 ===== */
+/* ===== ORGANES : traits communs ===== */
+.or-s{stroke-linecap:round;stroke-linejoin:round}
+.or-t{fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== encéphale ===== */
+.or-brain{fill:#c9648c;stroke:#8f3a5c;stroke-width:2.2}
+.or-lobefr{fill:#d6759b}
+.or-lobetemp{fill:#bd5880}
+.or-lobeocc{fill:#b24f77}
+.or-gyr{fill:none;stroke:#ffb3d1;stroke-width:6;stroke-linecap:round}
+.or-fis{fill:none;stroke:#7d2a4b;stroke-width:3.2;stroke-linecap:round}
+.or-cbl{fill:#e2839f;stroke:#8e4159;stroke-width:2}
+.or-lam{fill:none;stroke:#a04d69;stroke-width:1.9;stroke-linecap:round}
+.or-verm{fill:#cb6484;stroke:#8e4159;stroke-width:1.8}
+.or-stem{fill:#f4cdda;stroke:#a86381;stroke-width:2}
+.or-cord{fill:#e9e3f7;stroke:#8f83ad;stroke-width:2}
+.or-caud{fill:none;stroke:#a9a0c4;stroke-width:2;stroke-linecap:round}
+
+/* ===== voies aériennes ===== */
+.or-air{fill:#eef3ff;stroke:#8695ba;stroke-width:2}
+.or-ring{fill:none;stroke:#aebede;stroke-width:2.3;stroke-linecap:round}
+.or-brdark{fill:none;stroke:#8695ba;stroke-linecap:round;stroke-linejoin:round}
+.or-br{fill:none;stroke:#dde7fa;stroke-linecap:round;stroke-linejoin:round}
+.or-bw1{stroke-width:8}
+.or-bw2{stroke-width:5.6}
+.or-bw3{stroke-width:3.8}
+.or-bw4{stroke-width:2.6}
+.or-brdark.or-bw1{stroke-width:10.8}
+.or-brdark.or-bw2{stroke-width:8.2}
+.or-brdark.or-bw3{stroke-width:6.2}
+.or-brdark.or-bw4{stroke-width:4.8}
+
+/* ===== thyroïde ===== */
+.or-thy{fill:#c98fc4;stroke:#7d4a79;stroke-width:2}
+
+/* ===== poumons : 3 teintes = 3 lobes ===== */
+.or-lungA{fill:#ffdce9;stroke:#c96e90;stroke-width:1.8}
+.or-lungB{fill:#ffb0cc;stroke:#c96e90;stroke-width:1.8}
+.or-lungC{fill:#f486af;stroke:#c96e90;stroke-width:1.8}
+.or-scis{fill:none;stroke:#a9476c;stroke-width:3;stroke-linecap:round}
+.or-lungEdge{fill:none;stroke:#a9476c;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+
+/* ===== coeur et gros vaisseaux ===== */
+.or-heart{fill:#e8213f;stroke:#7d0e1c;stroke-width:2.2}
+.or-hgroove{fill:none;stroke:#9d0f1e;stroke-width:2.1;stroke-linecap:round}
+.or-aorta{fill:none;stroke:#c2152f;stroke-width:5.5;stroke-linecap:round}
+.or-aortaD{fill:none;stroke:#a5122a;stroke-width:4.5;stroke-linecap:round}
+.or-pulm{fill:none;stroke:#f2496a;stroke-width:5;stroke-linecap:round}
+
+/* ===== diaphragme ===== */
+.or-diaph{fill:#f9a68e;stroke:#9b3b28;stroke-width:2.4}
+.or-fib{fill:none;stroke:#c86449;stroke-width:1.7;stroke-linecap:round}
+
+/* ===== oesophage ===== */
+.or-oesoOut{stroke:#94687f;stroke-width:9}
+.or-oesoIn{stroke:#dfb9cb;stroke-width:5.6}
+
+/* ===== foie et vesicule ===== */
+.or-liver{fill:#a04a3e;stroke:#571f18;stroke-width:2.4}
+.or-liverL{fill:#b8604f;stroke:#571f18;stroke-width:2.2}
+.or-lig{fill:none;stroke:#571f18;stroke-width:2.6;stroke-linecap:round}
+.or-gall{fill:#6fbf7a;stroke:#2c6a36;stroke-width:2}
+.or-duct{fill:none;stroke:#2c6a36;stroke-width:2.4;stroke-linecap:round}
+
+/* ===== estomac ===== */
+.or-stom{fill:#ff9878;stroke:#a8402a;stroke-width:2.4}
+.or-ruga{fill:none;stroke:#cc5c3e;stroke-width:1.9;stroke-linecap:round}
+.or-pylo{fill:none;stroke:#a8402a;stroke-width:3.4;stroke-linecap:round}
+
+/* ===== rate ===== */
+.or-spleen{fill:#8e5b7e;stroke:#4b2942;stroke-width:2.2}
+
+/* ===== pancréas ===== */
+.or-panc{fill:#f2cd83;stroke:#a8811f;stroke-width:2.2}
+.or-wirsung{fill:none;stroke:#a8811f;stroke-width:1.8;stroke-linecap:round}
+
+/* ===== reins, uretères, vessie ===== */
+.or-kid{fill:#cb6a40;stroke:#4a1a09;stroke-width:2.7}
+.or-kidin{fill:#f0c3ab;stroke:none}
+.or-adr{fill:#e6c08e;stroke:#8d6236;stroke-width:1.9}
+.or-uriOut{stroke:#8e6c10;stroke-width:5}
+.or-uriIn{stroke:#ffd75e;stroke-width:2.8}
+.or-blad{fill:#ffd75e;stroke:#8e6c10;stroke-width:2.3}
+.or-hl{fill:none;stroke:#ffffff;stroke-opacity:.42;stroke-width:2;stroke-linecap:round}
+
+/* ===== intestins ===== */
+.or-colOut{stroke:#9e5719;stroke-width:16}
+.or-colIn{stroke:#f09a52;stroke-width:12.4}
+.or-haus{fill:none;stroke:#b96c28;stroke-width:2;stroke-linecap:round}
+.or-cec{fill:#f09a52;stroke:#9e5719;stroke-width:2.3}
+.or-appOut{stroke:#9e5719;stroke-width:6.6}
+.or-appIn{stroke:#e9954c;stroke-width:3.8}
+.or-greOut{stroke:#bb7638;stroke-width:12}
+.or-greIn{stroke:#ffd0a8;stroke-width:8.8}
+.or-duoOut{stroke:#bb7638;stroke-width:12}
+.or-duoIn{stroke:#ffbe8e;stroke-width:8.8}
+
+/* ===== animations ===== */
+@keyframes or-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.045,1.055)}}
+.or-lungG{animation:or-breathe 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 8%}
+@keyframes or-diaphmove{0%,100%{transform:translateY(0)}50%{transform:translateY(3.5px)}}
+.or-diaphG{animation:or-diaphmove 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes or-beat{0%,100%{transform:scale(1)}11%{transform:scale(1.07)}24%{transform:scale(.985)}40%{transform:scale(1.028)}58%{transform:scale(1)}}
+.or-heartG{animation:or-beat .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 26%}
+@keyframes or-peristal{from{stroke-dashoffset:0}to{stroke-dashoffset:-168}}
+.or-peri{fill:none;stroke:#fff1dc;stroke-width:4.2;stroke-linecap:round;stroke-dasharray:15 153;opacity:.75;animation:or-peristal 9s linear infinite}
+@media (prefers-reduced-motion:reduce){
+  .or-lungG,.or-diaphG,.or-heartG,.or-peri{animation:none}
+}
+
+/* ------------------------------- bulle d'info flottante */
+.pinlabel{
+  position:absolute;z-index:6;transform:translate(-50%,-118%);
+  font-family:var(--font-display);font-weight:600;
+  font-size:clamp(.95rem,2vw,1.2rem);
+  color:#33210d;background:linear-gradient(160deg,#fff8e6,#ffd9a0);
+  padding:.32em .8em;border-radius:999px;white-space:nowrap;
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.7);
+  pointer-events:none;opacity:0;transition:opacity .25s;
+}
+.pinlabel.show{opacity:1;animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
+.pinlabel::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);width:0;height:0;border:8px solid transparent;border-top-color:#ffd9a0}
+@keyframes pop{0%{transform:translate(-50%,-90%) scale(.6);opacity:0}100%{transform:translate(-50%,-118%) scale(1);opacity:1}}
+
+/* ------------------------------- sliders */
+.controls{margin-top:12px}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.chip{
+  cursor:pointer;font-family:var(--font-display);font-weight:600;
+  display:flex;flex-direction:column;align-items:center;gap:.15em;
+  padding:.55em .2em .5em;border-radius:18px;
+  border:2px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.05);
+  color:var(--cream);font-size:clamp(.62rem,1.55vw,.92rem);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1), background .25s, border-color .25s, box-shadow .25s;
+  line-height:1.05;text-align:center;
+}
+.chip .em{font-size:clamp(1.35rem,3.4vw,1.9rem);line-height:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.chip:hover{transform:translateY(-4px)}
+.chip[aria-pressed="true"]{
+  background:color-mix(in srgb, var(--tint) 30%, transparent);
+  border-color:var(--tint);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--tint) 18%, transparent), 0 12px 26px -14px var(--tint);
+  transform:translateY(-4px) scale(1.04);
+}
+.chip[aria-pressed="true"] .lbl{color:#fff}
+
+.sliderrow{display:flex;align-items:center;gap:12px;margin-top:14px}
+.sliderrow .ico{font-size:1.5rem;line-height:1;flex:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;background:transparent;cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:20px;border-radius:999px;
+  background:linear-gradient(90deg,var(--c-peau),var(--c-os) 27%,var(--c-muscles) 52%,var(--c-sang) 76%,var(--c-organes));
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.35);
+}
+input[type=range]::-moz-range-track{
+  height:20px;border-radius:999px;
+  background:linear-gradient(90deg,var(--c-peau),var(--c-os) 27%,var(--c-muscles) 52%,var(--c-sang) 76%,var(--c-organes));
+  border:1px solid rgba(255,255,255,.28);
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:38px;height:38px;margin-top:-9px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #fff, #ffe6bd 55%, #ffb15c);
+  border:3px solid #fff;
+  box-shadow:0 6px 18px -4px rgba(0,0,0,.7);
+  transition:transform .15s;
+}
+input[type=range]::-moz-range-thumb{
+  width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #fff, #ffe6bd 55%, #ffb15c);
+  border:3px solid #fff;box-shadow:0 6px 18px -4px rgba(0,0,0,.7);
+}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.14)}
+input[type=range].zoom::-webkit-slider-runnable-track{height:14px;background:rgba(255,255,255,.2)}
+input[type=range].zoom::-moz-range-track{height:14px;background:rgba(255,255,255,.2)}
+input[type=range].zoom::-webkit-slider-thumb{width:30px;height:30px;margin-top:-8px}
+input[type=range]:focus-visible{outline:3px solid #ffe6bd;outline-offset:6px;border-radius:999px}
+
+/* ------------------------------- panneau info */
+.panel{display:flex;flex-direction:column;gap:clamp(12px,2vw,18px)}
+.info{position:relative;overflow:hidden;min-height:190px;display:flex;flex-direction:column}
+.info::after{
+  content:"";position:absolute;inset:-40% -30% auto auto;width:70%;aspect-ratio:1;
+  background:radial-gradient(circle, color-mix(in srgb,var(--accent) 42%, transparent), transparent 68%);
+  pointer-events:none;transition:background .5s;
+}
+.info .big{font-size:clamp(2.6rem,7vw,3.6rem);line-height:1;filter:drop-shadow(0 6px 12px rgba(0,0,0,.45))}
+.info h2{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(1.5rem,4vw,2.15rem);line-height:1.05;margin:.28em 0 .12em;
+  color:#fff;
+}
+.info .sys{
+  display:inline-block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  color:var(--accent);
+}
+.info p{margin:.4em 0 0;font-size:clamp(1rem,2.2vw,1.12rem);line-height:1.5;color:var(--cream-soft);font-weight:500}
+.info .row{display:flex;gap:8px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+.fadein{animation:fadein .4s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.btn{
+  font-family:var(--font-display);font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.45em;
+  padding:.55em 1.1em;border-radius:999px;border:2px solid transparent;
+  font-size:clamp(.9rem,1.9vw,1.05rem);
+  background:linear-gradient(160deg,#fff6e2,#ffc16d);color:#3d220b;
+  box-shadow:0 10px 24px -12px rgba(255,193,109,.95);
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1), filter .2s;
+}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn.ghostbtn{background:rgba(255,255,255,.08);color:var(--cream);border-color:rgba(255,255,255,.24);box-shadow:none}
+.btn.play{background:linear-gradient(160deg,#b6ffd8,#4ad9a0);color:#0c3a28;box-shadow:0 10px 24px -12px rgba(74,217,160,.95)}
+.btn[aria-pressed="false"]{filter:grayscale(.7) brightness(.85)}
+
+.tools{display:flex;flex-direction:column;gap:12px}
+.tools .lbl{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#9fb0ff;margin-bottom:6px;display:block}
+.dots{display:flex;gap:9px;flex-wrap:wrap}
+.dot{
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  border:3px solid rgba(255,255,255,.3);
+  box-shadow:0 5px 12px -5px rgba(0,0,0,.8);
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1), border-color .2s;
+}
+.dot:hover{transform:scale(1.12)}
+.dot[aria-pressed="true"]{border-color:#fff;transform:scale(1.16)}
+.stars{display:flex;align-items:center;gap:.4em;font-family:var(--font-display);font-size:1.25rem;font-weight:600}
+.stars .n{font-size:1.5rem}
+.starpop{animation:starpop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes starpop{0%{transform:scale(.4) rotate(-25deg)}100%{transform:scale(1) rotate(0)}}
+
+/* ------------------------------- bandeau quiz */
+.banner{
+  display:none;margin:0 auto 10px;width:fit-content;max-width:100%;
+  font-family:var(--font-display);font-weight:600;font-size:clamp(1rem,2.4vw,1.3rem);
+  text-align:center;padding:.55em 1.15em;border-radius:999px;
+  background:linear-gradient(160deg,#c9ffe8,#5fe0ae);color:#0b3b28;
+  box-shadow:0 14px 34px -14px rgba(0,0,0,.8);
+}
+.banner.show{display:block;animation:drop .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes drop{from{transform:translateY(-22px) scale(.85);opacity:0}to{transform:none;opacity:1}}
+.banner.bad{background:linear-gradient(160deg,#ffe0c9,#ffab6b);color:#4a2409}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:none}20%{transform:rotate(-3deg)}60%{transform:rotate(3deg)}}
+
+/* confettis */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.confetti span{position:absolute;font-size:26px;animation:fall linear forwards}
+@keyframes fall{
+  0%{transform:translateY(-10vh) rotate(0);opacity:1}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+
+footer{
+  position:relative;z-index:2;text-align:center;
+  padding:6px var(--pad) 30px;color:#8b98d8;font-size:.86rem;font-weight:500;
+}
+footer .hint{display:block;margin-bottom:.5em;color:var(--cream-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s !important;animation-iteration-count:1 !important}
+  .layer{transition:opacity .2s}
+}
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbles" aria-hidden="true"></div>
+
+<header>
+  <span class="kicker">🔎 Petit explorateur du corps</span>
+  <h1>Qu'y a-t-il dans mon corps&nbsp;? <span class="wave">👋</span></h1>
+  <p class="tagline">Bouge le gros curseur pour voir la peau, les os, les muscles, le sang et les organes. Appuie sur une partie du corps pour l'écouter&nbsp;!</p>
+</header>
+
+<main class="wrap">
+
+  <!-- ======================= SCÈNE ======================= -->
+  <section class="stage card" aria-label="Le corps humain">
+    <div class="who" role="group" aria-label="Choisir un corps">
+      <button type="button" id="btn-boy" aria-pressed="true"><span class="em">🧒</span> Un garçon</button>
+      <button type="button" id="btn-girl" aria-pressed="false"><span class="em">👧</span> Une fille</button>
+    </div>
+
+    <div class="banner" id="banner" role="status" aria-live="polite"></div>
+
+    <div class="svgbox" id="svgbox">
+      <div class="pinlabel" id="pin" aria-hidden="true"></div>
+
+      <svg id="body" viewBox="0 0 400 820" data-sex="m" role="img" aria-label="Dessin du corps humain, cliquable">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="42%" r="52%">
+            <stop offset="0%" stop-color="#9ad4ff" stop-opacity=".38"/>
+            <stop offset="70%" stop-color="#6a7bff" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#6a7bff" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="shade" cx="34%" cy="20%" r="80%">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".38"/>
+            <stop offset="52%" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#8a4a18" stop-opacity=".34"/>
+          </radialGradient>
+          <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8fd3ff" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#8fd3ff" stop-opacity="0"/>
+          </linearGradient>
+
+          <!-- ---------- silhouette réutilisable ---------- -->
+          <g id="armShape">
+            <path class="limbP" d="M150 212 C126 222 118 252 114 288 C110 324 102 354 98 382"/>
+            <circle class="fillC" cx="96" cy="400" r="19"/>
+            <path class="fingers" d="M87 410 L82 426 M94 412 L92 430 M101 411 L102 429 M107 409 L111 423"/>
+            <!-- pouce : côté radius (vers l'extérieur), orienté vers le bas -->
+            <path class="fingers thumb" d="M83 398 L73 411"/>
+          </g>
+          <g id="legShape">
+            <path class="limbP legP" d="M178 420 C170 480 166 540 168 600 C170 660 166 704 164 728"/>
+            <ellipse class="fillC" cx="158" cy="746" rx="30" ry="17"/>
+            <circle class="fillC" cx="139" cy="756" r="5.6"/>
+            <circle class="fillC" cx="150" cy="759" r="5"/>
+            <circle class="fillC" cx="159" cy="760" r="4.6"/>
+            <circle class="fillC" cx="167" cy="758" r="4.2"/>
+            <circle class="fillC" cx="174" cy="755" r="3.8"/>
+          </g>
+          <g id="bodyShape">
+            <use href="#armShape"/>
+            <use href="#armShape" transform="translate(400 0) scale(-1 1)"/>
+            <use href="#legShape"/>
+            <use href="#legShape" transform="translate(400 0) scale(-1 1)"/>
+            <path class="fillC only-m" d="M140 208 Q138 190 158 186 L242 186 Q262 190 260 208 L254 300 Q250 330 244 348 L242 402 Q242 424 232 434 L168 434 Q158 424 158 402 L156 348 Q150 330 146 300 Z"/>
+            <path class="fillC only-f" d="M150 206 Q148 189 168 186 L232 186 Q252 189 250 206 L246 292 Q238 324 232 344 L238 400 Q241 426 226 436 L174 436 Q159 426 162 400 L168 344 Q162 324 154 292 Z"/>
+            <rect class="fillC" x="184" y="144" width="32" height="54" rx="15"/>
+            <circle class="fillC" cx="146" cy="114" r="13"/>
+            <circle class="fillC" cx="254" cy="114" r="13"/>
+            <ellipse class="fillC" cx="200" cy="106" rx="55" ry="61"/>
+          </g>
+          <clipPath id="clipBody"><use href="#bodyShape"/></clipPath>
+
+          <!-- ===== defs couche 1 ===== -->
+<!-- ============ SQUELETTE : degrade + groupes a refleter ============ -->
+<linearGradient id="sk-boneGrad" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#e6eefc"/>
+  <stop offset=".45" stop-color="#f6faff"/>
+  <stop offset="1" stop-color="#dfe9fa"/>
+</linearGradient>
+
+<!-- ==== CRANE : elements pairs (cote gauche de l ecran) ==== -->
+<g id="sk-skullL">
+  <!-- orbite -->
+  <ellipse class="sk-cav" cx="181" cy="110" rx="14.5" ry="13"/>
+  <!-- os zygomatique (pommette), juste sous l orbite -->
+  <path class="sk-b" d="M170 121 C165 124 165 131 170 134 C176 137 182 135 184 130 C186 125 181 120 175 119 Z"/>
+  <!-- arcade zygomatique vers l arriere -->
+  <path class="sk-ln" d="M171 124 Q164 122 158 116"/>
+  <!-- conduit auditif -->
+  <ellipse class="sk-cav" cx="165" cy="124" rx="3.6" ry="4.6"/>
+  <!-- dents de lait du haut (5 : 2 incisives, 1 canine, 2 molaires) -->
+  <rect class="sk-t" x="194.4" y="149" width="4.6" height="6" rx="1.6"/>
+  <rect class="sk-t" x="189.7" y="149" width="4.4" height="6" rx="1.6"/>
+  <rect class="sk-t" x="185.6" y="148" width="4.2" height="6" rx="1.6"/>
+  <rect class="sk-t" x="181.7" y="146" width="4.4" height="6.2" rx="1.6"/>
+  <rect class="sk-t" x="177.6" y="143.5" width="4.6" height="6.4" rx="1.6"/>
+  <!-- dents de lait du bas (5) -->
+  <rect class="sk-t" x="193.8" y="153.6" width="4.6" height="6" rx="1.6"/>
+  <rect class="sk-t" x="189.2" y="153.4" width="4.4" height="6" rx="1.6"/>
+  <rect class="sk-t" x="185.1" y="152.4" width="4.2" height="6" rx="1.6"/>
+  <rect class="sk-t" x="181" y="151" width="4.4" height="6" rx="1.6"/>
+  <rect class="sk-t" x="177" y="148.8" width="4.6" height="6.2" rx="1.6"/>
+</g>
+
+<!-- ==== CEINTURE SCAPULAIRE : scapula (derriere les cotes) ==== -->
+<g id="sk-scapL">
+  <!-- scapula (omoplate) vue de face : plaque translucide sur les cotes -->
+  <path class="sk-b3" d="M167 206 L149 213 C144 220 143 232 146 244 L155 254 Q159 258 161 252 L167 228 Q169 214 167 206 Z"/>
+  <!-- bord lateral de la scapula -->
+  <path class="sk-ln" d="M164 214 Q160 234 158 252" opacity=".55"/>
+  <!-- acromion : la pointe au-dessus de l epaule -->
+  <path class="sk-b" d="M147 197 Q141 199 140 205 Q140 212 147 212 L157 208 Q159 201 154 197 Z"/>
+  <!-- processus coracoide -->
+  <path class="sk-b" d="M157 210 Q164 208 168 213 Q164 217 157 216 Z"/>
+  <!-- cartilage de la glene (articulation de l epaule) -->
+  <ellipse class="sk-car" cx="151" cy="213" rx="13.5" ry="14"/>
+</g>
+
+<!-- ==== CLAVICULE en S (devant la 1re cote) ==== -->
+<g id="sk-clavL">
+  <path class="sk-b" d="M196 205 C184 199 171 196 159 198 C153 199 149 201 148 204 C151 208 157 207 163 206 C175 206 186 209 196 211 Z"/>
+</g>
+
+<!-- ==== 12 PAIRES DE COTES (cote gauche, tracees seules) ==== -->
+<g id="sk-ribsL">
+  <path d="M193 207 C179 204 170 205 166 216 C163 226 176 224 186 221"/>
+  <path d="M193 217 C177 214 164 219 158 232 C153 246 170 241 184 237"/>
+  <path d="M193 227 C176 224 158 231 152 246 C147 262 168 256 183 252"/>
+  <path d="M193 236 C175 233 154 240 149 258 C144 276 167 269 182 265"/>
+  <path d="M193 246 C174 243 153 252 148 270 C143 288 167 282 182 278"/>
+  <path d="M193 255 C174 252 154 263 149 281 C145 299 168 295 183 291"/>
+  <path d="M193 265 C175 262 156 274 151 291 C147 308 169 307 184 303"/>
+  <path d="M193 274 C176 271 159 284 154 300 C150 316 168 317 183 313"/>
+  <path d="M193 284 C178 281 163 293 158 307 C154 321 168 325 181 321"/>
+  <path d="M193 293 C180 290 167 300 162 313 C159 325 168 331 179 328"/>
+  <path d="M193 303 C181 301 172 310 167 326"/>
+  <path d="M193 312 C184 310 177 317 174 330"/>
+</g>
+
+<!-- ==== CARTILAGES COSTAUX (cote gauche) : 7 vraies + 3 fausses ==== -->
+<g id="sk-cartL">
+  <path d="M186 221 Q190 220 193 218"/>
+  <path d="M184 237 Q188 235 192 232"/>
+  <path d="M183 252 Q187 250 192 247"/>
+  <path d="M182 265 Q187 263 192 260"/>
+  <path d="M182 278 Q187 276 192 273"/>
+  <path d="M183 291 Q188 288 192 285"/>
+  <path d="M184 303 Q188 300 192 297"/>
+  <path d="M183 313 Q188 309 191 300"/>
+  <path d="M181 321 Q187 314 190 303"/>
+  <path d="M179 328 Q186 320 189 306"/>
+</g>
+
+<!-- ==== MEMBRE SUPERIEUR (cote gauche) ==== -->
+<g id="sk-armL">
+  <!-- HUMERUS : tete spherique -->
+  <circle class="sk-b" cx="150" cy="214" r="11.5"/>
+  <!-- HUMERUS : diaphyse -->
+  <path class="sk-b" d="M154 222 C145 236 135 248 129 262 C125 272 124 277 125 283 L109 284 C110 277 111 272 115 262 C121 248 129 235 138 222 Z"/>
+  <!-- HUMERUS : epicondyles (medial plus gros) au coude -->
+  <path class="sk-b" d="M108 277 Q102 283 105 290 Q109 295 116 293 L123 294 Q130 293 130 285 Q130 278 124 277 Z"/>
+  <!-- cartilage articulaire du coude (trochlee) -->
+  <ellipse class="sk-car" cx="117" cy="291" rx="12" ry="5"/>
+  <!-- ULNA (cote du petit doigt = medial = vers l interieur) + olecrane -->
+  <path class="sk-b" d="M120 280 C129 280 131 288 129 296 C125 318 118 344 114 370 C113 377 108 380 105 376 C102 372 106 366 107 358 C110 334 114 308 115 292 C115 285 116 280 120 280 Z"/>
+  <!-- RADIUS (cote du pouce = lateral = vers l exterieur) -->
+  <path class="sk-b" d="M112 288 C118 289 118 296 116 303 C112 325 106 350 103 366 C102 375 96 381 91 378 C86 374 90 366 92 356 C96 332 101 309 105 296 C106 290 108 288 112 288 Z"/>
+  <!-- cartilage du poignet -->
+  <path class="sk-car" d="M92 375 Q103 371 114 374 Q114 380 103 382 Q93 381 92 375 Z"/>
+  <!-- CARPE : 8 petits os du poignet, regroupes en pastilles visibles -->
+  <ellipse class="sk-b" cx="95" cy="383" rx="5" ry="4.2"/>
+  <ellipse class="sk-b" cx="103" cy="382" rx="5" ry="4.2"/>
+  <ellipse class="sk-b" cx="110" cy="384" rx="4.6" ry="4"/>
+  <ellipse class="sk-b" cx="117" cy="388" rx="3.8" ry="3.6"/>
+  <ellipse class="sk-b" cx="92" cy="391" rx="5" ry="4.2"/>
+  <ellipse class="sk-b" cx="100" cy="391" rx="5" ry="4.2"/>
+  <ellipse class="sk-b" cx="107" cy="392" rx="4.6" ry="4"/>
+  <ellipse class="sk-b" cx="113" cy="393" rx="4" ry="3.6"/>
+</g>
+
+<!-- ==== MAIN (cote gauche) : 5 metacarpiens, 3 phalanges par doigt, 2 au pouce ==== -->
+<!-- main recalée sur celle de la peau : doigts redressés (-12°) et allongés (+14 %),
+     pivot au poignet ; le miroir en hérite symétriquement -->
+<g id="sk-handL" transform="translate(103 382) rotate(-12) scale(1.14) translate(-103 -382)">
+  <!-- metacarpiens 1 a 5 (le 1er part en dehors : pouce ecarte et opposable) -->
+  <path d="M94 391 L85 396.5"/>
+  <path d="M95 393 L91.5 405"/>
+  <path d="M100 393 L98.5 406"/>
+  <path d="M105 393 L103.5 404"/>
+  <path d="M110 394 L109 403"/>
+  <!-- POUCE : 2 phalanges seulement -->
+  <path d="M84 397.5 L80.5 399"/>
+  <path d="M79.5 399.5 L78 400"/>
+  <!-- index : 3 phalanges -->
+  <path d="M91 406.5 L89 410"/>
+  <path d="M88.5 411.5 L86.5 413.5"/>
+  <path d="M86 414.5 L85 415.5"/>
+  <!-- majeur : 3 phalanges -->
+  <path d="M98 407.5 L96.5 411"/>
+  <path d="M96 412.5 L95 415"/>
+  <path d="M94.5 416 L94 418"/>
+  <!-- annulaire : 3 phalanges -->
+  <path d="M103 405.5 L102 409"/>
+  <path d="M101.5 410.5 L100.5 413.5"/>
+  <path d="M100.5 415 L100 417"/>
+  <!-- auriculaire : 3 phalanges -->
+  <path d="M109 404.5 L108.5 407.5"/>
+  <path d="M108.5 409 L108 411.5"/>
+  <path d="M108 413 L108 414"/>
+</g>
+
+<!-- ==== BASSIN : os coxal (cote gauche) ==== -->
+<g id="sk-pelvisL">
+  <!-- os coxal : aile iliaque evasee, cotyle, ischion, pubis -->
+  <path class="sk-b" d="M188 389
+    C178 383 167 384 158 392
+    C152 398 153 408 158 415
+    C162 420 168 422 171 428
+    C174 434 173 439 172 443
+    C171 447 178 447 182 444
+    C186 441 190 439 197 438
+    L197 427
+    C190 426 183 425 178 421
+    C174 416 176 405 182 399
+    C185 395 188 393 188 389 Z"/>
+  <!-- fosse iliaque : relief de l aile -->
+  <path class="sk-ln" d="M164 393 Q172 403 177 414" opacity=".5"/>
+  <!-- trou obturateur -->
+  <ellipse class="sk-cav" cx="186" cy="433" rx="5" ry="5.6"/>
+  <!-- cartilage de la hanche (cotyle) -->
+  <ellipse class="sk-car" cx="180" cy="422" rx="12.5" ry="12"/>
+</g>
+
+<!-- ==== MEMBRE INFERIEUR (cote gauche) ==== -->
+<g id="sk-legL">
+  <!-- FEMUR : tete spherique -->
+  <circle class="sk-b" cx="180" cy="422" r="10"/>
+  <!-- FEMUR : col oblique + grand trochanter + diaphyse + condyles -->
+  <path class="sk-b" d="M186 429
+    C181 435 177 438 177 443
+    C178 470 176 500 176 528
+    C176 542 177 552 178 560
+    C183 563 186 572 181 578
+    C176 583 169 582 167 576
+    L160 576
+    C155 582 148 582 146 575
+    C144 568 148 562 153 560
+    C155 545 157 528 158 508
+    C159 480 160 456 159 447
+    C158 441 152 438 148 435
+    C142 433 141 425 146 421
+    C151 418 158 419 162 424
+    C166 428 172 429 175 426 Z"/>
+  <!-- cartilage du genou (menisques) -->
+  <path class="sk-car" d="M149 579 Q167 573 185 579 Q185 586 167 588 Q149 586 149 579 Z"/>
+  <!-- PATELLA (rotule) devant le genou -->
+  <path class="sk-pat" d="M159 557 Q167 553 175 557 Q179 566 172 574 Q167 578 162 574 Q155 566 159 557 Z"/>
+  <!-- TIBIA : epais, en dedans, avec la malleole interne -->
+  <path class="sk-b" d="M153 585
+    Q151 594 157 600
+    L161 616
+    C163 640 164 680 163 712
+    C162 722 162 730 164 736
+    Q168 741 173 737
+    C176 733 176 726 176 716
+    C177 680 179 640 181 610
+    L184 592
+    Q184 584 178 583
+    L158 583
+    Q153 583 153 585 Z"/>
+  <!-- tuberosite tibiale (sous le genou, on la sent avec le doigt) -->
+  <path class="sk-bump" d="M163 594 Q173 593 176 602 Q172 609 164 605 Z"/>
+  <!-- FIBULA (perone) : fine, en dehors, malleole externe plus basse -->
+  <path class="sk-b" d="M148 589 Q144 594 146 601 L149 620 C151 650 152 690 152 716 C152 726 151 734 154 740 Q159 743 161 736 C162 728 159 720 159 710 C159 680 158 650 156 620 L155 601 Q155 590 151 588 Z"/>
+  <!-- cartilage de la cheville -->
+  <path class="sk-car" d="M155 727 Q165 723 175 727 Q175 734 165 736 Q155 734 155 727 Z"/>
+  <!-- TARSE : talus, calcaneus (talon), naviculaire, cuneiformes, cuboide -->
+  <ellipse class="sk-b" cx="165" cy="735" rx="8.5" ry="6.5"/>
+  <ellipse class="sk-b" cx="170" cy="749" rx="10" ry="8"/>
+  <ellipse class="sk-b" cx="157" cy="742" rx="5.6" ry="5"/>
+  <ellipse class="sk-b" cx="150" cy="745" rx="6" ry="5"/>
+  <ellipse class="sk-b" cx="155" cy="751" rx="5.6" ry="5"/>
+</g>
+
+<!-- ==== PIED (cote gauche) : 5 metatarsiens + phalanges des orteils ==== -->
+<g id="sk-footL">
+  <!-- metatarsiens 1 a 5 -->
+  <path d="M154 749 L148.5 754"/>
+  <path d="M151 747 L145.5 752"/>
+  <path d="M149 745 L143 750"/>
+  <path d="M147 743 L142 746"/>
+  <path d="M146 741 L142 742"/>
+  <!-- gros orteil : 2 phalanges -->
+  <path d="M147.5 755 L143.5 757"/>
+  <path d="M142 757.5 L139.5 758.5"/>
+  <!-- orteil 2 : 3 phalanges -->
+  <path d="M144.5 752.7 L141 754"/>
+  <path d="M140 754.4 L137.5 755.2"/>
+  <path d="M136.5 755.5 L135 755.7"/>
+  <!-- orteil 3 : 3 phalanges -->
+  <path d="M142 751 L138.5 752"/>
+  <path d="M137 752.3 L134 752.9"/>
+  <path d="M133 753.2 L132 753.3"/>
+  <!-- orteil 4 : 3 phalanges -->
+  <path d="M141 747 L137.5 748"/>
+  <path d="M136 748.2 L133 748.7"/>
+  <path d="M131.6 749 L130.4 749.2"/>
+  <!-- orteil 5 : 3 phalanges -->
+  <path d="M141 742 L137.5 743"/>
+  <path d="M136 743.2 L133.2 743.7"/>
+  <path d="M131.8 744 L130.6 744.2"/>
+</g>
+
+          <!-- ===== defs couche 2 ===== -->
+<linearGradient id="mu-gA" x1="0" y1="0" x2="1" y2="0.7">
+  <stop offset="0" stop-color="#f2586c"/><stop offset="1" stop-color="#d8455c"/>
+</linearGradient>
+<linearGradient id="mu-gB" x1="0" y1="0" x2="1" y2="0.7">
+  <stop offset="0" stop-color="#ff8a97"/><stop offset="1" stop-color="#ff7887"/>
+</linearGradient>
+<linearGradient id="mu-gT" x1="0" y1="0" x2="1" y2="0.7">
+  <stop offset="0" stop-color="#fff3e0"/><stop offset="1" stop-color="#ffe6c9"/>
+</linearGradient>
+
+<!-- === MUSCLES : moitie gauche de l'ecran (x < 200), a refleter === -->
+<g id="mu-half">
+
+  <!-- COU : faisceau superieur du trapeze -->
+  <path class="mu-a" d="M193 160 C185 163 175 169 165 176 C155 182 146 189 141 197 C138 203 141 210 147 209 C157 205 169 199 179 192 C188 186 195 176 196 166 C197 161 196 159 193 160 Z"/>
+  <path class="mu-fx" d="M190 166 C181 174 167 183 151 195"/>
+  <path class="mu-fx" d="M193 175 C185 182 171 191 155 201"/>
+
+  <!-- COU : sterno-cleido-mastoidien, chef sternal -->
+  <path class="mu-b" d="M175 156 C174 167 179 178 184 187 C189 194 193 199 195 204 C196 208 200 208 200 203 C199 191 195 180 190 171 C187 165 185 160 184 155 C183 151 176 151 175 156 Z"/>
+  <!-- COU : sterno-cleido-mastoidien, chef claviculaire (le V) -->
+  <path class="mu-b" d="M184 184 C186 190 187 197 186 204 C185 208 179 208 178 204 C178 196 180 189 182 184 Z"/>
+  <path class="mu-fx" d="M180 162 C184 176 191 190 195 201"/>
+
+  <!-- EPAULE : deltoide en epaulette (faisceaux visibles) -->
+  <path class="mu-a" d="M160 187 C146 190 133 198 123 211 C113 224 105 238 102 250 C100 259 108 265 116 261 C128 255 138 246 146 235 C154 223 160 206 160 193 Z"/>
+  <path class="mu-sep" d="M147 193 C140 209 131 228 117 249"/>
+  <path class="mu-fx" d="M156 197 C148 213 136 232 119 253"/>
+  <path class="mu-fx" d="M137 194 C131 210 122 229 107 248"/>
+  <path class="mu-fx" d="M126 201 C120 215 113 231 103 246"/>
+
+  <!-- THORAX : grand pectoral (faisceau claviculaire + faisceau sternal) -->
+  <path class="mu-b" d="M197 201 L174 195 C162 192 151 197 147 208 C143 220 145 232 152 241 C158 250 168 256 178 261 C188 267 193 275 197 284 Z"/>
+  <path class="mu-sep" d="M174 197 C165 202 156 209 151 218"/>
+  <path class="mu-fx" d="M196 210 C183 212 167 215 153 220"/>
+  <path class="mu-fx" d="M196 224 C183 224 167 225 151 227"/>
+  <path class="mu-fx" d="M196 239 C184 237 168 234 152 232"/>
+  <path class="mu-fx" d="M195 254 C186 250 172 244 156 238"/>
+  <path class="mu-fx" d="M195 267 C188 261 176 253 161 244"/>
+  <path class="mu-fx" d="M181 198 C173 204 165 211 159 219"/>
+
+  <!-- ABDOMEN : oblique externe (fibres en diagonale vers le bas et l'avant) -->
+  <path class="mu-b" d="M147 249 C161 253 173 263 180 278 C177 285 175 290 175 297 C172 320 170 340 170 364 C171 391 174 412 181 430 C178 433 173 431 171 426 C164 401 159 377 155 356 C151 337 147 317 145 301 C143 282 143 262 147 249 Z"/>
+  <path class="mu-fx" d="M150 302 L170 327"/>
+  <path class="mu-fx" d="M151 324 L172 351"/>
+  <path class="mu-fx" d="M154 346 L175 374"/>
+  <path class="mu-fx" d="M158 370 L178 399"/>
+  <path class="mu-fx" d="M163 396 L180 420"/>
+
+  <!-- THORAX : dentele anterieur, digitations en dents de scie sur les cotes -->
+  <path class="mu-a" d="M145 252 L168 259 L146 266 Z"/>
+  <path class="mu-a" d="M146 268 L169 275 L147 282 Z"/>
+  <path class="mu-a" d="M147 284 L170 290 L148 298 Z"/>
+  <path class="mu-a" d="M148 300 L171 305 L150 313 Z"/>
+
+  <!-- ABDOMEN : grand droit de l'abdomen -->
+  <path class="mu-a" d="M198 282 L176 292 C171 306 169 336 170 364 C171 391 174 412 181 430 L198 432 Z"/>
+  <path class="mu-fx" d="M181 300 C177 336 176 380 184 424"/>
+  <path class="mu-fx" d="M190 294 C187 336 187 382 192 426"/>
+  <!-- 3 intersections tendineuses : 4 blocs par cote, les 2 du bas plus longs -->
+  <path class="mu-band" d="M197 322 L171 325"/>
+  <path class="mu-band" d="M197 357 L170 359"/>
+  <path class="mu-band" d="M197 390 L173 391"/>
+
+  <!-- THORAX : arc costal (aponevrose, sous le pectoral) -->
+  <path class="mu-t" d="M199 270 C190 277 182 284 177 292 L184 298 C190 290 195 283 200 279 Z"/>
+
+  <!-- ABDOMEN : aponevrose inguinale -->
+  <path class="mu-t" d="M169 412 C177 419 187 426 196 432 L189 434 C180 429 172 424 167 418 Z"/>
+
+  <!-- BRAS : triceps brachial, bord externe -->
+  <path class="mu-a" d="M121 230 C112 241 105 255 101 270 C99 281 101 290 107 294 C113 297 118 291 117 284 C114 269 118 253 125 242 C129 234 125 226 121 230 Z"/>
+  <path class="mu-fx" d="M115 243 C109 257 105 271 106 287"/>
+
+  <!-- BRAS : brachial anterieur (en dessous du biceps) -->
+  <path class="mu-a" d="M136 260 C133 271 131 283 132 293 C133 300 140 300 140 292 C140 282 139 270 139 260 Z"/>
+
+  <!-- BRAS : biceps brachial fusiforme, deux chefs (anime) -->
+  <g class="mu-pulse-bi">
+    <path class="mu-b" d="M142 229 C131 237 120 250 116 265 C113 277 115 288 121 294 C127 300 135 296 134 288 C132 275 136 260 143 249 C149 240 149 226 142 229 Z"/>
+    <path class="mu-sep" d="M136 234 C129 244 124 255 122 266"/>
+    <path class="mu-fx" d="M131 241 C125 254 122 268 123 283"/>
+    <path class="mu-fx" d="M138 246 C132 258 129 270 130 285"/>
+  </g>
+  <!-- tendon du biceps vers le pli du coude -->
+  <path class="mu-t" d="M123 290 C121 296 119 302 118 308 L126 307 C127 301 129 295 130 291 Z"/>
+
+  <!-- AVANT-BRAS : extenseurs (en dehors) -->
+  <path class="mu-a" d="M111 295 C103 305 95 320 90 336 C87 347 85 358 85 368 C85 374 91 375 93 368 C96 355 100 342 106 330 C112 316 118 304 121 296 C123 290 114 290 111 295 Z"/>
+  <path class="mu-fx" d="M108 303 C101 318 95 338 92 358"/>
+
+  <!-- AVANT-BRAS : masse des flechisseurs (en dedans) -->
+  <path class="mu-a" d="M132 290 C124 299 118 313 115 329 C112 343 111 357 111 371 C111 377 118 378 119 371 C122 357 126 342 130 329 C135 315 139 301 140 293 C140 287 135 286 132 290 Z"/>
+  <path class="mu-fx" d="M128 299 C121 317 116 340 114 362"/>
+
+  <!-- AVANT-BRAS : brachio-radial en fuseau (bord du pouce) -->
+  <path class="mu-b" d="M126 291 C117 300 109 314 104 330 C100 342 98 353 99 362 C100 369 107 368 108 361 C110 348 114 334 120 322 C126 309 132 299 133 292 C133 286 129 287 126 291 Z"/>
+  <path class="mu-fx" d="M118 301 C111 316 105 332 103 351"/>
+
+  <!-- POIGNET : tendons -->
+  <path class="mu-tl" d="M99 360 C97 367 95 373 94 379"/>
+  <path class="mu-tl" d="M106 360 C104 367 103 374 102 380"/>
+  <path class="mu-tl" d="M112 366 C111 372 109 377 108 382"/>
+  <path class="mu-tl" d="M118 370 C117 375 116 379 115 383"/>
+
+  <!-- CUISSE : quadriceps, vaste lateral -->
+  <path class="mu-a" d="M172 424 C160 423 150 431 146 448 C143 466 142 486 144 506 C146 525 152 543 160 556 C165 563 175 562 176 553 C173 535 172 513 172 490 C172 464 173 440 172 424 Z"/>
+  <path class="mu-fx" d="M153 448 C150 472 150 502 156 532"/>
+  <path class="mu-fx" d="M164 439 C161 468 161 502 166 536"/>
+
+  <!-- CUISSE : adducteurs (face interne) -->
+  <path class="mu-b" d="M197 434 C190 436 186 445 184 457 C182 471 182 488 184 500 C186 510 196 512 198 504 C199 489 199 469 199 450 C199 440 199 434 197 434 Z"/>
+  <path class="mu-fx" d="M190 444 C188 462 188 484 191 502"/>
+
+  <!-- CUISSE : quadriceps, droit femoral -->
+  <path class="mu-b" d="M178 427 C171 428 169 439 169 452 C168 470 165 489 165 509 C165 528 167 546 171 558 C174 566 185 565 186 556 C185 540 186 520 187 500 C188 478 188 451 186 435 C185 428 182 426 178 427 Z"/>
+  <path class="mu-fx" d="M173 440 C170 470 169 508 174 546"/>
+  <path class="mu-fx" d="M182 438 C180 470 180 508 182 548"/>
+
+  <!-- CUISSE : quadriceps, vaste medial (descend plus bas, juste au-dessus du genou) -->
+  <path class="mu-a" d="M193 472 C186 477 182 490 181 505 C180 521 181 541 185 557 C188 567 198 568 199 558 C199 541 199 523 199 505 C199 490 198 476 196 472 C195 469 194 470 193 472 Z"/>
+  <path class="mu-fx" d="M189 485 C186 504 187 528 192 551"/>
+
+  <!-- CUISSE : bandelette ilio-tibiale (aponevrose laterale) -->
+  <path class="mu-t" d="M152 436 C147 457 144 484 145 508 C145 528 148 546 153 558 L157 556 C153 542 150 524 150 505 C150 483 153 457 157 439 Z"/>
+
+  <!-- CUISSE : sartorius (le couturier), longue bande diagonale hanche -> genou interne -->
+  <path class="mu-b mu-sart" d="M166 428 C164 447 168 468 174 490 C180 512 187 536 190 557 C191 564 198 564 198 556 C196 531 190 505 182 482 C176 462 173 445 174 429 C174 423 167 422 166 428 Z"/>
+  <path class="mu-fx" d="M170 436 C171 458 179 486 190 549"/>
+
+  <!-- GENOU : tendon patellaire, sous la rotule -->
+  <path class="mu-t" d="M162 557 C161 567 163 578 165 588 L176 588 C178 578 179 567 179 556 C173 559 168 559 162 557 Z"/>
+
+  <!-- JAMBE : gastrocnemien, chef lateral -->
+  <path class="mu-a" d="M155 588 C147 599 143 618 144 637 C146 652 151 663 157 666 C163 668 168 662 166 653 C163 638 162 618 164 603 C166 591 160 583 155 588 Z"/>
+  <path class="mu-fx" d="M155 602 C152 618 154 638 159 654"/>
+
+  <!-- JAMBE : gastrocnemien, chef medial (anime) -->
+  <g class="mu-pulse-calf">
+    <path class="mu-a" d="M178 587 C172 600 169 621 171 643 C173 660 178 674 184 681 C190 687 197 681 195 671 C194 652 194 630 192 610 C190 596 187 586 183 584 C180 582 179 584 178 587 Z"/>
+    <path class="mu-fx" d="M181 599 C179 618 180 645 187 669"/>
+    <path class="mu-fx" d="M188 604 C187 622 189 647 192 665"/>
+  </g>
+
+  <!-- JAMBE : soleaire, visible sous le mollet -->
+  <path class="mu-b" d="M190 648 C186 662 182 679 181 693 C180 702 189 704 191 695 C193 681 195 665 196 653 C197 644 191 641 190 648 Z"/>
+
+  <!-- JAMBE : fibulaires (en dehors) -->
+  <path class="mu-b" d="M165 628 C155 640 149 657 147 674 C146 688 148 699 152 706 C156 712 164 709 161 700 C158 688 157 674 158 661 C160 649 164 639 168 632 Z"/>
+  <path class="mu-fx" d="M158 645 C155 659 154 678 156 696"/>
+
+  <!-- JAMBE : tibial anterieur, en bande le long du tibia -->
+  <path class="mu-b" d="M177 588 C167 591 160 606 158 625 C157 641 157 658 159 673 C161 683 164 691 167 697 C171 703 179 700 178 691 C176 678 175 660 176 641 C176 620 179 603 181 590 Z"/>
+  <path class="mu-fx" d="M167 604 C165 623 165 650 169 680"/>
+  <path class="mu-fx" d="M173 606 C171 625 171 652 174 682"/>
+
+  <!-- CHEVILLE : tendon d'Achille -->
+  <path class="mu-t" d="M182 672 C183 687 181 703 178 716 C177 722 176 725 176 728 L185 726 C186 712 188 697 190 684 C191 675 188 666 185 664 Z"/>
+  <!-- CHEVILLE / PIED : tendons du tibial anterieur, des fibulaires et des extenseurs -->
+  <path class="mu-t" d="M164 690 C167 703 169 714 168 724 L173 723 C174 712 172 700 169 689 Z"/>
+  <path class="mu-t" d="M155 697 C154 706 154 714 155 721 L160 720 C159 712 159 704 160 696 Z"/>
+  <path class="mu-tl" d="M167 730 C159 737 151 743 145 748"/>
+  <path class="mu-tl" d="M165 733 C158 741 152 748 147 754"/>
+  <path class="mu-tl" d="M162 735 C158 744 154 750 152 756"/>
+</g>
+
+          <!-- ===== defs couche 3 ===== -->
+<!-- ================= COUCHE SANG (bl-) : gradients ================= -->
+<radialGradient id="bl-gHeart" cx="38%" cy="30%" r="78%">
+  <stop offset="0%"   stop-color="#ff5f77"/>
+  <stop offset="55%"  stop-color="#e8213f"/>
+  <stop offset="100%" stop-color="#b30f2c"/>
+</radialGradient>
+<radialGradient id="bl-gAtri" cx="40%" cy="30%" r="80%">
+  <stop offset="0%"   stop-color="#c8405e"/>
+  <stop offset="100%" stop-color="#8d1330"/>
+</radialGradient>
+<radialGradient id="bl-gHalo" cx="50%" cy="50%" r="50%">
+  <stop offset="0%"   stop-color="#ff4266" stop-opacity=".9"/>
+  <stop offset="100%" stop-color="#ff4266" stop-opacity="0"/>
+</radialGradient>
+
+<!-- ================= COUCHE SANG : COU + TÊTE (côté gauche écran) ==== -->
+<g id="bl-neck">
+  <!-- fonds -->
+  <path class="bl-ab bl-3" d="M195 202 C194 189 193 176 193 163"/>
+  <path class="bl-ab bl-4" d="M193 163 C193 150 194 138 195 126 C195 118 195 112 196 106"/>
+  <path class="bl-ab bl-4" d="M193 163 C190 154 187 146 186 137"/>
+  <path class="bl-ab bl-5" d="M186 137 C181 130 176 125 172 120"/>
+  <path class="bl-ab bl-5" d="M186 137 C185 128 185 118 186 108 C186 100 185 94 184 88"/>
+  <path class="bl-ab bl-5" d="M195 126 C190 120 185 114 181 108"/>
+  <path class="bl-ab bl-5" d="M196 106 C196 98 197 90 198 82"/>
+  <path class="bl-ab bl-5" d="M184 88 C182 80 180 74 179 68"/>
+  <path class="bl-ab bl-5" d="M184 88 C187 80 189 74 190 68"/>
+  <path class="bl-ab bl-5" d="M181 108 C176 104 172 100 169 96"/>
+  <path class="bl-ab bl-5" d="M198 82 C197 74 196 68 196 62"/>
+  <path class="bl-vb bl-5" d="M178 66 C180 76 182 84 184 92"/>
+  <path class="bl-vb bl-5" d="M190 62 C189 72 187 82 186 92"/>
+  <path class="bl-vb bl-5" d="M170 100 C175 100 180 98 184 94"/>
+  <path class="bl-vb bl-4" d="M184 92 C185 104 186 116 187 128"/>
+  <path class="bl-vb bl-2" d="M187 128 C185 142 185 156 186 172 C187 185 189 195 190 208"/>
+  <path class="bl-vb bl-3" d="M184 118 C182 130 181 144 182 158 C183 172 185 184 189 196"/>
+  <!-- flux artériel : carotide commune -> interne / externe -> cerveau et face -->
+  <path class="bl-af bl-3f" d="M195 202 C194 189 193 176 193 163"/>
+  <path class="bl-af bl-4f" d="M193 163 C193 150 194 138 195 126 C195 118 195 112 196 106"/>
+  <path class="bl-af bl-4f" d="M193 163 C190 154 187 146 186 137"/>
+  <path class="bl-caf bl-5f" d="M186 137 C181 130 176 125 172 120"/>
+  <path class="bl-caf bl-5f" d="M186 137 C185 128 185 118 186 108 C186 100 185 94 184 88"/>
+  <path class="bl-caf bl-5f" d="M195 126 C190 120 185 114 181 108"/>
+  <path class="bl-caf bl-5f" d="M196 106 C196 98 197 90 198 82"/>
+  <path class="bl-caf bl-5f" d="M184 88 C182 80 180 74 179 68"/>
+  <path class="bl-caf bl-5f" d="M184 88 C187 80 189 74 190 68"/>
+  <path class="bl-caf bl-5f" d="M181 108 C176 104 172 100 169 96"/>
+  <path class="bl-caf bl-5f" d="M198 82 C197 74 196 68 196 62"/>
+  <!-- flux veineux : cuir chevelu -> jugulaires -> vers le coeur -->
+  <path class="bl-cvf bl-5f" d="M178 66 C180 76 182 84 184 92"/>
+  <path class="bl-cvf bl-5f" d="M190 62 C189 72 187 82 186 92"/>
+  <path class="bl-cvf bl-5f" d="M170 100 C175 100 180 98 184 94"/>
+  <path class="bl-vf bl-4f" d="M184 92 C185 104 186 116 187 128"/>
+  <path class="bl-vf bl-2f" d="M187 128 C185 142 185 156 186 172 C187 185 189 195 190 208"/>
+  <path class="bl-vf bl-3f" d="M184 118 C182 130 181 144 182 158 C183 172 185 184 189 196"/>
+</g>
+
+<!-- ================= COUCHE SANG : MEMBRE SUPÉRIEUR ================= -->
+<g id="bl-arm">
+  <!-- fonds artériels : sous-clavière > axillaire > brachiale > radiale/ulnaire > arcade -->
+  <path class="bl-ab bl-2" d="M193 197 C181 200 168 205 156 210"/>
+  <path class="bl-ab bl-2" d="M156 210 C146 216 137 226 132 240"/>
+  <path class="bl-ab bl-3" d="M132 240 C128 256 125 274 125 292"/>
+  <path class="bl-ab bl-4" d="M125 292 C118 310 111 331 107 352 C105 364 102 373 100 380"/>
+  <path class="bl-ab bl-4" d="M125 292 C125 312 121 332 116 352 C113 364 110 373 107 381"/>
+  <path class="bl-ab bl-4" d="M100 380 C88 385 80 394 84 402 C90 409 100 409 106 402 C110 397 109 386 107 381"/>
+  <path class="bl-ab bl-5" d="M85 403 C83 409 82 412 81 416"/>
+  <path class="bl-ab bl-5" d="M92 406 C91 410 91 413 90 417"/>
+  <path class="bl-ab bl-5" d="M99 406 C99 410 100 413 100 417"/>
+  <path class="bl-ab bl-5" d="M105 402 C107 407 108 411 109 414"/>
+  <path class="bl-ab bl-5" d="M84 396 C80 397 78 400 77 403"/>
+  <!-- fonds veineux : arcade dorsale > céphalique / basilique + pli du coude -->
+  <path class="bl-vb bl-5" d="M94 418 C86 418 82 416 80 414"/>
+  <path class="bl-vb bl-5" d="M94 418 C102 417 106 415 109 412"/>
+  <path class="bl-vb bl-3" d="M80 414 C76 404 80 392 89 383 C95 370 97 354 99 338 C101 320 104 304 107 288 C110 268 118 244 128 228 C133 220 140 214 147 212"/>
+  <path class="bl-vb bl-3" d="M109 412 C115 403 116 393 113 384 C115 370 118 354 121 338 C124 320 128 306 131 292 C134 276 136 258 140 244 C144 232 148 224 150 218"/>
+  <path class="bl-vb bl-4" d="M106 300 C114 296 122 293 130 290"/>
+  <path class="bl-vb bl-2" d="M150 218 C162 214 175 212 187 211"/>
+  <!-- flux -->
+  <path class="bl-af bl-2f" d="M193 197 C181 200 168 205 156 210"/>
+  <path class="bl-af bl-2f" d="M156 210 C146 216 137 226 132 240"/>
+  <path class="bl-af bl-3f" d="M132 240 C128 256 125 274 125 292"/>
+  <path class="bl-af bl-4f" d="M125 292 C118 310 111 331 107 352 C105 364 102 373 100 380"/>
+  <path class="bl-af bl-4f" d="M125 292 C125 312 121 332 116 352 C113 364 110 373 107 381"/>
+  <path class="bl-af bl-4f" d="M100 380 C88 385 80 394 84 402 C90 409 100 409 106 402 C110 397 109 386 107 381"/>
+  <path class="bl-caf bl-5f" d="M85 403 C83 409 82 412 81 416"/>
+  <path class="bl-caf bl-5f" d="M92 406 C91 410 91 413 90 417"/>
+  <path class="bl-caf bl-5f" d="M99 406 C99 410 100 413 100 417"/>
+  <path class="bl-caf bl-5f" d="M105 402 C107 407 108 411 109 414"/>
+  <path class="bl-caf bl-5f" d="M84 396 C80 397 78 400 77 403"/>
+  <path class="bl-cvf bl-5f" d="M94 418 C86 418 82 416 80 414"/>
+  <path class="bl-cvf bl-5f" d="M94 418 C102 417 106 415 109 412"/>
+  <path class="bl-vf bl-3f" d="M80 414 C76 404 80 392 89 383 C95 370 97 354 99 338 C101 320 104 304 107 288 C110 268 118 244 128 228 C133 220 140 214 147 212"/>
+  <path class="bl-vf bl-3f" d="M109 412 C115 403 116 393 113 384 C115 370 118 354 121 338 C124 320 128 306 131 292 C134 276 136 258 140 244 C144 232 148 224 150 218"/>
+  <path class="bl-vf bl-4f" d="M106 300 C114 296 122 293 130 290"/>
+  <path class="bl-vf bl-2f" d="M150 218 C162 214 175 212 187 211"/>
+</g>
+
+<!-- ================= COUCHE SANG : MEMBRE INFÉRIEUR ================= -->
+<g id="bl-leg">
+  <!-- fonds artériels : iliaque > fémorale > poplitée > tibiales > pédieuse -->
+  <path class="bl-ab bl-2" d="M201 390 C195 400 189 411 184 422"/>
+  <path class="bl-ab bl-2" d="M184 422 C178 445 172 470 169 500 C166 528 165 550 166 570"/>
+  <path class="bl-ab bl-3" d="M166 570 C167 580 168 588 169 596"/>
+  <path class="bl-ab bl-4" d="M169 596 C172 616 174 646 173 676 C172 700 171 716 170 728"/>
+  <path class="bl-ab bl-4" d="M169 596 C165 618 162 646 161 676 C160 698 160 714 161 728"/>
+  <path class="bl-ab bl-4" d="M170 728 C166 736 160 744 152 750"/>
+  <path class="bl-ab bl-5" d="M161 728 C158 738 152 746 145 752"/>
+  <path class="bl-ab bl-5" d="M152 750 C146 753 140 755 135 756"/>
+  <path class="bl-ab bl-5" d="M150 751 C145 755 140 758 136 759"/>
+  <path class="bl-ab bl-5" d="M146 752 C143 757 141 760 140 762"/>
+  <path class="bl-ab bl-5" d="M156 751 C153 756 152 759 151 761"/>
+  <!-- fonds veineux : arcade dorsale du pied > tibiale post. > poplitée > fémorale ; saphène -->
+  <path class="bl-vb bl-4" d="M138 758 C148 762 160 757 170 750"/>
+  <path class="bl-vb bl-3" d="M170 750 C175 742 175 736 174 730 C177 712 179 690 181 664 C183 636 184 606 183 578 C183 548 185 500 187 460 C188 444 184 434 179 428"/>
+  <path class="bl-vb bl-4" d="M158 728 C154 700 154 670 155 640 C156 620 158 610 159 598"/>
+  <path class="bl-vb bl-3" d="M159 598 C158 584 157 576 157 566"/>
+  <path class="bl-vb bl-2" d="M157 566 C157 540 158 516 160 490 C163 462 168 440 175 424"/>
+  <path class="bl-vb bl-2" d="M175 424 C182 414 189 405 194 398"/>
+  <!-- flux -->
+  <path class="bl-af bl-2f" d="M201 390 C195 400 189 411 184 422"/>
+  <path class="bl-af bl-2f" d="M184 422 C178 445 172 470 169 500 C166 528 165 550 166 570"/>
+  <path class="bl-af bl-3f" d="M166 570 C167 580 168 588 169 596"/>
+  <path class="bl-af bl-4f" d="M169 596 C172 616 174 646 173 676 C172 700 171 716 170 728"/>
+  <path class="bl-af bl-4f" d="M169 596 C165 618 162 646 161 676 C160 698 160 714 161 728"/>
+  <path class="bl-af bl-4f" d="M170 728 C166 736 160 744 152 750"/>
+  <path class="bl-af bl-5f" d="M161 728 C158 738 152 746 145 752"/>
+  <path class="bl-caf bl-5f" d="M152 750 C146 753 140 755 135 756"/>
+  <path class="bl-caf bl-5f" d="M150 751 C145 755 140 758 136 759"/>
+  <path class="bl-caf bl-5f" d="M146 752 C143 757 141 760 140 762"/>
+  <path class="bl-caf bl-5f" d="M156 751 C153 756 152 759 151 761"/>
+  <path class="bl-cvf bl-4f" d="M138 758 C148 762 160 757 170 750"/>
+  <path class="bl-vf bl-3f" d="M170 750 C175 742 175 736 174 730 C177 712 179 690 181 664 C183 636 184 606 183 578 C183 548 185 500 187 460 C188 444 184 434 179 428"/>
+  <path class="bl-vf bl-4f" d="M158 728 C154 700 154 670 155 640 C156 620 158 610 159 598"/>
+  <path class="bl-vf bl-3f" d="M159 598 C158 584 157 576 157 566"/>
+  <path class="bl-vf bl-2f" d="M157 566 C157 540 158 516 160 490 C163 462 168 440 175 424"/>
+  <path class="bl-vf bl-2f" d="M175 424 C182 414 189 405 194 398"/>
+</g>
+
+<!-- ============ COUCHE SANG : PETITE CIRCULATION (poumon) ============
+     ATTENTION : l'artère pulmonaire porte du sang PAUVRE en oxygène (bleu)
+     et les veines pulmonaires du sang RICHE (rouge). -->
+<g id="bl-lung">
+  <!-- fonds : ramifications de l'artère pulmonaire (BLEU, coeur -> poumon) -->
+  <path class="bl-vb bl-3" d="M175 227 C169 234 165 243 163 253"/>
+  <path class="bl-vb bl-4" d="M174 228 C172 222 171 217 170 212"/>
+  <path class="bl-vb bl-5" d="M171 217 C166 219 161 221 157 225"/>
+  <path class="bl-vb bl-4" d="M167 236 C161 240 155 245 152 251"/>
+  <path class="bl-vb bl-4" d="M163 253 C161 264 160 276 161 288"/>
+  <path class="bl-vb bl-5" d="M161 270 C156 274 153 279 152 284"/>
+  <path class="bl-vb bl-5" d="M161 288 C163 296 165 302 166 308"/>
+  <!-- fonds : veines pulmonaires (ROUGE, poumon -> coeur) -->
+  <path class="bl-ab bl-3" d="M154 284 C157 275 160 266 165 258 C170 254 176 251 181 250"/>
+  <path class="bl-ab bl-4" d="M165 212 C167 219 169 227 171 234"/>
+  <path class="bl-ab bl-5" d="M153 224 C158 227 163 229 167 231"/>
+  <path class="bl-ab bl-4" d="M158 230 C161 240 162 248 166 254"/>
+  <path class="bl-ab bl-4" d="M170 296 C168 286 167 272 166 259"/>
+  <!-- fonds : lits capillaires alvéolaires -->
+  <path class="bl-ab bl-5" d="M152 251 C149 254 148 258 150 262"/>
+  <path class="bl-ab bl-5" d="M152 284 C149 287 148 291 150 294"/>
+  <path class="bl-ab bl-5" d="M166 308 C163 311 162 314 164 317"/>
+  <!-- flux -->
+  <path class="bl-vf bl-3f" d="M175 227 C169 234 165 243 163 253"/>
+  <path class="bl-vf bl-4f" d="M174 228 C172 222 171 217 170 212"/>
+  <path class="bl-cvf bl-5f" d="M171 217 C166 219 161 221 157 225"/>
+  <path class="bl-vf bl-4f" d="M167 236 C161 240 155 245 152 251"/>
+  <path class="bl-vf bl-4f" d="M163 253 C161 264 160 276 161 288"/>
+  <path class="bl-cvf bl-5f" d="M161 270 C156 274 153 279 152 284"/>
+  <path class="bl-cvf bl-5f" d="M161 288 C163 296 165 302 166 308"/>
+  <path class="bl-af bl-3f" d="M154 284 C157 275 160 266 165 258 C170 254 176 251 181 250"/>
+  <path class="bl-af bl-4f" d="M165 212 C167 219 169 227 171 234"/>
+  <path class="bl-caf bl-5f" d="M153 224 C158 227 163 229 167 231"/>
+  <path class="bl-af bl-4f" d="M158 230 C161 240 162 248 166 254"/>
+  <path class="bl-af bl-4f" d="M170 296 C168 286 167 272 166 259"/>
+  <path class="bl-caf bl-5f" d="M152 251 C149 254 148 258 150 262"/>
+  <path class="bl-caf bl-5f" d="M152 284 C149 287 148 291 150 294"/>
+  <path class="bl-caf bl-5f" d="M166 308 C163 311 162 314 164 317"/>
+</g>
+
+          <!-- ===== defs couche 4 ===== -->
+<!-- ===== ORGANES : volumes discrets ===== -->
+<radialGradient id="or-gLung" cx="34%" cy="26%" r="80%">
+  <stop offset="0" stop-color="#ffffff" stop-opacity=".3"/>
+  <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="or-gHeart" cx="30%" cy="22%" r="80%">
+  <stop offset="0" stop-color="#ff8b9d" stop-opacity=".45"/>
+  <stop offset="1" stop-color="#ff8b9d" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="or-gLiver" cx="28%" cy="20%" r="82%">
+  <stop offset="0" stop-color="#e79a86" stop-opacity=".42"/>
+  <stop offset="1" stop-color="#e79a86" stop-opacity="0"/>
+</radialGradient>
+
+<!-- Hemisphere cerebral GAUCHE DE L ECRAN (cote droit du personnage) : reflete par use -->
+<clipPath id="or-clipHemi">
+  <path d="M199 59 C177 58 160 70 154 89 C149 107 151 124 160 134 C167 139 177 142 187 140 L199 137 Z"/>
+</clipPath>
+<g id="or-hemi">
+  <path class="or-brain" d="M199 59 C177 58 160 70 154 89 C149 107 151 124 160 134 C167 139 177 142 187 140 L199 137 Z"/>
+  <g clip-path="url(#or-clipHemi)">
+    <!-- lobe frontal en haut, lobe temporal en bas et en dehors, lobe occipital en bas
+         et en dedans ; ce qui reste au milieu est le lobe parietal -->
+    <path class="or-lobefr" d="M146 96 C149 68 172 52 200 52 L200 76 C183 80 168 88 158 100 Z"/>
+    <path class="or-lobetemp" d="M153 104 C162 121 177 132 200 136 L200 150 L148 150 Z"/>
+    <path class="or-lobeocc" d="M200 114 C197 125 191 133 184 141 L200 146 Z"/>
+    <!-- circonvolutions (bourrelets clairs ; le fond plus sombre dessine les sillons) -->
+    <path class="or-gyr" d="M181.9 104.1 C181.8 104.7 181.7 106.5 181.3 107.5 C180.9 108.5 180.2 109.4 179.5 109.9 C178.8 110.3 177.9 110.4 177.1 110.3 C176.4 110.2 175.6 109.6 175.0 109.1 C174.4 108.6 174.0 107.9 173.5 107.3 C173.0 106.7 172.6 106.2 172.2 105.6 C171.8 105.0 171.3 104.5 170.8 103.7 C170.4 103.0 169.9 102.0 169.7 101.0 C169.4 100.0 169.3 98.6 169.4 97.5 C169.6 96.4 170.0 95.2 170.6 94.4 C171.1 93.6 172.0 93.1 172.7 92.8 C173.5 92.6 174.3 92.7 175.0 92.9 C175.7 93.1 176.3 93.5 176.9 93.8 C177.4 94.1 177.9 94.4 178.5 94.8 C179.0 95.1 179.6 95.4 180.2 95.9 C180.8 96.4 181.7 97.5 181.9 97.9"/>
+    <path class="or-gyr" d="M191.6 107.5 C191.0 108.6 189.5 112.3 188.2 114.1 C186.9 115.9 185.2 117.0 183.7 118.1 C182.1 119.1 180.6 119.8 179.0 120.4 C177.4 121.1 175.7 121.8 174.0 121.9 C172.2 122.0 170.2 122.0 168.5 121.1 C166.8 120.2 164.9 118.5 163.7 116.5 C162.5 114.5 161.7 111.5 161.3 109.0 C161.0 106.4 161.2 103.5 161.5 101.0 C161.8 98.5 162.5 96.3 163.2 94.0 C163.8 91.8 164.4 89.7 165.3 87.6 C166.3 85.5 167.3 83.1 168.7 81.5 C170.1 79.9 171.9 78.3 173.7 77.7 C175.5 77.2 177.7 77.4 179.5 78.3 C181.2 79.1 182.9 81.0 184.1 82.8 C185.4 84.6 186.3 86.9 187.2 89.0 C188.0 91.1 188.9 94.4 189.3 95.5"/>
+    <path class="or-gyr" d="M200.5 108.6 C200.0 110.6 198.9 117.5 197.3 121.1 C195.6 124.7 193.1 128.0 190.6 130.2 C188.1 132.4 185.0 133.7 182.2 134.4 C179.3 135.0 176.3 134.7 173.6 134.0 C170.9 133.3 168.2 132.0 165.7 130.2 C163.3 128.4 160.9 126.2 158.8 123.4 C156.8 120.7 154.8 117.3 153.4 113.6 C152.1 109.8 151.1 105.3 150.9 101.0 C150.7 96.7 151.2 91.8 152.3 87.8 C153.4 83.8 155.4 79.8 157.5 76.9 C159.7 73.9 162.5 71.7 165.2 70.2 C167.9 68.7 170.8 68.1 173.6 68.0 C176.4 67.8 179.2 68.4 181.9 69.3 C184.5 70.3 187.2 71.8 189.6 73.9 C192.0 76.0 194.4 78.7 196.3 81.9 C198.1 85.2 199.8 91.5 200.5 93.4"/>
+    <path class="or-gyr" d="M208.4 118.1 C207.3 120.5 204.4 128.4 201.7 132.3 C198.9 136.1 195.3 138.8 192.0 141.1 C188.6 143.4 185.1 145.0 181.5 146.2 C177.9 147.4 174.0 148.5 170.3 148.2 C166.5 147.9 162.2 146.8 158.8 144.2 C155.4 141.6 152.1 137.2 149.9 132.7 C147.7 128.2 146.5 122.3 145.6 117.1 C144.7 111.8 144.5 106.4 144.5 101.0 C144.5 95.6 144.6 90.2 145.5 84.9 C146.4 79.6 147.7 73.7 149.9 69.2 C152.1 64.7 155.4 60.4 158.8 57.8 C162.2 55.3 166.5 54.3 170.3 53.9 C174.1 53.6 177.9 54.7 181.5 55.9 C185.1 57.0 188.6 58.6 192.0 60.9 C195.4 63.2 199.0 65.8 201.8 69.7 C204.5 73.5 207.3 81.5 208.4 83.9"/>
+    <path class="or-gyr" d="M206.7 144.0 C205.0 145.6 199.8 151.1 196.1 153.5 C192.4 155.9 188.4 157.5 184.4 158.6 C180.5 159.7 176.5 160.4 172.4 160.3 C168.4 160.2 164.1 159.7 160.1 157.9 C156.2 156.2 152.1 153.5 148.7 149.8 C145.4 146.2 142.4 141.1 140.2 136.0 C138.1 130.8 136.7 124.6 135.9 118.8 C135.1 112.9 135.0 106.8 135.2 101.0 C135.4 95.2 136.0 89.4 137.0 83.7 C138.1 78.1 139.4 72.3 141.4 67.1 C143.3 61.9 145.8 56.6 148.9 52.5 C152.0 48.4 155.9 44.9 159.8 42.7 C163.7 40.6 168.2 39.7 172.3 39.6 C176.4 39.6 180.7 41.0 184.6 42.6 C188.5 44.3 192.2 46.7 195.7 49.5 C199.2 52.3 204.0 57.8 205.7 59.4"/>
+    <path class="or-gyr" d="M184.9 174.5 C183.1 174.9 177.5 176.7 173.7 176.6 C170.0 176.6 166.1 175.7 162.5 174.1 C158.9 172.5 155.4 170.1 152.2 167.2 C149.1 164.4 146.2 160.8 143.5 157.1 C140.9 153.4 138.6 149.2 136.5 145.0 C134.4 140.7 132.5 136.2 130.9 131.5 C129.2 126.8 127.7 121.9 126.7 116.9 C125.6 111.8 124.8 106.4 124.5 101.0 C124.2 95.6 124.3 89.9 125.0 84.6 C125.7 79.3 127.0 73.9 128.7 69.0 C130.4 64.2 132.7 59.6 135.2 55.6 C137.6 51.5 140.6 48.0 143.5 44.9 C146.5 41.8 149.7 39.2 153.0 37.0 C156.3 34.7 159.6 32.8 163.1 31.2 C166.6 29.7 170.2 28.5 173.8 27.8 C177.4 27.2 183.1 27.5 184.9 27.5"/>
+    <path class="or-gyr" d="M164.5 125.7 C164.2 125.3 163.0 124.2 162.3 123.3 C161.7 122.4 161.1 121.3 160.7 120.2 C160.2 119.1 159.8 117.8 159.5 116.6 C159.2 115.4 159.0 114.1 158.8 112.9 C158.6 111.7 158.5 110.5 158.3 109.3 C158.2 108.1 158.0 106.9 157.9 105.7 C157.7 104.6 157.6 103.4 157.4 102.2 C157.3 101.0 157.1 99.8 157.0 98.6 C156.9 97.3 156.7 96.0 156.7 94.7 C156.7 93.4 156.8 92.1 157.0 90.8 C157.1 89.5 157.4 88.2 157.8 87.0 C158.2 85.9 158.7 84.7 159.3 83.7 C159.9 82.7 160.6 81.9 161.3 81.1 C162.1 80.3 162.9 79.7 163.7 79.1 C164.5 78.6 165.3 78.1 166.1 77.7 C166.9 77.3 168.1 76.7 168.5 76.5"/>
+    <path class="or-gyr" d="M170.0 59.9 C170.4 59.7 171.5 59.2 172.2 58.9 C173.0 58.6 173.8 58.4 174.6 58.3 C175.4 58.2 176.2 58.2 177.0 58.3 C177.8 58.3 178.5 58.5 179.3 58.7 C180.1 58.9 180.9 59.2 181.6 59.6 C182.4 59.9 183.1 60.4 183.8 60.8 C184.5 61.3 185.2 61.8 185.9 62.4 C186.6 63.0 187.2 63.6 187.8 64.2 C188.5 64.8 189.1 65.4 189.7 66.1 C190.3 66.7 190.9 67.3 191.5 68.0 C192.1 68.6 192.7 69.3 193.3 70.0 C193.8 70.6 194.4 71.3 195.0 71.9 C195.6 72.6 196.2 73.3 196.8 74.0 C197.3 74.7 197.9 75.5 198.5 76.2 C199.0 77.0 199.6 77.8 200.1 78.6 C200.6 79.5 201.3 80.8 201.6 81.3"/>
+    <path class="or-gyr" d="M203.7 139.8 C203.4 140.2 202.5 141.7 201.9 142.5 C201.3 143.4 200.6 144.2 199.9 144.9 C199.2 145.6 198.4 146.3 197.6 146.9 C196.9 147.5 196.1 148.0 195.3 148.5 C194.5 148.9 193.7 149.4 192.8 149.7 C192.0 150.1 191.2 150.4 190.4 150.7 C189.5 151.0 188.7 151.2 187.9 151.5 C187.1 151.7 186.3 151.9 185.5 152.1 C184.6 152.4 183.8 152.6 183.0 152.8 C182.2 153.0 181.4 153.2 180.6 153.4 C179.8 153.6 179.0 153.9 178.2 154.1 C177.3 154.3 176.5 154.5 175.7 154.6 C174.8 154.8 174.0 155.0 173.1 155.1 C172.3 155.2 171.4 155.3 170.6 155.3 C169.7 155.3 168.8 155.3 168.0 155.2 C167.1 155.1 165.8 154.7 165.4 154.6"/>
+    <path class="or-gyr" d="M137.8 141.3 C137.4 140.6 136.2 138.7 135.6 137.3 C134.9 135.9 134.2 134.4 133.7 132.9 C133.1 131.4 132.6 129.9 132.2 128.3 C131.8 126.7 131.5 125.0 131.2 123.4 C130.9 121.7 130.7 120.0 130.5 118.4 C130.3 116.7 130.2 115.0 130.2 113.3 C130.1 111.6 130.1 109.9 130.1 108.3 C130.2 106.6 130.2 105.0 130.3 103.3 C130.4 101.7 130.5 100.0 130.6 98.4 C130.7 96.8 130.8 95.2 131.0 93.6 C131.1 92.0 131.3 90.3 131.4 88.7 C131.6 87.1 131.8 85.5 132.0 83.9 C132.2 82.3 132.4 80.7 132.6 79.0 C132.9 77.4 133.1 75.8 133.5 74.2 C133.8 72.6 134.1 70.9 134.5 69.4 C134.9 67.8 135.7 65.5 135.9 64.7"/>
+    <!-- scissure centrale : separe lobe frontal et lobe parietal -->
+    <path class="or-fis" d="M186 66 C183 75 177 80 172 86 C169 90 168 92 166 96"/>
+    <!-- scissure laterale de Sylvius : separe le lobe temporal -->
+    <path class="or-fis" d="M156 110 C167 121 180 129 196 132"/>
+    <!-- sillon parieto-occipital : separe le lobe occipital -->
+    <path class="or-fis" d="M198 112 C194 117 191 121 189 126"/>
+  </g>
+</g>
+
+<!-- Hemisphere cerebelleux GAUCHE DE L ECRAN : reflete par use -->
+<g id="or-cereb">
+  <path class="or-cbl" d="M199 136 C187 136 177 140 173 146 C169 151 173 157 181 158 C188 159 194 158 199 157 Z"/>
+  <path class="or-lam" d="M176 143 C183 142 191 142 197 141"/>
+  <path class="or-lam" d="M173 148 C181 147 189 147 197 146"/>
+  <path class="or-lam" d="M175 153 C182 152 190 152 197 151"/>
+  <path class="or-lam" d="M180 157 C186 156 192 156 197 155"/>
+</g>
+
+<!-- Lobe thyroidien GAUCHE DE L ECRAN : reflete par use -->
+<g id="or-thyro">
+  <path class="or-thy" d="M198 177 C192 176 187 181 186 188 C185 194 188 199 193 199 C197 199 199 195 199 190 Z"/>
+</g>
+        </defs>
+
+        <!-- halo + sol -->
+        <ellipse class="podium" cx="200" cy="380" rx="215" ry="330" fill="url(#glow)"/>
+        <ellipse cx="200" cy="768" rx="150" ry="26" fill="url(#floor)"/>
+
+        <g id="scene">
+
+          <!-- ============ 0 · LA PEAU ============ -->
+          <g class="layer" data-i="0" id="lyr-0">
+            <!-- cheveux longs : derrière le corps -->
+            <path class="hairC only-f" d="M200 24 C252 24 280 60 276 108 C274 152 279 202 279 248 C279 267 262 273 253 260 C246 249 256 226 254 200 C252 170 250 140 247 120 C239 96 224 84 200 84 C176 84 161 96 153 120 C150 140 148 170 146 200 C144 226 154 249 147 260 C138 273 121 267 121 248 C121 202 126 152 124 108 C120 60 148 24 200 24 Z"/>
+
+            <use href="#bodyShape" class="bodyC"/>
+            <g clip-path="url(#clipBody)"><rect x="0" y="0" width="400" height="820" fill="url(#shade)"/></g>
+
+            <!-- petits plis de la peau -->
+            <path class="fold" d="M196 356 Q200 362 204 357"/>
+            <path class="fold" d="M172 200 Q186 208 196 206"/>
+            <path class="fold" d="M228 200 Q214 208 204 206"/>
+            <path class="fold" d="M158 574 Q168 580 180 574"/>
+            <path class="fold" d="M220 574 Q232 580 242 574"/>
+            <path class="fold" d="M110 292 Q118 298 128 292"/>
+            <path class="fold" d="M272 292 Q282 298 290 292"/>
+
+            <!-- visage -->
+            <g class="eyes">
+              <g class="eye">
+                <ellipse class="white" cx="180" cy="104" rx="11.5" ry="13.5"/>
+                <circle class="pup" cx="181" cy="106" r="6.4"/>
+                <circle class="glint" cx="183.4" cy="102.6" r="2.2"/>
+              </g>
+              <g class="eye">
+                <ellipse class="white" cx="220" cy="104" rx="11.5" ry="13.5"/>
+                <circle class="pup" cx="219" cy="106" r="6.4"/>
+                <circle class="glint" cx="221.4" cy="102.6" r="2.2"/>
+              </g>
+            </g>
+            <path class="brow" d="M169 84 Q180 78 191 83"/>
+            <path class="brow" d="M209 83 Q220 78 231 84"/>
+            <path class="nose" d="M197 122 Q201 130 206 124"/>
+            <path class="mouth" d="M181 138 Q200 155 219 138"/>
+            <ellipse class="blush" cx="163" cy="126" rx="12" ry="7"/>
+            <ellipse class="blush" cx="237" cy="126" rx="12" ry="7"/>
+            <!-- cheveux : mèches de devant -->
+            <g class="only-m">
+              <!-- calotte pleine : bord extérieur au-dessus du crâne (sommet y≈40),
+                   ligne de cheveux au-dessus des sourcils (y=78) -->
+              <path class="hairC" d="M146 98 C150 20 250 20 254 98 C250 72 228 58 200 58 C172 58 150 72 146 98 Z"/>
+              <path class="tuft" d="M195 42 C198 26 216 23 221 33 C211 32 203 35 196 48 Z"/>
+            </g>
+            <g class="only-f">
+              <path class="hairC" d="M144 100 C148 18 252 18 256 100 C252 76 236 62 208 62 C186 62 160 78 152 92 C149 96 146 98 144 100 Z"/>
+              <path class="bow" d="M243 66 C252 54 268 54 271 64 C273 74 262 80 252 76 Z"/>
+              <path class="bow" d="M252 76 C262 82 274 92 271 100 C266 110 250 106 245 94 Z"/>
+              <circle class="bow" cx="250" cy="80" r="6"/>
+            </g>
+            <!-- maillot de bain : le tracé suit le bord réel du corps
+                 (torse ≈ x158–242 à y=372, hanches élargies par le haut
+                 des cuisses jusqu'à x150–250 vers y=420) -->
+            <!-- Short de bain : le bord extérieur suit le bord réel de la cuisse
+                 (axe de jambe échantillonné : demi-largeur 27,5 → x extérieur
+                 150,5 à y=420 · 148 à 438 · 146 à 456 · 144 à 474 · 142 à 510) ;
+                 ourlet à mi-cuisse, échancrure d'entrejambe au niveau où les
+                 jambes se séparent (y≈468). -->
+            <path class="suit only-m" d="M156 356 Q200 373 244 356 L243 398 C248 407 249 413 250 424 C252 442 254 462 256 480 C257 494 258 504 258 512 Q258 521 248 521 L206 519 Q203 517 203 510 L204 470 Q200 462 196 470 L197 510 Q197 517 194 519 L152 521 Q142 521 142 512 C142 504 143 494 144 480 C146 462 148 442 150 424 C151 413 152 407 157 398 Z"/>
+            <path class="suitLine only-m" d="M156 356 Q200 373 244 356 L245 368 Q200 385 155 368 Z"/>
+            <path class="suitF only-f" d="M167 352 Q200 369 233 352 L237 394 C245 404 248 412 250 424 C252 442 254 460 256 476 C257 488 257 496 257 504 Q257 512 247 512 L206 510 Q203 508 203 502 L204 468 Q200 460 196 468 L197 502 Q197 508 194 510 L153 512 Q143 512 143 504 C143 496 143 488 144 476 C146 460 148 442 150 424 C152 412 155 404 163 394 Z"/>
+            <path class="suitLine only-f" d="M167 352 Q200 369 233 352 L234 364 Q200 381 166 364 Z"/>
+            <path class="suitF only-f" d="M146 210 Q200 229 254 210 L252 254 Q200 273 148 254 Z"/>
+            <path class="suitF only-f" d="M168 214 C171 200 176 190 184 186 L191 190 C183 196 178 204 175 216 Z"/>
+            <path class="suitF only-f" d="M232 214 C229 200 224 190 216 186 L209 190 C217 196 222 204 225 216 Z"/>
+            <path class="suitLine only-f" d="M146 210 Q200 229 254 210 L253 219 Q200 238 147 219 Z"/>
+
+            <ellipse class="hs" data-p="tete" cx="200" cy="100" rx="54" ry="60"/>
+            <ellipse class="hs" data-p="ventre" cx="200" cy="300" rx="48" ry="82"/>
+            <ellipse class="hs" data-p="bras" cx="126" cy="255" rx="26" ry="55" transform="rotate(-16 126 255)"/>
+            <ellipse class="hs" data-p="bras" cx="274" cy="255" rx="26" ry="55" transform="rotate(16 274 255)"/>
+            <circle class="hs" data-p="main" cx="96" cy="398" r="26"/>
+            <circle class="hs" data-p="main" cx="304" cy="398" r="26"/>
+            <ellipse class="hs" data-p="jambe" cx="172" cy="520" rx="30" ry="90"/>
+            <ellipse class="hs" data-p="jambe" cx="228" cy="520" rx="30" ry="90"/>
+            <ellipse class="hs" data-p="pied" cx="158" cy="744" rx="34" ry="22"/>
+            <ellipse class="hs" data-p="pied" cx="242" cy="744" rx="34" ry="22"/>
+          </g>
+
+          <!-- ============ 1 · LES OS ============ -->
+          <g class="layer" data-i="1" id="lyr-1">
+            <use href="#bodyShape" class="ghost"/>
+<g class="sk-layer">
+
+  <!-- ================= COLONNE VERTEBRALE ================= -->
+  <!-- processus transverses thoraciques (T1 a T12), en arriere-plan -->
+  <g>
+    <rect class="sk-b2" x="188" y="206.2" width="24" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.9" y="215.2" width="24.2" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.7" y="224.2" width="24.6" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.6" y="233.7" width="24.8" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.4" y="243.2" width="25.2" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.3" y="252.2" width="25.4" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187.2" y="262.2" width="25.6" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="187" y="271.2" width="26" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="186.9" y="281.2" width="26.2" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="186.8" y="290.2" width="26.4" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="186.6" y="300.2" width="26.8" height="3.6" rx="1.8"/>
+    <rect class="sk-b2" x="186.5" y="310.2" width="27" height="3.6" rx="1.8"/>
+  </g>
+  <!-- processus transverses cervicaux (C1 a C7) -->
+  <g>
+    <rect class="sk-b2" x="190.5" y="148.5" width="19" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190.5" y="156.5" width="19" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190.8" y="164.5" width="18.4" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190.8" y="172.5" width="18.4" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190.5" y="180.5" width="19" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190.2" y="188.5" width="19.6" height="3" rx="1.5"/>
+    <rect class="sk-b2" x="190" y="196.5" width="20" height="3" rx="1.5"/>
+  </g>
+
+  <!-- disques intervertebraux (cartilage) -->
+  <g>
+    <rect class="sk-disc" x="193" y="152.5" width="14" height="2.75" rx="1.2"/>
+    <rect class="sk-disc" x="194" y="160.75" width="12" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="193.8" y="168.75" width="12.4" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="193.5" y="176.75" width="13" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="193.2" y="184.75" width="13.6" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="192.8" y="192.75" width="14.4" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="192.5" y="200.75" width="15" height="3.75" rx="1.4"/>
+    <rect class="sk-disc" x="187" y="330.5" width="26" height="3" rx="1.4"/>
+    <rect class="sk-disc" x="186.4" y="344.5" width="27.2" height="3" rx="1.4"/>
+    <rect class="sk-disc" x="185.8" y="358.5" width="28.4" height="3" rx="1.4"/>
+    <rect class="sk-disc" x="185.2" y="372.5" width="29.6" height="2.5" rx="1.2"/>
+    <rect class="sk-disc" x="185.5" y="385" width="29" height="2.8" rx="1.3"/>
+  </g>
+
+  <!-- 7 vertebres CERVICALES (C1 = atlas, avec son anneau) -->
+  <g>
+    <rect class="sk-b" x="191.5" y="147.5" width="17" height="5" rx="2"/>
+    <circle class="sk-cav" cx="200" cy="150" r="1.8"/>
+    <rect class="sk-b" x="193" y="155.25" width="14" height="5.5" rx="2"/>
+    <rect class="sk-b" x="194" y="163.25" width="12" height="5.5" rx="2"/>
+    <rect class="sk-b" x="193.8" y="171.25" width="12.4" height="5.5" rx="2"/>
+    <rect class="sk-b" x="193.5" y="179.25" width="13" height="5.5" rx="2"/>
+    <rect class="sk-b" x="193.2" y="187.25" width="13.6" height="5.5" rx="2"/>
+    <rect class="sk-b" x="192.8" y="195.25" width="14.4" height="5.5" rx="2"/>
+  </g>
+
+  <!-- 12 vertebres THORACIQUES -->
+  <g>
+    <rect class="sk-b" x="193.5" y="204.75" width="13" height="6.5" rx="2.2"/>
+    <rect class="sk-b" x="193.3" y="213.75" width="13.4" height="6.5" rx="2.2"/>
+    <rect class="sk-b" x="193.1" y="222.75" width="13.8" height="6.5" rx="2.2"/>
+    <rect class="sk-b" x="192.9" y="232" width="14.2" height="7" rx="2.4"/>
+    <rect class="sk-b" x="192.7" y="241.5" width="14.6" height="7" rx="2.4"/>
+    <rect class="sk-b" x="192.5" y="250.5" width="15" height="7" rx="2.4"/>
+    <rect class="sk-b" x="192.2" y="260.5" width="15.6" height="7" rx="2.4"/>
+    <rect class="sk-b" x="191.9" y="269.25" width="16.2" height="7.5" rx="2.6"/>
+    <rect class="sk-b" x="191.6" y="279.25" width="16.8" height="7.5" rx="2.6"/>
+    <rect class="sk-b" x="191.3" y="288.25" width="17.4" height="7.5" rx="2.6"/>
+    <rect class="sk-b" x="191" y="298" width="18" height="8" rx="2.8"/>
+    <rect class="sk-b" x="190.6" y="308" width="18.8" height="8" rx="2.8"/>
+  </g>
+
+  <!-- 5 vertebres LOMBAIRES : nettement plus grosses -->
+  <g>
+    <rect class="sk-b" x="187" y="319.5" width="26" height="11" rx="3.4"/>
+    <rect class="sk-b" x="186.4" y="333.5" width="27.2" height="11" rx="3.4"/>
+    <rect class="sk-b" x="185.8" y="347.5" width="28.4" height="11" rx="3.6"/>
+    <rect class="sk-b" x="185.2" y="361.5" width="29.6" height="11" rx="3.6"/>
+    <rect class="sk-b" x="184.8" y="374.5" width="30.4" height="10.5" rx="3.6"/>
+    <!-- pedicules ("yeux") des lombaires -->
+    <circle class="sk-cav" cx="192.5" cy="325" r="2.4"/><circle class="sk-cav" cx="207.5" cy="325" r="2.4"/>
+    <circle class="sk-cav" cx="192.2" cy="339" r="2.4"/><circle class="sk-cav" cx="207.8" cy="339" r="2.4"/>
+    <circle class="sk-cav" cx="192" cy="353" r="2.5"/><circle class="sk-cav" cx="208" cy="353" r="2.5"/>
+    <circle class="sk-cav" cx="191.8" cy="367" r="2.5"/><circle class="sk-cav" cx="208.2" cy="367" r="2.5"/>
+    <circle class="sk-cav" cx="191.6" cy="379.8" r="2.5"/><circle class="sk-cav" cx="208.4" cy="379.8" r="2.5"/>
+  </g>
+
+  <!-- ================= CAGE THORACIQUE : 12 PAIRES DE COTES ================= -->
+  <use href="#sk-ribsL" class="sk-ro"/>
+  <use href="#sk-ribsL" class="sk-ro" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#sk-ribsL" class="sk-ri"/>
+  <use href="#sk-ribsL" class="sk-ri" transform="translate(400 0) scale(-1 1)"/>
+  <!-- cartilages costaux (teinte bleutee) -->
+  <use href="#sk-cartL" class="sk-carl"/>
+  <use href="#sk-cartL" class="sk-carl" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ================= SCAPULAS + ACROMIONS ================= -->
+  <use href="#sk-scapL"/>
+  <use href="#sk-scapL" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ================= STERNUM (impair) : 3 parties ================= -->
+  <path class="sk-b" d="M193 209 Q193 204 198 204 L202 204 Q207 204 207 209 L206 228 L194 228 Z"/>
+  <rect class="sk-disc" x="193.8" y="228.4" width="12.4" height="2.4" rx="1.1"/>
+  <path class="sk-b" d="M194 231 L206 231 L205 293 Q200 298 195 293 Z"/>
+  <!-- appendice xiphoide : encore cartilagineux chez l enfant -->
+  <path class="sk-car" d="M196 295 Q200 294 204 295 L202 308 Q200 311 198 308 Z"/>
+
+  <!-- ================= CLAVICULES (devant la 1re cote) ================= -->
+  <use href="#sk-clavL"/>
+  <use href="#sk-clavL" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ================= SACRUM + COCCYX (impairs) ================= -->
+  <path class="sk-b" d="M186 388 Q200 384 214 388 L211 406 Q206 423 200 429 Q194 423 189 406 Z"/>
+  <path class="sk-lnc" d="M191 398 Q200 396 209 398"/>
+  <path class="sk-lnc" d="M193 408 Q200 406 207 408"/>
+  <path class="sk-lnc" d="M195 417 Q200 415 205 417"/>
+  <circle class="sk-cav" cx="193" cy="393" r="2.2"/><circle class="sk-cav" cx="207" cy="393" r="2.2"/>
+  <circle class="sk-cav" cx="195" cy="403" r="2.1"/><circle class="sk-cav" cx="205" cy="403" r="2.1"/>
+
+  <!-- ================= BASSIN (os coxaux) ================= -->
+  <use href="#sk-pelvisL"/>
+  <use href="#sk-pelvisL" transform="translate(400 0) scale(-1 1)"/>
+  <!-- symphyse pubienne (cartilage, sur l axe) -->
+  <rect class="sk-car" x="197.5" y="427" width="5" height="10" rx="2.2"/>
+  <!-- COCCYX : la petite pointe tout en bas de la colonne -->
+  <path class="sk-b" d="M197 429 Q200 432 203 429 L202 440 Q200 445 198 440 Z"/>
+
+  <!-- ================= MEMBRES SUPERIEURS ================= -->
+  <use href="#sk-armL"/>
+  <use href="#sk-armL" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#sk-handL" class="sk-so"/>
+  <use href="#sk-handL" class="sk-so" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#sk-handL" class="sk-si"/>
+  <use href="#sk-handL" class="sk-si" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ================= MEMBRES INFERIEURS ================= -->
+  <use href="#sk-legL"/>
+  <use href="#sk-legL" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#sk-footL" class="sk-so"/>
+  <use href="#sk-footL" class="sk-so" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#sk-footL" class="sk-si"/>
+  <use href="#sk-footL" class="sk-si" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ================= CRANE ================= -->
+  <!-- voute + os frontal + temporal + maxillaire (structure mediane) -->
+  <path class="sk-b" d="M200 47
+    C177 47 157 63 153 89
+    C151 105 156 120 164 128
+    C167 132 170 136 173 139
+    C169 142 170 147 176 148
+    L200 150
+    L224 148
+    C230 147 231 142 227 139
+    C230 136 233 132 236 128
+    C244 120 249 105 247 89
+    C243 63 223 47 200 47 Z"/>
+  <!-- suture coronale -->
+  <path class="sk-ln" d="M163 80 Q200 70 237 80" opacity=".45"/>
+  <!-- os du nez -->
+  <path class="sk-b" d="M197 107 Q200 105 203 107 L203 117 Q200 119 197 117 Z"/>
+  <!-- fosses nasales (cavite) -->
+  <path class="sk-cav" d="M200 119 C196 123 193 131 194 139 C196 142 204 142 206 139 C207 131 204 123 200 119 Z"/>
+  <!-- MANDIBULE articulee (structure mediane) -->
+  <path class="sk-b" d="M162 125
+    C158 134 159 146 166 152
+    C172 159 181 164 191 166
+    Q200 168 209 166
+    C219 164 228 159 234 152
+    C241 146 242 134 238 125
+    C235 130 233 137 231 143
+    C227 151 217 156 209 158
+    Q200 159 191 158
+    C183 156 173 151 169 143
+    C167 136 165 130 162 125 Z"/>
+  <!-- orbites, pommettes, conduits auditifs, dents de lait -->
+  <use href="#sk-skullL"/>
+  <use href="#sk-skullL" transform="translate(400 0) scale(-1 1)"/>
+
+</g>
+
+<!-- ================= ZONES CLIQUABLES (grandes d abord) ================= -->
+<ellipse class="hs" data-p="sk-femur" cx="172" cy="500" rx="26" ry="60"/>
+<ellipse class="hs" data-p="sk-femur" cx="228" cy="500" rx="26" ry="60"/>
+<ellipse class="hs" data-p="sk-tibia" cx="166" cy="660" rx="24" ry="55"/>
+<ellipse class="hs" data-p="sk-tibia" cx="234" cy="660" rx="24" ry="55"/>
+<ellipse class="hs" data-p="sk-cotes" cx="168" cy="262" rx="26" ry="45"/>
+<ellipse class="hs" data-p="sk-cotes" cx="232" cy="262" rx="26" ry="45"/>
+<ellipse class="hs" data-p="sk-humerus" cx="133" cy="250" rx="20" ry="42"/>
+<ellipse class="hs" data-p="sk-humerus" cx="267" cy="250" rx="20" ry="42"/>
+<ellipse class="hs" data-p="sk-avantbras" cx="106" cy="335" rx="20" ry="40"/>
+<ellipse class="hs" data-p="sk-avantbras" cx="294" cy="335" rx="20" ry="40"/>
+<ellipse class="hs" data-p="sk-crane" cx="200" cy="95" rx="45" ry="45"/>
+<ellipse class="hs" data-p="sk-colonne" cx="200" cy="352" rx="19" ry="34"/>
+<ellipse class="hs" data-p="sk-bassin" cx="200" cy="418" rx="42" ry="28"/>
+<ellipse class="hs" data-p="sk-main" cx="96" cy="400" rx="22" ry="26"/>
+<ellipse class="hs" data-p="sk-main" cx="304" cy="400" rx="22" ry="26"/>
+<ellipse class="hs" data-p="sk-pied" cx="158" cy="748" rx="28" ry="20"/>
+<ellipse class="hs" data-p="sk-pied" cx="242" cy="748" rx="28" ry="20"/>
+<ellipse class="hs" data-p="sk-rotule" cx="167" cy="566" rx="20" ry="20"/>
+<ellipse class="hs" data-p="sk-rotule" cx="233" cy="566" rx="20" ry="20"/>
+<ellipse class="hs" data-p="sk-mandibule" cx="200" cy="157" rx="26" ry="18"/>
+
+          </g>
+
+          <!-- ============ 2 · LES MUSCLES ============ -->
+          <g class="layer" data-i="2" id="lyr-2">
+            <use href="#bodyShape" class="ghost"/>
+<!-- moitie gauche + son miroir -->
+<use href="#mu-half"/>
+<use href="#mu-half" transform="translate(400 0) scale(-1 1)"/>
+
+<!-- structures medianes impaires : aponevrose sternale + ligne blanche -->
+<path class="mu-t" d="M196 204 L204 204 L204 296 L203 300 L203 434 L197 434 L197 300 L196 296 Z"/>
+<ellipse class="mu-navel" cx="200" cy="358" rx="4.5" ry="6"/>
+
+<!-- ===== zones cliquables (grandes d'abord, petites ensuite) ===== -->
+<ellipse class="hs" data-p="mu-quadriceps" cx="168" cy="490" rx="27" ry="55"/>
+<ellipse class="hs" data-p="mu-quadriceps" cx="232" cy="490" rx="27" ry="55"/>
+<ellipse class="hs" data-p="mu-abdos" cx="200" cy="360" rx="25" ry="62"/>
+<ellipse class="hs" data-p="mu-biceps" cx="126" cy="260" rx="20" ry="31"/>
+<ellipse class="hs" data-p="mu-biceps" cx="274" cy="260" rx="20" ry="31"/>
+<ellipse class="hs" data-p="mu-mollet" cx="184" cy="630" rx="19" ry="40"/>
+<ellipse class="hs" data-p="mu-mollet" cx="216" cy="630" rx="19" ry="40"/>
+<ellipse class="hs" data-p="mu-oblique" cx="157" cy="352" rx="19" ry="42"/>
+<ellipse class="hs" data-p="mu-oblique" cx="243" cy="352" rx="19" ry="42"/>
+<ellipse class="hs" data-p="mu-pectoral" cx="175" cy="228" rx="24" ry="26"/>
+<ellipse class="hs" data-p="mu-pectoral" cx="225" cy="228" rx="24" ry="26"/>
+<ellipse class="hs" data-p="mu-brachioradial" cx="106" cy="332" rx="19" ry="32"/>
+<ellipse class="hs" data-p="mu-brachioradial" cx="294" cy="332" rx="19" ry="32"/>
+<ellipse class="hs" data-p="mu-deltoide" cx="136" cy="214" rx="22" ry="24"/>
+<ellipse class="hs" data-p="mu-deltoide" cx="264" cy="214" rx="22" ry="24"/>
+<ellipse class="hs" data-p="mu-tibial" cx="163" cy="655" rx="18" ry="34"/>
+<ellipse class="hs" data-p="mu-tibial" cx="237" cy="655" rx="18" ry="34"/>
+<ellipse class="hs" data-p="mu-sartorius" cx="187" cy="532" rx="18" ry="38"/>
+<ellipse class="hs" data-p="mu-sartorius" cx="213" cy="532" rx="18" ry="38"/>
+<ellipse class="hs" data-p="mu-scm" cx="187" cy="178" rx="18" ry="22"/>
+<ellipse class="hs" data-p="mu-scm" cx="213" cy="178" rx="18" ry="22"/>
+
+          </g>
+
+          <!-- ============ 3 · LE SANG ============ -->
+          <g class="layer" data-i="3" id="lyr-3">
+            <use href="#bodyShape" class="ghost"/>
+<!-- =================== APPAREIL CIRCULATOIRE (bl-) ===================
+     Latéralité : le coeur est à gauche DU PERSONNAGE, donc un peu à DROITE
+     de x=200 À L'ÉCRAN (1/3 à gauche de l'axe, 2/3 à droite), et sa pointe
+     (apex) descend vers la gauche du personnage = vers la DROITE de l'image. -->
+<g id="bl-net">
+
+  <!-- ==== 1. PETITE CIRCULATION : ramifications dans les deux poumons ==== -->
+  <use href="#bl-lung"/>
+  <use href="#bl-lung" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ==== 2. VEINES PULMONAIRES (ROUGE : sang riche en oxygène) ====
+       4 veines pulmonaires ; les droites passent derrière le coeur
+       pour rejoindre l'oreillette gauche. -->
+  <path class="bl-ab bl-3" d="M170 235 C177 234 184 236 189 239"/>
+  <path class="bl-ab bl-3" d="M171 250 C176 247 180 244 185 242"/>
+  <path class="bl-ab bl-3" d="M256 241 C253 240 250 242 247 244"/>
+  <path class="bl-ab bl-3" d="M256 256 C252 253 249 250 247 248"/>
+  <path class="bl-af bl-3f" d="M170 235 C177 234 184 236 189 239"/>
+  <path class="bl-af bl-3f" d="M171 250 C176 247 180 244 185 242"/>
+  <path class="bl-af bl-3f" d="M256 241 C253 240 250 242 247 244"/>
+  <path class="bl-af bl-3f" d="M256 256 C252 253 249 250 247 248"/>
+
+  <!-- ==== 3. RÉSEAU VEINEUX GÉNÉRAL (BLEU) ==== -->
+  <!-- veine cave supérieure (+ tronc veineux brachio-céphalique droit) -->
+  <path class="bl-vb bl-1" d="M187 210 C188 218 189 228 190 236"/>
+  <!-- tronc veineux brachio-céphalique gauche : il croise devant les branches de l'aorte -->
+  <path class="bl-vb bl-2" d="M213 211 C206 213 197 215 192 220"/>
+  <!-- veine cave inférieure (à droite de l'aorte = à GAUCHE de l'image) -->
+  <path class="bl-vb bl-1" d="M192 391 C191 370 190 345 190 322 C190 305 188 296 187 288"/>
+  <!-- veines hépatiques -->
+  <path class="bl-vb bl-4" d="M178 319 C182 321 186 322 189 324"/>
+  <!-- veine iliaque commune gauche : elle croise la ligne médiane vers la cave -->
+  <path class="bl-vb bl-2" d="M206 398 C201 396 196 393 192 390"/>
+  <path class="bl-vf bl-1f" d="M187 210 C188 218 189 228 190 236"/>
+  <path class="bl-vf bl-2f" d="M213 211 C206 213 197 215 192 220"/>
+  <path class="bl-vf bl-1f" d="M192 391 C191 370 190 345 190 322 C190 305 188 296 187 288"/>
+  <path class="bl-vf bl-4f" d="M178 319 C182 321 186 322 189 324"/>
+  <path class="bl-vf bl-2f" d="M206 398 C201 396 196 393 192 390"/>
+
+  <!-- ==== 4. AORTE ET SES BRANCHES (ROUGE) ====
+       aorte ascendante > crosse > aorte thoracique (elle passe DERRIÈRE le
+       coeur, d'où sa disparition puis sa réapparition sous la pointe)
+       > aorte abdominale > bifurcation iliaque. -->
+  <path class="bl-ab bl-1" d="M207 250 C202 240 199 230 198 220"/>
+  <path class="bl-ab bl-1" d="M198 220 C197 210 202 204 209 204 C216 204 219 210 218 220"/>
+  <path class="bl-ab bl-1" d="M218 220 C215 244 212 272 211 300"/>
+  <path class="bl-ab bl-2" d="M211 300 C209 330 205 358 201 388"/>
+  <!-- tronc brachio-céphalique, carotide commune gauche, sous-clavière gauche -->
+  <path class="bl-ab bl-2" d="M206 207 C202 203 198 200 195 200"/>
+  <path class="bl-ab bl-3" d="M210 205 C209 203 207 202 205 201"/>
+  <path class="bl-ab bl-2" d="M215 207 C212 203 209 199 207 197"/>
+  <!-- tronc coeliaque (hépatique vers le foie, splénique vers la rate) -->
+  <path class="bl-ab bl-4" d="M208 330 C202 328 196 327 192 328"/>
+  <path class="bl-ab bl-4" d="M208 331 C213 331 218 333 222 336"/>
+  <!-- artère mésentérique supérieure -->
+  <path class="bl-ab bl-4" d="M207 344 C206 352 205 359 205 366"/>
+  <!-- artères rénales -->
+  <path class="bl-ab bl-3" d="M206 352 C197 353 187 352 179 350"/>
+  <path class="bl-ab bl-3" d="M206 350 C214 349 221 348 228 347"/>
+  <path class="bl-af bl-1f" d="M207 250 C202 240 199 230 198 220"/>
+  <path class="bl-af bl-1f" d="M198 220 C197 210 202 204 209 204 C216 204 219 210 218 220"/>
+  <path class="bl-af bl-1f" d="M218 220 C215 244 212 272 211 300"/>
+  <path class="bl-af bl-2f" d="M211 300 C209 330 205 358 201 388"/>
+  <path class="bl-af bl-2f" d="M206 207 C202 203 198 200 195 200"/>
+  <path class="bl-af bl-3f" d="M210 205 C209 203 207 202 205 201"/>
+  <path class="bl-af bl-2f" d="M215 207 C212 203 209 199 207 197"/>
+  <path class="bl-af bl-4f" d="M208 330 C202 328 196 327 192 328"/>
+  <path class="bl-af bl-4f" d="M208 331 C213 331 218 333 222 336"/>
+  <path class="bl-af bl-4f" d="M207 344 C206 352 205 359 205 366"/>
+  <path class="bl-af bl-3f" d="M206 352 C197 353 187 352 179 350"/>
+  <path class="bl-af bl-3f" d="M206 350 C214 349 221 348 228 347"/>
+
+  <!-- ==== 5. MEMBRES, COU ET TÊTE (miroir) ==== -->
+  <use href="#bl-neck"/>
+  <use href="#bl-neck" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#bl-arm"/>
+  <use href="#bl-arm" transform="translate(400 0) scale(-1 1)"/>
+  <use href="#bl-leg"/>
+  <use href="#bl-leg" transform="translate(400 0) scale(-1 1)"/>
+
+  <!-- ==== 6. TRONC PULMONAIRE (BLEU : sang PAUVRE en oxygène) ====
+       il croise DEVANT l'aorte ascendante, puis se divise en artère
+       pulmonaire droite et gauche. -->
+  <path class="bl-vb bl-1" d="M202 248 C203 236 205 226 209 218"/>
+  <path class="bl-vb bl-2" d="M209 218 C199 220 187 223 176 227"/>
+  <path class="bl-vb bl-2" d="M209 218 C214 220 220 223 225 226"/>
+  <path class="bl-vf bl-1f" d="M202 248 C203 236 205 226 209 218"/>
+  <path class="bl-vf bl-2f" d="M209 218 C199 220 187 223 176 227"/>
+  <path class="bl-vf bl-2f" d="M209 218 C214 220 220 223 225 226"/>
+
+  <!-- ==== 7. LE COEUR ==== masse en cône, base en haut (2 oreillettes),
+       ventricules en bas, APEX en bas et vers la gauche du personnage
+       (= en bas à DROITE de l'image). -->
+  <g id="bl-heart-g">
+    <g class="bl-heart-halo">
+      <ellipse cx="211" cy="270" rx="44" ry="48" fill="url(#bl-gHalo)"/>
+    </g>
+    <g class="bl-heart-beat">
+      <!-- masse générale : un CÔNE OBLIQUE. Base courte en haut (les gros
+           vaisseaux s'y accrochent), bord droit convexe (oreillette droite)
+           à GAUCHE de l'image, bord gauche long et oblique, et un vrai APEX
+           POINTU en bas à DROITE de l'image (= en bas à gauche du personnage).
+           Aucune échancrure en haut : ce n'est pas un coeur de Saint-Valentin. -->
+      <path class="bl-hstroke" stroke-width="2.4" fill="url(#bl-gHeart)"
+            d="M188 240 C178 246 177 266 185 283 C196 295 213 302 234 304
+               C237 296 246 275 244 254 C242 242 240 236 236 234
+               C222 230 200 232 188 240 Z"/>
+      <!-- les DEUX OREILLETTES : la limite basse suit le sillon coronaire,
+           qui est OBLIQUE (bas à gauche -> haut à droite), pas horizontal. -->
+      <path class="bl-hstroke" stroke-width="2" fill="url(#bl-gAtri)"
+            d="M188 240 C179 246 178 262 181 269 C196 262 220 256 240 247
+               C243 240 240 235 236 234 C222 230 200 232 188 240 Z"/>
+      <!-- cloison entre l'oreillette droite (à gauche de l'image) et la gauche -->
+      <path class="bl-groove" d="M209 233 C209 242 209 251 208 259"/>
+      <!-- sillon interventriculaire antérieur : il descend vers l'apex.
+           À gauche du sillon = ventricule droit, à droite = ventricule gauche. -->
+      <path class="bl-groove" d="M208 261 C215 273 223 287 231 300"/>
+      <!-- artères coronaires : la gauche (interventriculaire + circonflexe)
+           et la droite, chacune couchée dans son sillon. -->
+      <path class="bl-ab bl-4" d="M205 262 C212 274 219 288 227 301"/>
+      <path class="bl-ab bl-4" d="M211 259 C221 255 230 251 238 246"/>
+      <path class="bl-ab bl-4" d="M203 262 C194 265 186 267 181 269"/>
+      <path class="bl-ab bl-5" d="M186 268 C189 279 194 289 200 298"/>
+      <path class="bl-ab bl-5" d="M215 277 C210 284 206 291 203 298"/>
+      <path class="bl-af bl-4f bl-coro" d="M205 262 C212 274 219 288 227 301"/>
+      <path class="bl-af bl-4f bl-coro" d="M211 259 C221 255 230 251 238 246"/>
+      <path class="bl-af bl-4f bl-coro" d="M203 262 C194 265 186 267 181 269"/>
+      <path class="bl-af bl-5f bl-coro" d="M186 268 C189 279 194 289 200 298"/>
+      <path class="bl-af bl-5f bl-coro" d="M215 277 C210 284 206 291 203 298"/>
+    </g>
+  </g>
+</g>
+
+<!-- ==== 8. ZONES CLIQUABLES (grandes d'abord, petites en dernier) ==== -->
+<ellipse class="hs" data-p="bl-poumons" cx="163" cy="248" rx="26" ry="42"/>
+<ellipse class="hs" data-p="bl-poumons" cx="237" cy="248" rx="26" ry="42"/>
+<ellipse class="hs" data-p="bl-femorale" cx="172" cy="480" rx="24" ry="46"/>
+<ellipse class="hs" data-p="bl-femorale" cx="228" cy="480" rx="24" ry="46"/>
+<ellipse class="hs" data-p="bl-saphene" cx="182" cy="622" rx="21" ry="50"/>
+<ellipse class="hs" data-p="bl-saphene" cx="218" cy="622" rx="21" ry="50"/>
+<ellipse class="hs" data-p="bl-artere-bras" cx="122" cy="270" rx="21" ry="42"/>
+<ellipse class="hs" data-p="bl-artere-bras" cx="278" cy="270" rx="21" ry="42"/>
+<ellipse class="hs" data-p="bl-aorte" cx="208" cy="332" rx="20" ry="36"/>
+<ellipse class="hs" data-p="bl-coeur" cx="212" cy="272" rx="30" ry="36"/>
+<ellipse class="hs" data-p="bl-veinecave" cx="191" cy="378" rx="18" ry="20"/>
+<ellipse class="hs" data-p="bl-jugulaire" cx="183" cy="134" rx="18" ry="22"/>
+<ellipse class="hs" data-p="bl-jugulaire" cx="217" cy="134" rx="18" ry="22"/>
+<ellipse class="hs" data-p="bl-carotide" cx="200" cy="186" rx="20" ry="19"/>
+<ellipse class="hs" data-p="bl-veine-main" cx="96" cy="401" rx="21" ry="21"/>
+<ellipse class="hs" data-p="bl-veine-main" cx="304" cy="401" rx="21" ry="21"/>
+<ellipse class="hs" data-p="bl-capillaires" cx="152" cy="750" rx="26" ry="18"/>
+<ellipse class="hs" data-p="bl-capillaires" cx="248" cy="750" rx="26" ry="18"/>
+
+          </g>
+
+          <!-- ============ 4 · LES ORGANES ============ -->
+          <g class="layer" data-i="4" id="lyr-4">
+            <use href="#bodyShape" class="ghost"/>
+<!-- =========================================================
+     COUCHE ORGANES : du plus profond au plus superficiel
+     ========================================================= -->
+
+<!-- 1. moelle epiniere dans le canal vertebral -->
+<path class="or-cord or-s" d="M196 156 L204 156 L204 296 Q204 320 200 341 Q196 320 196 296 Z"/>
+<path class="or-caud" d="M199 338 C197 346 194 352 191 357"/>
+<path class="or-caud" d="M200 338 L200 359"/>
+<path class="or-caud" d="M201 338 C203 346 206 352 209 357"/>
+
+<!-- 2. tronc cerebral : mesencephale, pont, bulbe -->
+<path class="or-stem or-s" d="M193 124 C191 137 191 150 194 161 C196 168 204 168 206 161 C209 150 209 137 207 124 Z"/>
+<path class="or-lam" d="M192 141 C197 143 203 143 208 141"/>
+
+<!-- 3. les deux hemispheres cerebraux (patron miroir) -->
+<use href="#or-hemi"/>
+<use href="#or-hemi" transform="translate(400 0) scale(-1 1)"/>
+<path class="or-fis" d="M200 62 Q201 97 200 132"/>
+
+<!-- 4. cervelet : 2 hemispheres lamellaires + vermis median -->
+<use href="#or-cereb"/>
+<use href="#or-cereb" transform="translate(400 0) scale(-1 1)"/>
+<path class="or-verm or-s" d="M197 136 C194 144 194 151 197 157 L203 157 C206 151 206 144 203 136 Z"/>
+
+<!-- 5. oesophage : derriere la trachee, traverse le diaphragme -->
+<path class="or-t or-oesoOut" d="M199 176 C198 200 199 232 201 262 C203 288 205 308 209 324"/>
+<path class="or-t or-oesoIn" d="M199 176 C198 200 199 232 201 262 C203 288 205 308 209 324"/>
+
+<!-- 6. larynx -->
+<path class="or-air or-s" d="M192 162 C189 168 189 174 191 179 L209 179 C211 174 211 168 208 162 C204 159 196 159 192 162 Z"/>
+<path class="or-ring" d="M195 168 L200 172 L205 168"/>
+
+<!-- 7. POUMONS : le droit du personnage (ecran gauche) a 3 lobes,
+        le gauche du personnage (ecran droite) en a 2 avec l incisure cardiaque -->
+<g class="or-lungG">
+  <path class="or-lungA or-s" d="M186 195 C174 197 164 208 158 223 C155 230 154 235 153 240 L163 265 L188 262 C188 235 188 213 186 195 Z"/>
+  <path class="or-lungB or-s" d="M163 265 L188 262 C188 282 187 298 183 308 L176 310 Z"/>
+  <path class="or-lungC or-s" d="M153 240 C152 252 151 264 152 277 C153 293 157 303 164 308 L176 310 L163 265 Z"/>
+  <!-- scissure oblique (grande) et scissure horizontale (petite) -->
+  <path class="or-scis" d="M153 240 L163 265 L176 310"/>
+  <path class="or-scis" d="M163 265 L188 262"/>
+  <path class="or-lungEdge" d="M186 195 C174 197 164 208 158 223 C152 239 151 258 152 277 C153 293 157 303 164 308 L183 308 C188 296 188 280 188 262 C188 232 188 212 186 195 Z"/>
+</g>
+<g class="or-lungG">
+  <path class="or-lungA or-s" d="M214 195 C226 197 236 208 242 223 C245 230 246 234 247 238 L224 312 L218 312 C214 306 212 298 212 290 C216 286 220 282 221 274 C222 264 218 258 213 254 C212 236 213 210 214 195 Z"/>
+  <path class="or-lungC or-s" d="M247 238 C248 252 249 264 248 277 C247 294 243 306 236 312 L224 312 Z"/>
+  <path class="or-scis" d="M247 238 L224 312"/>
+  <path class="or-lungEdge" d="M214 195 C226 197 236 208 242 223 C248 239 249 258 248 277 C247 294 243 306 236 312 L218 312 C214 306 212 298 212 290 C216 286 220 282 221 274 C222 264 218 258 213 254 C212 236 213 210 214 195 Z"/>
+</g>
+
+<!-- 8. trachee : anneaux cartilagineux, puis bifurcation
+        bronche souche DROITE plus large et plus verticale (ecran gauche),
+        bronche souche GAUCHE plus fine et plus oblique (ecran droite) -->
+<path class="or-air or-s" d="M192 178 L208 178 L207 247 L193 247 Z"/>
+<path class="or-ring" d="M194 185 Q200 188 206 185"/>
+<path class="or-ring" d="M194 192 Q200 195 206 192"/>
+<path class="or-ring" d="M194 199 Q200 202 206 199"/>
+<path class="or-ring" d="M194 206 Q200 209 206 206"/>
+<path class="or-ring" d="M194 213 Q200 216 206 213"/>
+<path class="or-ring" d="M194 220 Q200 223 206 220"/>
+<path class="or-ring" d="M194 227 Q200 230 206 227"/>
+<path class="or-ring" d="M194 234 Q200 237 206 234"/>
+<path class="or-ring" d="M194 241 Q200 244 206 241"/>
+<path class="or-brdark or-bw1" d="M197 244 C191 250 184 259 180 269"/>
+<path class="or-brdark or-bw2" d="M203 244 C211 249 220 255 227 262"/>
+<path class="or-brdark or-bw3" d="M185 256 C181 253 178 251 174 251"/>
+<path class="or-brdark or-bw3" d="M181 269 C180 280 179 288 178 296"/>
+<path class="or-brdark or-bw3" d="M217 255 C221 252 225 250 229 249"/>
+<path class="or-brdark or-bw3" d="M227 263 C228 274 229 284 228 293"/>
+<path class="or-brdark or-bw4" d="M180 275 C176 278 172 280 169 282"/>
+<path class="or-brdark or-bw4" d="M228 276 C232 279 235 281 238 283"/>
+<path class="or-br or-bw1" d="M197 244 C191 250 184 259 180 269"/>
+<path class="or-br or-bw2" d="M203 244 C211 249 220 255 227 262"/>
+<path class="or-br or-bw3" d="M185 256 C181 253 178 251 174 251"/>
+<path class="or-br or-bw3" d="M181 269 C180 280 179 288 178 296"/>
+<path class="or-br or-bw3" d="M217 255 C221 252 225 250 229 249"/>
+<path class="or-br or-bw3" d="M227 263 C228 274 229 284 228 293"/>
+<path class="or-br or-bw4" d="M180 275 C176 278 172 280 169 282"/>
+<path class="or-br or-bw4" d="M228 276 C232 279 235 281 238 283"/>
+
+<!-- 9. thyroide en papillon devant la trachee, a la base du cou -->
+<use href="#or-thyro"/>
+<use href="#or-thyro" transform="translate(400 0) scale(-1 1)"/>
+<path class="or-thy or-s" d="M195 182 C200 180 205 180 205 187 C200 189 195 188 195 182 Z"/>
+
+<!-- 10. aorte descendante, derriere le coeur -->
+<path class="or-aortaD" d="M207 254 C208 274 207 292 206 308"/>
+
+<!-- 11. COEUR entre les deux poumons, apex en bas et a GAUCHE DU PERSONNAGE,
+         donc legerement a DROITE de x=200 sur l ecran (vue de face) -->
+<path class="or-pulm" d="M204 257 C201 251 202 247 205 245"/>
+<path class="or-aorta" d="M209 257 C207 249 208 244 212 243 C216 242 218 246 218 252"/>
+<g class="or-heartG">
+  <path class="or-heart or-s" d="M203 255 C197 256 194 262 195 270 C196 280 200 289 205 295 C210 301 215 304 219 302 C223 300 224 291 222 282 C220 271 216 261 212 256 C209 253 206 253 203 255 Z"/>
+  <path d="M203 255 C197 256 194 262 195 270 C196 280 200 289 205 295 C210 301 215 304 219 302 C223 300 224 291 222 282 C220 271 216 261 212 256 C209 253 206 253 203 255 Z" fill="url(#or-gHeart)" stroke="none"/>
+  <path class="or-hgroove" d="M204 269 C208 278 212 287 216 296"/>
+  <path class="or-hgroove" d="M197 268 C203 272 209 273 215 272"/>
+</g>
+
+<!-- 13. FOIE : cote DROIT DU PERSONNAGE = GAUCHE de l ecran.
+         Lobe droit volumineux, lobe gauche plus petit qui franchit la mediane -->
+<path class="or-liver or-s" d="M158 316 C161 304 171 300 182 304 C194 308 204 309 214 307 C222 306 228 309 228 316 C228 325 224 332 216 336 C206 341 196 345 186 351 C176 357 167 358 160 350 C156 343 155 330 158 316 Z"/>
+<path class="or-liverL or-s" d="M213 307 C221 306 228 309 228 316 C228 325 224 332 216 336 C212 338 208 340 204 342 C209 332 212 319 213 307 Z"/>
+<path class="or-lig" d="M213 307 C211 319 208 332 203 342"/>
+<path d="M158 316 C161 304 171 300 182 304 C194 308 204 309 214 307 C222 306 228 309 228 316 C228 325 224 332 216 336 C206 341 196 345 186 351 C176 357 167 358 160 350 C156 343 155 330 158 316 Z" fill="url(#or-gLiver)" stroke="none"/>
+
+<!-- 14. ESTOMAC : cote GAUCHE DU PERSONNAGE = DROITE de l ecran.
+         Grosse tuberosite en haut, corps, antre, pylore ;
+         grande courbure en dehors, petite courbure vers la mediane -->
+<path class="or-stom or-s" d="M208 317 C212 306 224 302 233 307 C241 312 240 325 239 336 C238 346 233 353 225 355 C217 357 209 354 207 349 C205 345 206 341 209 340 C214 338 216 333 216 327 C216 321 212 319 208 317 Z"/>
+<path class="or-ruga" d="M212 325 C218 327 227 329 235 328"/>
+<path class="or-ruga" d="M212 334 C218 337 227 339 234 337"/>
+<path class="or-ruga" d="M213 343 C218 346 225 348 231 346"/>
+<path class="or-pylo" d="M206 347 L210 353"/>
+
+<!-- 16. DIAPHRAGME : grande coupole musculaire sous les poumons (niveau y = 318).
+         La coupole droite (ecran gauche) est plus haute, repoussee par le foie -->
+<g class="or-diaphG">
+  <path class="or-diaph or-s" d="M156 329 C158 313 166 301 178 301 C190 301 196 310 200 319 C205 311 215 306 227 307 C238 308 243 317 245 328 L243 336 C241 323 236 314 227 316 C216 317 207 320 200 328 C194 320 187 310 178 310 C166 310 160 321 158 336 Z"/>
+  <path class="or-fib" d="M160 316 L162 324"/>
+  <path class="or-fib" d="M168 306 L172 314"/>
+  <path class="or-fib" d="M178 302 L178 311"/>
+  <path class="or-fib" d="M188 305 L186 313"/>
+  <path class="or-fib" d="M195 312 L193 320"/>
+  <path class="or-fib" d="M205 313 L207 321"/>
+  <path class="or-fib" d="M214 308 L216 316"/>
+  <path class="or-fib" d="M226 307 L226 316"/>
+  <path class="or-fib" d="M236 311 L233 318"/>
+  <path class="or-fib" d="M243 320 L240 327"/>
+</g>
+
+<!-- 17. REINS contre la colonne, avec les surrenales en chapeau.
+         Le rein DROIT du personnage (ecran gauche) est plus bas, repousse par le foie -->
+<path class="or-adr or-s" d="M165 335 C169 330 176 330 180 335 C176 338 169 338 165 335 Z"/>
+<path class="or-adr or-s" d="M220 329 C224 324 231 324 235 329 C231 332 224 332 220 329 Z"/>
+<path class="or-kid or-s" d="M173 337 C179 339 182 345 181 351 C180 354 177 355 177 357 C177 360 180 361 181 365 C182 370 178 376 172 376 C165 376 162 368 162 356 C162 344 167 337 173 337 Z"/>
+<path class="or-kid or-s" d="M227 331 C221 333 218 339 219 345 C220 348 223 349 223 351 C223 354 220 355 219 359 C218 364 222 370 228 370 C235 370 238 362 238 350 C238 338 233 331 227 331 Z"/>
+<ellipse class="or-kidin" cx="178" cy="356" rx="3.6" ry="5.5"/>
+<ellipse class="or-kidin" cx="222" cy="350" rx="3.6" ry="5.5"/>
+
+<!-- vesicule biliaire, sous le lobe droit du foie -->
+<path class="or-duct" d="M182 337 C187 333 192 333 196 336"/>
+<path class="or-gall or-s" d="M177 337 C182 337 186 341 186 347 C186 353 183 357 179 356 C175 355 173 350 173 345 C173 340 174 337 177 337 Z"/>
+
+<!-- RATE : cote GAUCHE DU PERSONNAGE, en dehors de l estomac -->
+<path class="or-spleen or-s" d="M238 309 C245 311 247 320 246 331 C245 342 240 348 234 346 C229 344 228 336 229 326 C230 316 234 309 238 309 Z"/>
+<path class="or-hl" d="M236 316 C240 320 242 328 241 336"/>
+
+<!-- 18. URETERES : du bassinet vers la vessie -->
+<path class="or-t or-uriOut" d="M179 360 C185 372 187 386 188 396 C188 402 188 406 189 409"/>
+<path class="or-t or-uriOut" d="M221 354 C215 368 213 382 212 394 C212 400 212 404 211 409"/>
+<path class="or-t or-uriIn" d="M179 360 C185 372 187 386 188 396 C188 402 188 406 189 409"/>
+<path class="or-t or-uriIn" d="M221 354 C215 368 213 382 212 394 C212 400 212 404 211 409"/>
+
+<!-- 19. PANCREAS : tete dans le C du duodenum, queue vers la rate -->
+<path class="or-panc or-s" d="M202 362 C205 355 212 354 218 356 C224 358 230 354 236 347 C239 344 242 347 240 351 C236 358 229 363 221 364 C217 365 215 368 213 373 C210 378 204 378 201 373 C199 369 199 366 202 362 Z"/>
+<path class="or-wirsung" d="M203 370 C210 366 220 360 232 352"/>
+
+<!-- duodenum en C : la concavite regarde la gauche du personnage, la tete du pancreas s y niche -->
+<path class="or-t or-duoOut" d="M208 348 C201 349 196 355 196 364 C196 374 198 383 204 388 C210 393 216 391 219 385 C221 381 220 377 218 374"/>
+<path class="or-t or-duoIn" d="M208 348 C201 349 196 355 196 364 C196 374 198 383 204 388 C210 393 216 391 219 385 C221 381 220 377 218 374"/>
+
+<!-- 20. GROS INTESTIN : caecum, colon ascendant, angle colique droit,
+         colon transverse, angle colique gauche (plus haut), colon descendant,
+         sigmoide en S, rectum. Plus large que le grele et bossele -->
+<path class="or-t or-colOut" d="M174 414 C167 402 167 390 168 377 C170 369 177 365 185 368 C194 371 199 380 207 382 C216 384 224 377 228 366 C230 360 234 362 234 371 C234 382 233 392 231 400 C229 408 224 412 216 411 C209 409 203 414 202 420 C201 423 200 424 200 425"/>
+<path class="or-t or-colIn" d="M174 414 C167 402 167 390 168 377 C170 369 177 365 185 368 C194 371 199 380 207 382 C216 384 224 377 228 366 C230 360 234 362 234 371 C234 382 233 392 231 400 C229 408 224 412 216 411 C209 409 203 414 202 420 C201 423 200 424 200 425"/>
+<path class="or-haus" d="M165 410 L176 405"/>
+<path class="or-haus" d="M162 397 L174 396"/>
+<path class="or-haus" d="M162 385 L174 386"/>
+<path class="or-haus" d="M163 373 L174 377"/>
+<path class="or-haus" d="M174 362 L178 373"/>
+<path class="or-haus" d="M190 363 L185 374"/>
+<path class="or-haus" d="M200 370 L192 380"/>
+<path class="or-haus" d="M207 376 L202 387"/>
+<path class="or-haus" d="M213 376 L218 387"/>
+<path class="or-haus" d="M219 371 L229 378"/>
+<path class="or-haus" d="M223 362 L234 367"/>
+<path class="or-haus" d="M240 369 L228 370"/>
+<path class="or-haus" d="M240 381 L228 380"/>
+<path class="or-haus" d="M239 393 L227 391"/>
+<path class="or-haus" d="M236 404 L225 400"/>
+<path class="or-haus" d="M226 416 L221 405"/>
+<path class="or-haus" d="M213 417 L211 405"/>
+<path class="or-haus" d="M209 420 L199 414"/>
+<!-- caecum et appendice, en bas du cote DROIT DU PERSONNAGE (ecran gauche) -->
+<path class="or-cec or-s" d="M170 400 C164 404 163 416 169 423 C175 428 183 426 186 419 C189 412 184 402 177 400 Z"/>
+<path class="or-t or-appOut" d="M172 419 C173 425 177 429 182 427"/>
+<path class="or-t or-appIn" d="M172 419 C173 425 177 429 182 427"/>
+
+<!-- 21. INTESTIN GRELE : anses du jejunum puis de l ileon, enroulees au centre bas -->
+<path class="or-t or-greOut" d="M217 378 C224 384 221 392 212 394 C202 396 192 391 185 395 C179 399 181 406 189 409 C198 412 209 408 215 412 C221 415 219 422 211 423 C202 424 192 420 186 416"/>
+<path class="or-t or-greOut" d="M206 386 C198 384 191 386 188 391"/>
+<path class="or-t or-greOut" d="M196 401 C204 403 212 402 217 399"/>
+<path class="or-t or-greOut" d="M203 418 C197 416 192 413 190 409"/>
+<path class="or-t or-greIn" d="M217 378 C224 384 221 392 212 394 C202 396 192 391 185 395 C179 399 181 406 189 409 C198 412 209 408 215 412 C221 415 219 422 211 423 C202 424 192 420 186 416"/>
+<path class="or-t or-greIn" d="M206 386 C198 384 191 386 188 391"/>
+<path class="or-t or-greIn" d="M196 401 C204 403 212 402 217 399"/>
+<path class="or-t or-greIn" d="M203 418 C197 416 192 413 190 409"/>
+<path class="or-peri" d="M217 378 C224 384 221 392 212 394 C202 396 192 391 185 395 C179 399 181 406 189 409 C198 412 209 408 215 412 C221 415 219 422 211 423 C202 424 192 420 186 416"/>
+
+<!-- 22. VESSIE dans le bassin -->
+<path class="or-blad or-s" d="M200 406 C209 406 216 411 216 419 C216 427 209 431 200 431 C191 431 184 427 184 419 C184 411 191 406 200 406 Z"/>
+<path class="or-hl" d="M191 413 C195 410 199 409 203 410"/>
+
+<!-- 23. ZONES CLIQUABLES : les grandes d abord, les petites ensuite -->
+<ellipse class="hs" data-p="or-poumons" cx="170" cy="250" rx="24" ry="52"/>
+<ellipse class="hs" data-p="or-poumons" cx="230" cy="250" rx="24" ry="52"/>
+<ellipse class="hs" data-p="or-cerveau" cx="200" cy="95" rx="42" ry="34"/>
+<ellipse class="hs" data-p="or-diaphragme" cx="200" cy="318" rx="44" ry="18"/>
+<ellipse class="hs" data-p="or-foie" cx="178" cy="326" rx="26" ry="24"/>
+<ellipse class="hs" data-p="or-colon" cx="170" cy="396" rx="18" ry="28"/>
+<ellipse class="hs" data-p="or-colon" cx="232" cy="384" rx="18" ry="28"/>
+<ellipse class="hs" data-p="or-estomac" cx="226" cy="330" rx="20" ry="24"/>
+<ellipse class="hs" data-p="or-grele" cx="203" cy="400" rx="24" ry="20"/>
+<ellipse class="hs" data-p="or-reins" cx="173" cy="350" rx="18" ry="20"/>
+<ellipse class="hs" data-p="or-reins" cx="227" cy="342" rx="18" ry="20"/>
+<ellipse class="hs" data-p="or-coeur" cx="209" cy="278" rx="21" ry="26"/>
+<ellipse class="hs" data-p="or-trachee" cx="200" cy="212" rx="14" ry="28"/>
+<ellipse class="hs" data-p="or-cervelet" cx="200" cy="150" rx="30" ry="17"/>
+<ellipse class="hs" data-p="or-vessie" cx="200" cy="418" rx="20" ry="16"/>
+
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ======================= SLIDERS ======================= -->
+    <div class="controls">
+      <div class="chips" id="chips" role="group" aria-label="Choisir ce qu'on regarde"></div>
+
+      <div class="sliderrow">
+        <span class="ico" aria-hidden="true">🧍</span>
+        <input type="range" id="layer" min="0" max="4" step="0.01" value="0"
+               aria-label="Curseur : de la peau jusqu'aux organes">
+        <span class="ico" aria-hidden="true">🫀</span>
+      </div>
+
+      <div class="sliderrow">
+        <span class="ico" aria-hidden="true">🔍</span>
+        <input type="range" class="zoom" id="zoom" min="1" max="2.6" step="0.01" value="1"
+               aria-label="Loupe : agrandir le corps">
+        <span class="ico" aria-hidden="true">🔎</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PANNEAU ======================= -->
+  <aside class="panel">
+    <div class="card info" id="info">
+      <span class="big" id="i-emoji">👋</span>
+      <span class="sys" id="i-sys">Prêt&nbsp;?</span>
+      <h2 id="i-name">Appuie sur le corps&nbsp;!</h2>
+      <p id="i-text">Touche la tête, le ventre, une jambe… et je te raconte ce qu'il y a dedans. Puis fais glisser le gros curseur pour regarder sous la peau&nbsp;!</p>
+      <div class="row">
+        <button class="btn" type="button" id="say">🔊 Réécouter</button>
+        <button class="btn ghostbtn" type="button" id="sound" aria-pressed="true">🎧 Son allumé</button>
+      </div>
+    </div>
+
+    <div class="card tools">
+      <div>
+        <span class="lbl">On joue&nbsp;?</span>
+        <button class="btn play" type="button" id="quiz">🎲 Trouve la bonne partie&nbsp;!</button>
+      </div>
+      <div>
+        <span class="lbl">Où puis-je appuyer&nbsp;?</span>
+        <button class="btn ghostbtn" type="button" id="hint" aria-pressed="false">✨ Montrer les zones</button>
+      </div>
+      <div class="stars" id="stars"><span aria-hidden="true">⭐</span> <span class="n" id="starn">0</span> <span>étoile</span></div>
+      <div>
+        <span class="lbl">Ma couleur de peau</span>
+        <div class="dots" id="skins" role="group" aria-label="Choisir la carnation"></div>
+      </div>
+      <div>
+        <span class="lbl">Mes cheveux</span>
+        <div class="dots" id="hairs" role="group" aria-label="Choisir la couleur des cheveux"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span class="hint">Astuce pour les grands&nbsp;: le curseur du bas est une loupe, et on peut déplacer le corps avec le doigt quand c'est zoomé.</span>
+  Fait avec ❤️ pour les petits explorateurs · inspiré de <em>Corpus</em> (Réseau Canopé)
+</footer>
+
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =======================================================
+     Données : couches + parties du corps (mots simples)
+     ======================================================= */
+  const LAYERS = [
+    {id:0, name:"La peau",     em:"🧍", tint:"var(--c-peau)"},
+    {id:1, name:"Les os",      em:"🦴", tint:"var(--c-os)"},
+    {id:2, name:"Les muscles", em:"💪", tint:"var(--c-muscles)"},
+    {id:3, name:"Le sang",     em:"❤️", tint:"var(--c-sang)"},
+    {id:4, name:"Les organes", em:"🫁", tint:"var(--c-organes)"}
+  ];
+
+  const PARTS = {
+    /* --- peau --- */
+    tete:      {n:"La tête",        em:"🙂", t:"Dans ta tête il y a ton cerveau, tes yeux, tes oreilles… et toutes tes idées !"},
+    ventre:    {n:"Le ventre",      em:"🫄", t:"Ton ventre garde beaucoup de choses au chaud : l'estomac, les intestins… et parfois des gargouillis !"},
+    bras:      {n:"Le bras",        em:"🦾", t:"Ton bras sert à porter, à lancer le ballon et à faire des gros câlins."},
+    main:      {n:"La main",        em:"✋", t:"Ta main a cinq doigts pour dessiner, chatouiller et faire coucou."},
+    jambe:     {n:"La jambe",       em:"🦵", t:"Tes jambes sont très fortes : elles te font courir, sauter et danser."},
+    pied:      {n:"Le pied",        em:"🦶", t:"Tes pieds portent tout ton corps quand tu marches. Et ils font des traces dans le sable !"},
+    "sk-crane": {n:"Le crâne", em:"💀", t:"Le crâne est une boîte en os très solide qui protège ton cerveau. Touche ta tête : c'est dur comme un casque !"},
+    "sk-mandibule": {n:"La mandibule", em:"😬", t:"La mandibule, c'est l'os de ta mâchoire du bas. C'est le seul os de ta tête qui bouge : ouvre grand la bouche et sens-le glisser !"},
+    "sk-colonne": {n:"La colonne vertébrale", em:"🐍", t:"C'est une pile de petits os, les vertèbres, empilés comme des cubes tout le long de ton dos. Penche-toi en avant : elle se plie comme un collier !"},
+    "sk-cotes": {n:"Les côtes", em:"🎋", t:"Tu as 12 paires de côtes : elles font une cage autour de ton cœur et de tes poumons. Pose ta main sur le côté et respire très fort, tu les sens bouger !"},
+    "sk-humerus": {n:"L'humérus", em:"💪", t:"L'humérus, c'est le grand os de ton bras, entre l'épaule et le coude. Sa tête est ronde comme une bille : c'est pour ça que ton bras tourne dans tous les sens."},
+    "sk-avantbras": {n:"Le radius et l'ulna", em:"🔄", t:"Entre ton coude et ton poignet, il y a deux os côte à côte. Tourne ta main comme pour dire au revoir : les deux os se croisent !"},
+    "sk-main": {n:"Les os de la main", em:"✋", t:"Ta main cache plein de petits os : ceux du poignet, ceux de la paume et ceux des doigts. Ton pouce n'en a que deux, tes autres doigts en ont trois !"},
+    "sk-bassin": {n:"Le bassin", em:"🦴", t:"Le bassin est un grand os en forme de bol, tout en bas de ton dos. C'est lui qui porte tout ton corps quand tu es assis !"},
+    "sk-femur": {n:"Le fémur", em:"🦵", t:"Le fémur, c'est l'os de ta cuisse : le plus long et le plus fort de tous tes os ! C'est lui qui te sert à courir et à sauter."},
+    "sk-rotule": {n:"La rotule", em:"🛡️", t:"La rotule est un petit os rond posé juste devant ton genou, comme un bouclier. Plie ta jambe et touche-la : elle glisse sous ton doigt !"},
+    "sk-tibia": {n:"Le tibia", em:"🦿", t:"Le tibia est le gros os devant ta jambe, sous le genou. Il est juste sous la peau : c'est pour ça que ça fait si mal quand tu te cognes !"},
+    "sk-pied": {n:"Les os du pied", em:"🦶", t:"Chaque pied cache une vingtaine de petits os, avec un gros os tout rond au talon. Remue tes orteils : ils bougent grâce à leurs petits os !"},
+    "mu-scm": {n:"Le sterno-cléido-mastoïdien", em:"🙅", t:"Le muscle au nom le plus rigolo du corps ! Dis non avec la tête, puis touche ton cou : tu sens la grosse corde qui se durcit ?"},
+    "mu-deltoide": {n:"Le deltoïde", em:"💪", t:"C'est l'épaulette de ton épaule. C'est lui qui lève ton bras bien haut quand tu fais coucou."},
+    "mu-pectoral": {n:"Le grand pectoral", em:"🤗", t:"Un grand éventail posé sur ta poitrine. Il ramène tes bras devant toi pour faire un énorme câlin."},
+    "mu-biceps": {n:"Le biceps", em:"🏋️", t:"Plie ton bras très fort : la petite boule qui gonfle, c'est ton biceps. Il tire ton avant-bras vers ton épaule."},
+    "mu-brachioradial": {n:"Le brachio-radial", em:"🥛", t:"Un muscle en forme de fuseau sur ton avant-bras, du côté du pouce. Il t'aide à porter ton verre jusqu'à ta bouche."},
+    "mu-abdos": {n:"Le grand droit de l'abdomen", em:"🧗", t:"C'est le muscle des abdos, avec ses 8 petits carrés séparés par des bandes solides. Il te plie en avant quand tu te relèves du lit."},
+    "mu-oblique": {n:"L'oblique externe", em:"🌀", t:"Il est sur les côtés de ton ventre et ses fibres filent en diagonale. C'est lui qui te fait tourner pour ramasser un jouet à côté de toi."},
+    "mu-quadriceps": {n:"Le quadriceps", em:"⚽", t:"Quatre muscles en un seul, devant ta cuisse : c'est le plus puissant de ton corps. Il déplie ton genou pour sauter et tirer au ballon."},
+    "mu-sartorius": {n:"Le sartorius", em:"🧵", t:"La plus longue bande de muscle de tout ton corps ! On l'appelle le couturier, parce qu'il croise ta cuisse comme quand tu t'assois en tailleur."},
+    "mu-mollet": {n:"Le gastrocnémien", em:"🩰", t:"C'est le muscle du mollet, avec ses deux grosses boules. Mets-toi sur la pointe des pieds : tu le sens qui durcit derrière ta jambe !"},
+    "mu-tibial": {n:"Le tibial antérieur", em:"🚶", t:"Une bande posée devant ta jambe, tout le long de l'os. Il relève la pointe de ton pied à chaque pas pour que tu ne trébuches pas."},
+    "bl-coeur": {n:"Le coeur", em:"❤️", t:"Ton coeur est un muscle gros comme ton poing, caché derrière le sternum et un peu penché vers la gauche. Pose ta main sur ta poitrine : tu sens le boum-boum ? Il pousse le sang jour et nuit."},
+    "bl-aorte": {n:"L'aorte", em:"🚿", t:"L'aorte est le plus gros tuyau de ton corps. Elle sort du coeur, fait une belle courbe comme une canne, puis descend jusqu'au ventre : c'est la grande autoroute du sang rouge."},
+    "bl-carotide": {n:"Les carotides", em:"🧠", t:"Ces deux artères montent dans ton cou pour nourrir ton cerveau. Elles travaillent même quand tu dors !"},
+    "bl-jugulaire": {n:"Les veines jugulaires", em:"🫀", t:"Les jugulaires ramènent le sang de ta tête vers ton coeur. Quand tu cries très fort, on les voit gonfler dans ton cou."},
+    "bl-artere-bras": {n:"L'artère du bras", em:"💪", t:"L'artère du bras descend jusqu'au coude, puis se partage en deux pour aller jusqu'à ta main. Appuie doucement sur ton poignet : ce petit tap-tap, c'est ton pouls."},
+    "bl-veine-main": {n:"Les veines de la main", em:"🖐️", t:"Regarde le dessus de ta main : ces petits chemins bleus sont tes veines. Elles rapportent le sang fatigué vers le coeur, comme des ruisseaux qui rentrent à la maison."},
+    "bl-femorale": {n:"L'artère fémorale", em:"🦵", t:"C'est la grosse artère de ta cuisse. Quand tu cours, elle envoie plein de sang à tes muscles pour qu'ils aillent très vite."},
+    "bl-saphene": {n:"La grande veine saphène", em:"🧦", t:"C'est la plus longue veine de ton corps : elle remonte tout l'intérieur de ta jambe, du pied jusqu'au ventre. Quand tu marches, tes mollets la pressent pour aider le sang à monter."},
+    "bl-capillaires": {n:"Les capillaires", em:"✨", t:"Au bout de tes doigts et de tes orteils, les tuyaux deviennent plus fins qu'un cheveu : ce sont les capillaires. Là, le sang donne son oxygène, puis il repart en bleu."},
+    "bl-poumons": {n:"La petite circulation", em:"🫁", t:"Le sang bleu part du coeur vers tes poumons chercher l'air que tu respires, puis il revient tout rouge au coeur. Souffle un grand coup : tu viens de l'aider !"},
+    "bl-veinecave": {n:"Les veines caves", em:"⬆️", t:"Deux très grosses veines rapportent tout le sang au coeur : une qui vient du haut du corps, une qui vient du bas. Ce sont les plus grosses veines de ton corps."},
+    "or-cerveau": {n:"Le cerveau", em:"🧠", t:"C'est le chef de tout ton corps ! Il est tout plissé comme une grosse noix rose, et c'est lui qui pense, qui rêve et qui commande tes bras et tes jambes."},
+    "or-cervelet": {n:"Le cervelet", em:"🤸", t:"C'est la petite boule sous ton cerveau, pleine de fines lamelles comme un mille-feuille. C'est lui qui t'aide à tenir en équilibre : essaie sur un seul pied !"},
+    "or-trachee": {n:"La trachée", em:"💨", t:"C'est le tuyau de l'air, avec des anneaux durs comme un tuyau d'aspirateur. Touche devant ta gorge, tu les sens ? En bas, elle se coupe en deux pour aller dans chaque poumon."},
+    "or-poumons": {n:"Les poumons", em:"🫁", t:"Deux gros coussins roses qui se gonflent d'air quand tu respires. Celui de droite a 3 morceaux, celui de gauche seulement 2 : il laisse un petit creux pour le cœur !"},
+    "or-coeur": {n:"Le cœur", em:"❤️", t:"C'est la pompe qui envoie ton sang partout, jour et nuit, même quand tu dors. Pose ta main un peu à gauche au milieu de ta poitrine : tu sens boum-boum ?"},
+    "or-diaphragme": {n:"Le diaphragme", em:"🎈", t:"Un grand muscle en forme de parapluie sous tes poumons. Il descend pour faire entrer l'air et remonte pour le faire sortir. Quand il sursaute, tu as le hoquet !"},
+    "or-foie": {n:"Le foie", em:"🧽", t:"Le plus gros organe de ton ventre, du côté droit. Il nettoie ton sang comme une éponge magique. Juste dessous, la petite poche verte garde la bile qui digère le gras."},
+    "or-estomac": {n:"L'estomac", em:"🍎", t:"C'est la poche du côté gauche de ton ventre où ta pomme est écrasée en bouillie. Il se tord doucement, comme une main qui malaxe de la pâte."},
+    "or-grele": {n:"L'intestin grêle", em:"🌀", t:"Un tuyau très très long, tout enroulé au milieu de ton ventre : plus long que trois lits mis bout à bout ! C'est lui qui prend toutes les forces de ton repas."},
+    "or-colon": {n:"Le gros intestin", em:"💧", t:"Il fait le tour de ton ventre comme un cadre, et il est tout bosselé. Il récupère l'eau de ton repas, et ce qui reste part au petit coin !"},
+    "or-reins": {n:"Les reins", em:"🫘", t:"Deux gros haricots cachés au fond de ton ventre. Ils filtrent ton sang et fabriquent le pipi, qui descend par deux petits tuyaux jaunes."},
+    "or-vessie": {n:"La vessie", em:"🚽", t:"C'est le petit ballon tout en bas qui garde ton pipi. Quand il est bien plein, il te chatouille et te dit : vite, aux toilettes !"},
+  };
+
+  const SKINS = [
+    ["#fbd8b6","#e0ab84","#5a3a22"],
+    ["#f7c79c","#d9976a","#4a2c1a"],
+    ["#d79a6a","#a9683f","#3a2216"],
+    ["#a9714a","#7d4b2b","#2a1a11"],
+    ["#7b4a2c","#54301a","#241610"]
+  ];
+  const HAIRS = ["#2b1a10","#4a2c1a","#8a4a22","#c9973f","#b0402a","#6b6b78"];
+
+  /* =======================================================
+     Raccourcis DOM
+     ======================================================= */
+  const $  = s => document.querySelector(s);
+  const svg = $("#body"), scene = $("#scene"), box = $("#svgbox");
+  const slider = $("#layer"), zoom = $("#zoom");
+  const chips = $("#chips"), pin = $("#pin"), banner = $("#banner");
+  const iEm = $("#i-emoji"), iSys = $("#i-sys"), iName = $("#i-name"), iText = $("#i-text");
+  const layerEls = Array.from(document.querySelectorAll(".layer"));
+
+  let cur = 0;          // couche affichée (entier)
+  let soundOn = true;
+  let selected = null;  // hotspot sélectionné
+  let stars = 0;
+
+  /* =======================================================
+     Générations SVG répétitives (vertèbres, côtes, abdos)
+     ======================================================= */
+  const NS = "http://www.w3.org/2000/svg";
+  function mk(tag, attrs){
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  /* =======================================================
+     Bulles de fond
+     ======================================================= */
+  (function buildBubbles(){
+    const wrap = $("#bubbles");
+    for (let i = 0; i < 14; i++){
+      const b = document.createElement("i");
+      const s = 14 + Math.random()*70;
+      b.style.width = b.style.height = s + "px";
+      b.style.left = (Math.random()*100) + "%";
+      b.style.animationDuration = (14 + Math.random()*16) + "s";
+      b.style.animationDelay = (-Math.random()*22) + "s";
+      wrap.appendChild(b);
+    }
+  })();
+
+  /* =======================================================
+     Voix (français)
+     ======================================================= */
+  let voice = null;
+  function pickVoice(){
+    if (!("speechSynthesis" in window)) return;
+    const vs = speechSynthesis.getVoices();
+    voice = vs.find(v => /fr[-_]FR/i.test(v.lang) && /audrey|thomas|amelie|amélie|marie/i.test(v.name))
+         || vs.find(v => /^fr/i.test(v.lang))
+         || null;
+  }
+  if ("speechSynthesis" in window){
+    pickVoice();
+    speechSynthesis.onvoiceschanged = pickVoice;
+  }
+  function say(text){
+    if (!soundOn || !("speechSynthesis" in window) || !text) return;
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "fr-FR"; u.rate = .92; u.pitch = 1.12; u.volume = 1;
+      if (voice) u.voice = voice;
+      speechSynthesis.speak(u);
+    }catch(e){ /* pas de voix disponible : on continue sans son */ }
+  }
+
+  /* =======================================================
+     Chips de couche
+     ======================================================= */
+  LAYERS.forEach(L => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.style.setProperty("--tint", L.tint);
+    b.setAttribute("aria-pressed", L.id === 0 ? "true" : "false");
+    b.dataset.i = L.id;
+    b.innerHTML = `<span class="em" aria-hidden="true">${L.em}</span><span class="lbl">${L.name}</span>`;
+    b.addEventListener("click", () => goTo(L.id, true));
+    chips.appendChild(b);
+  });
+  const chipEls = Array.from(chips.children);
+
+  /* =======================================================
+     Affichage des couches (fondu continu pendant le glissé)
+     ======================================================= */
+  function paint(v){
+    layerEls.forEach((g, i) => {
+      const d = Math.abs(v - i);
+      const o = Math.max(0, 1 - d);
+      g.style.opacity = o;
+      g.style.transform = o > .999 ? "none" : `translateY(${d*10}px) scale(${1 - d*0.03})`;
+    });
+    const near = Math.round(v);
+    if (near !== cur){
+      cur = near;
+      layerEls.forEach((g, i) => g.classList.toggle("active", i === cur));
+      chipEls.forEach((c, i) => c.setAttribute("aria-pressed", i === cur ? "true" : "false"));
+      document.documentElement.style.setProperty("--accent", LAYERS[cur].tint);
+      clearSel();
+      if (!quizOn) announceLayer();
+    }
+  }
+
+  function announceLayer(){
+    const L = LAYERS[cur];
+    iEm.textContent = L.em;
+    iSys.textContent = "On regarde";
+    iName.textContent = L.name;
+    iText.textContent = LAYER_HINT[cur];
+    bump(iName.parentElement);
+    say(L.name + ". " + LAYER_HINT[cur]);
+  }
+  const LAYER_HINT = [
+    "C'est ce qu'on voit de l'extérieur ! Appuie sur la tête, un bras ou un pied.",
+    "Sous la peau et les muscles, il y a le squelette : 206 os qui te tiennent debout.",
+    "Les muscles sont accrochés aux os. C'est eux qui te font bouger !",
+    "Le sang voyage dans des petits tuyaux partout dans ton corps. Regarde-le couler !",
+    "Les organes travaillent dans ton corps, chacun a son métier. Appuie pour les rencontrer !"
+  ];
+
+  function goTo(i, speak){
+    slider.value = i;
+    paint(i);
+    if (speak && !quizOn) announceLayer();
+  }
+
+  function bump(el){
+    el.classList.remove("fadein");
+    void el.offsetWidth;
+    el.classList.add("fadein");
+  }
+
+  slider.addEventListener("input", () => paint(parseFloat(slider.value)));
+  slider.addEventListener("change", () => {
+    const snapped = Math.round(parseFloat(slider.value));
+    slider.value = snapped;
+    paint(snapped);
+  });
+
+  /* =======================================================
+     Loupe + déplacement
+     ======================================================= */
+  let z = 1, px = 0, py = 0;
+  function applyZoom(){
+    // bornes = moitié du débord réel du contenu agrandi (viewBox 400 × 820),
+    // sinon on ne peut pas amener la tête ni les pieds au centre
+    const maxX = 195 * (z - 1), maxY = 405 * (z - 1);
+    px = Math.max(-maxX, Math.min(maxX, px));
+    py = Math.max(-maxY, Math.min(maxY, py));
+    scene.setAttribute("transform", `translate(${200 + px} ${420 + py}) scale(${z}) translate(-200 -420)`);
+    box.classList.toggle("grab", z > 1.02);
+  }
+  zoom.addEventListener("input", () => { z = parseFloat(zoom.value); applyZoom(); });
+
+  let dragging = false, sx = 0, sy = 0, moved = false;
+  box.addEventListener("pointerdown", e => {
+    if (z <= 1.02) return;
+    dragging = true; moved = false; sx = e.clientX; sy = e.clientY;
+    box.classList.add("grabbing");
+  });
+  box.addEventListener("pointermove", e => {
+    if (!dragging) return;
+    const r = svg.getBoundingClientRect();
+    const k = 400 / r.width;
+    px += (e.clientX - sx) * k; py += (e.clientY - sy) * k;
+    sx = e.clientX; sy = e.clientY;
+    if (Math.abs(px) + Math.abs(py) > 0) moved = true;
+    applyZoom(); placePin();
+  });
+  const endDrag = () => { dragging = false; box.classList.remove("grabbing"); };
+  box.addEventListener("pointerup", endDrag);
+  box.addEventListener("pointercancel", endDrag);
+  box.addEventListener("pointerleave", endDrag);
+
+  /* =======================================================
+     Sélection d'une partie
+     ======================================================= */
+  function clearSel(){
+    if (selected) selected.classList.remove("sel");
+    selected = null;
+    pin.classList.remove("show");
+  }
+  function placePin(){
+    if (!selected) return;
+    const r = selected.getBoundingClientRect();
+    const b = box.getBoundingClientRect();
+    pin.style.left = (r.left + r.width/2 - b.left) + "px";
+    pin.style.top  = (r.top + r.height/2 - b.top) + "px";
+  }
+  function select(el){
+    const key = el.dataset.p;
+    const p = PARTS[key];
+    if (!p) return;
+    clearSel();
+    selected = el;
+    el.classList.add("sel");
+    pin.textContent = p.n;
+    pin.classList.add("show");
+    placePin();
+
+    iEm.textContent = p.em;
+    iSys.textContent = LAYERS[cur].name;
+    iName.textContent = p.n;
+    iText.textContent = p.t;
+    document.documentElement.style.setProperty("--accent", LAYERS[cur].tint);
+    bump(iName.parentElement);
+    sparkle(el);
+    if (quizOn) checkAnswer(key, el);
+    else say(p.n + ". " + p.t);
+  }
+  svg.addEventListener("click", e => {
+    const hs = e.target.closest(".hs");
+    if (hs && !moved) select(hs);
+    moved = false;
+  });
+  window.addEventListener("resize", placePin);
+
+  $("#say").addEventListener("click", () => say(iName.textContent + ". " + iText.textContent));
+
+  const hintBtn = $("#hint");
+  hintBtn.addEventListener("click", () => {
+    const on = svg.classList.toggle("hint");
+    hintBtn.setAttribute("aria-pressed", String(on));
+    hintBtn.textContent = on ? "✨ Zones affichées" : "✨ Montrer les zones";
+    if (on) say("Voilà tous les endroits où tu peux appuyer !");
+  });
+
+  const soundBtn = $("#sound");
+  soundBtn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    soundBtn.setAttribute("aria-pressed", String(soundOn));
+    soundBtn.textContent = soundOn ? "🎧 Son allumé" : "🔇 Son coupé";
+    if (!soundOn && "speechSynthesis" in window) speechSynthesis.cancel();
+    else say("Le son est allumé !");
+  });
+
+  /* =======================================================
+     Garçon / fille
+     ======================================================= */
+  const bBoy = $("#btn-boy"), bGirl = $("#btn-girl");
+  function setSex(s){
+    svg.dataset.sex = s;
+    bBoy.setAttribute("aria-pressed", String(s === "m"));
+    bGirl.setAttribute("aria-pressed", String(s === "f"));
+    say(s === "m" ? "Voici un garçon !" : "Voici une fille !");
+  }
+  bBoy.addEventListener("click", () => setSex("m"));
+  bGirl.addEventListener("click", () => setSex("f"));
+
+  /* =======================================================
+     Carnation / cheveux
+     ======================================================= */
+  const skins = $("#skins"), hairs = $("#hairs");
+  SKINS.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "dot"; b.style.background = s[0];
+    b.setAttribute("aria-label", "Carnation " + (i+1));
+    b.setAttribute("aria-pressed", String(i === 1));
+    b.addEventListener("click", () => {
+      document.documentElement.style.setProperty("--skin", s[0]);
+      document.documentElement.style.setProperty("--skin-shade", s[1]);
+      Array.from(skins.children).forEach((c, j) => c.setAttribute("aria-pressed", String(i === j)));
+    });
+    skins.appendChild(b);
+  });
+  HAIRS.forEach((h, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "dot"; b.style.background = h;
+    b.setAttribute("aria-label", "Cheveux " + (i+1));
+    b.setAttribute("aria-pressed", String(i === 1));
+    b.addEventListener("click", () => {
+      document.documentElement.style.setProperty("--hair", h);
+      Array.from(hairs.children).forEach((c, j) => c.setAttribute("aria-pressed", String(i === j)));
+    });
+    hairs.appendChild(b);
+  });
+
+  /* =======================================================
+     Effets : étincelles + confettis
+     ======================================================= */
+  function sparkle(el){
+    const r = el.getBoundingClientRect();
+    for (let i = 0; i < 7; i++){
+      const s = document.createElement("span");
+      s.textContent = "✨";
+      s.style.cssText = `position:fixed;left:${r.left + r.width/2}px;top:${r.top + r.height/2}px;
+        font-size:${12 + Math.random()*14}px;pointer-events:none;z-index:30;
+        transition:transform .7s cubic-bezier(.2,.8,.3,1), opacity .7s`;
+      document.body.appendChild(s);
+      requestAnimationFrame(() => {
+        s.style.transform = `translate(${(Math.random()-.5)*160}px, ${-40 - Math.random()*90}px) rotate(${(Math.random()-.5)*180}deg)`;
+        s.style.opacity = "0";
+      });
+      setTimeout(() => s.remove(), 800);
+    }
+  }
+  function confetti(){
+    const c = $("#confetti");
+    const em = ["⭐","🎉","💛","🌟","🎈","💫"];
+    for (let i = 0; i < 44; i++){
+      const s = document.createElement("span");
+      s.textContent = em[Math.floor(Math.random()*em.length)];
+      s.style.left = (Math.random()*100) + "%";
+      s.style.fontSize = (18 + Math.random()*22) + "px";
+      s.style.animationDuration = (1.6 + Math.random()*1.6) + "s";
+      s.style.animationDelay = (Math.random()*.4) + "s";
+      c.appendChild(s);
+      setTimeout(() => s.remove(), 3600);
+    }
+  }
+
+  /* =======================================================
+     Jeu : « Trouve la bonne partie »
+     ======================================================= */
+  const QUIZ_LAYER = {
+    0:["tete","main","pied","ventre","jambe","bras"],
+    1:["sk-femur","sk-tibia","sk-cotes","sk-humerus","sk-avantbras","sk-crane","sk-colonne","sk-bassin","sk-main","sk-pied","sk-rotule","sk-mandibule"],
+    2:["mu-quadriceps","mu-abdos","mu-biceps","mu-mollet","mu-oblique","mu-pectoral","mu-brachioradial","mu-deltoide","mu-tibial","mu-sartorius","mu-scm"],
+    3:["bl-poumons","bl-femorale","bl-saphene","bl-artere-bras","bl-aorte","bl-coeur","bl-veinecave","bl-jugulaire","bl-carotide","bl-veine-main","bl-capillaires"],
+    4:["or-poumons","or-cerveau","or-diaphragme","or-foie","or-colon","or-estomac","or-grele","or-reins","or-coeur","or-trachee","or-cervelet","or-vessie"],
+  };
+  let quizOn = false, target = null, round = 0, asked = [];
+  const quizBtn = $("#quiz");
+
+  function showBanner(txt, bad){
+    banner.textContent = txt;
+    banner.classList.toggle("bad", !!bad);
+    banner.classList.add("show");
+    if (bad){
+      banner.classList.remove("shake"); void banner.offsetWidth; banner.classList.add("shake");
+    }
+  }
+  function hideBanner(){ banner.classList.remove("show"); }
+
+  function nextQuestion(){
+    const pool = QUIZ_LAYER[cur].filter(k => !asked.includes(k));
+    const list = pool.length ? pool : QUIZ_LAYER[cur];
+    target = list[Math.floor(Math.random()*list.length)];
+    asked.push(target);
+    const q = "Où est " + PARTS[target].n.replace(/^(La|Le|Les|L')\s?/i, m => m.toLowerCase()) + " ?";
+    showBanner("👉 " + q);
+    iEm.textContent = "❓";
+    iSys.textContent = "Question " + (round+1) + " sur 3";
+    iName.textContent = q;
+    iText.textContent = "Appuie sur la bonne partie du corps. Tu peux réessayer autant que tu veux !";
+    bump(iName.parentElement);
+    say(q);
+  }
+  function startQuiz(){
+    quizOn = true; round = 0; asked = [];
+    quizBtn.textContent = "✋ Arrêter le jeu";
+    clearSel();
+    nextQuestion();
+  }
+  function stopQuiz(silent){
+    quizOn = false; target = null;
+    quizBtn.textContent = "🎲 Trouve la bonne partie !";
+    hideBanner();
+    if (!silent) announceLayer();
+  }
+  function checkAnswer(key, el){
+    if (!quizOn || !target) return;
+    if (key === target){
+      stars++;
+      $("#starn").textContent = stars;
+      const st = $("#stars");
+      st.classList.remove("starpop"); void st.offsetWidth; st.classList.add("starpop");
+      confetti();
+      const bravo = ["Bravo !","Super !","Youpi, c'est ça !","Trop fort !"][Math.floor(Math.random()*4)];
+      showBanner("🎉 " + bravo);
+      say(bravo + " " + PARTS[key].n + ". " + PARTS[key].t);
+      round++;
+      setTimeout(() => {
+        if (!quizOn) return;
+        if (round >= 3){
+          showBanner("🏆 Bravo, tu as tout trouvé !");
+          say("Bravo ! Tu as trouvé les trois. Tu es un vrai docteur !");
+          setTimeout(() => stopQuiz(true), 2600);
+        } else {
+          nextQuestion();
+        }
+      }, 3400);
+    } else {
+      showBanner("🙈 Presque ! Essaie encore.", true);
+      say("Presque ! Ça, c'est " + PARTS[key].n.toLowerCase() + ". Essaie encore !");
+    }
+  }
+  quizBtn.addEventListener("click", () => quizOn ? stopQuiz() : startQuiz());
+
+  /* =======================================================
+     Clavier : flèches pour changer de couche
+     ======================================================= */
+  document.addEventListener("keydown", e => {
+    if (e.target.tagName === "INPUT") return;
+    if (e.key === "ArrowRight") goTo(Math.min(4, cur + 1), true);
+    if (e.key === "ArrowLeft")  goTo(Math.max(0, cur - 1), true);
+  });
+
+  /* =======================================================
+     Démarrage
+     ======================================================= */
+  paint(0);
+  layerEls[0].classList.add("active");
+  applyZoom();
+
+  // le navigateur exige un geste avant de parler : on amorce au 1er clic
+  let primed = false;
+  document.addEventListener("pointerdown", () => {
+    if (primed) return;
+    primed = true;
+    say("Bonjour ! Appuie sur le corps pour découvrir ce qu'il y a dedans.");
+  }, {once:false});
+})();
+</script>
+
+<style>
+/* variantes garçon / fille : pilotées par data-sex sur le <svg> */
+#body[data-sex="m"] .only-f{display:none}
+#body[data-sex="f"] .only-m{display:none}
+</style>
+</body>
+</html>

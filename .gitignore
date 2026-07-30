@@ -1,0 +1,6 @@
+# état local des outils, à ne pas publier
+.claude/
+.remember/
+
+# macOS
+.DS_Store
