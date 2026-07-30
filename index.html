@@ -236,6 +236,7 @@ svg#body{display:block;width:100%;height:auto;max-height:min(66vh,660px);margin:
 .suitF{fill:#ff6fa8}
 .suitLine{fill:rgba(255,255,255,.3)}
 .bow{fill:#ff4f96}
+.suitSeam{fill:none;stroke:rgba(0,0,0,.15);stroke-width:3;stroke-linecap:round}
 .tuft{fill:var(--hair)}
 
 .breathe{animation:breathe 4.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
@@ -1445,10 +1446,12 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
                  150,5 à y=420 · 148 à 438 · 146 à 456 · 144 à 474 · 142 à 510) ;
                  ourlet à mi-cuisse, échancrure d'entrejambe au niveau où les
                  jambes se séparent (y≈468). -->
-            <path class="suit only-m" d="M156 356 Q200 373 244 356 L243 398 C248 407 249 413 250 424 C252 442 254 462 256 480 C257 494 258 504 258 512 Q258 521 248 521 L206 519 Q203 517 203 510 L204 470 Q200 462 196 470 L197 510 Q197 517 194 519 L152 521 Q142 521 142 512 C142 504 143 494 144 480 C146 462 148 442 150 424 C151 413 152 407 157 398 Z"/>
+            <path class="suit only-m" d="M156 356 Q200 373 244 356 L243 398 C248 407 249 413 250 424 C252 442 254 462 256 480 C257 494 258 504 258 512 Q258 521 248 521 L206 519 Q200 513 194 519 L152 521 Q142 521 142 512 C142 504 143 494 144 480 C146 462 148 442 150 424 C151 413 152 407 157 398 Z"/>
             <path class="suitLine only-m" d="M156 356 Q200 373 244 356 L245 368 Q200 385 155 368 Z"/>
-            <path class="suitF only-f" d="M167 352 Q200 369 233 352 L237 394 C245 404 248 412 250 424 C252 442 254 460 256 476 C257 488 257 496 257 504 Q257 512 247 512 L206 510 Q203 508 203 502 L204 468 Q200 460 196 468 L197 502 Q197 508 194 510 L153 512 Q143 512 143 504 C143 496 143 488 144 476 C146 460 148 442 150 424 C152 412 155 404 163 394 Z"/>
+            <path class="suitSeam only-m" d="M200 470 L200 514"/>
+            <path class="suitF only-f" d="M167 352 Q200 369 233 352 L237 394 C245 404 248 412 250 424 C252 442 254 460 256 476 C257 488 257 496 257 504 Q257 512 247 512 L206 510 Q200 504 194 510 L153 512 Q143 512 143 504 C143 496 143 488 144 476 C146 460 148 442 150 424 C152 412 155 404 163 394 Z"/>
             <path class="suitLine only-f" d="M167 352 Q200 369 233 352 L234 364 Q200 381 166 364 Z"/>
+            <path class="suitSeam only-f" d="M200 464 L200 506"/>
             <path class="suitF only-f" d="M146 210 Q200 229 254 210 L252 254 Q200 273 148 254 Z"/>
             <path class="suitF only-f" d="M168 214 C171 200 176 190 184 186 L191 190 C183 196 178 204 175 216 Z"/>
             <path class="suitF only-f" d="M232 214 C229 200 224 190 216 186 L209 190 C217 196 222 204 225 216 Z"/>
