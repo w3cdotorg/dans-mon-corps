@@ -318,6 +318,188 @@ svg#body{display:block;width:100%;height:auto;max-height:min(66vh,660px);margin:
   .mu-pulse-bi,.mu-pulse-calf,.mu-pulse-mass{animation:none}
 }
 
+/* ===== couche 3 ===== */
+/* ============ COUCHE APPAREIL CIRCULATOIRE — prefixe bl- ============ */
+
+/* Halo « circulation qui brille dans le noir » */
+#bl-net {
+  filter: drop-shadow(0 0 2.5px rgba(255, 80, 120, .40))
+          drop-shadow(0 0 2.5px rgba(90, 170, 255, .34));
+}
+#bl-heart-g { filter: drop-shadow(0 0 6px rgba(232, 33, 63, .55)); }
+
+/* --- tracés de FOND : continus, plus sombres (evite le clignotement) --- */
+.bl-ab { fill: none; stroke: #8e1030; stroke-linecap: round; stroke-linejoin: round; }
+.bl-vb { fill: none; stroke: #12518f; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- tracés de FLUX : pointillés clairs animés par-dessus --- */
+.bl-af, .bl-vf, .bl-caf, .bl-cvf {
+  fill: none; stroke-linecap: round; stroke-dasharray: 13 19;
+  animation-name: bl-flow; animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.bl-af  { stroke: #ff4266; animation-duration: 1.4s; }   /* artériel : rapide */
+.bl-vf  { stroke: #4aa6ff; animation-duration: 2.3s; }   /* veineux : plus lent */
+.bl-caf { stroke: #ff7a93; animation-duration: 3.2s; }   /* capillaire rouge */
+.bl-cvf { stroke: #7ab6ff; animation-duration: 3.6s; }   /* capillaire bleu */
+
+/* --- calibres : le sang part gros du coeur et s'affine vers les doigts --- */
+.bl-1 { stroke-width: 9; }   .bl-1f { stroke-width: 6; }
+.bl-2 { stroke-width: 7; }   .bl-2f { stroke-width: 4.6; }
+.bl-3 { stroke-width: 5.4; } .bl-3f { stroke-width: 3.4; }
+.bl-4 { stroke-width: 4.2; } .bl-4f { stroke-width: 2.6; }
+.bl-5 { stroke-width: 3.2; } .bl-5f { stroke-width: 2.5; }
+
+/* sens du courant : les pointillés avancent toujours dans le sens du tracé
+   (les artères sont tracées coeur -> extrémités, les veines extrémités -> coeur) */
+@keyframes bl-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -64; } }
+
+/* --- le coeur : deux temps, ~0,9 s --- */
+.bl-heart-beat {
+  transform-box: fill-box; transform-origin: center;
+  animation: bl-beat .9s ease-in-out infinite;
+}
+@keyframes bl-beat {
+  0%   { transform: scale(1); }
+  7%   { transform: scale(1.05, 1.04); }  /* systole des oreillettes */
+  15%  { transform: scale(1.02); }
+  26%  { transform: scale(.90, .93); }    /* systole des ventricules */
+  40%  { transform: scale(1.035); }
+  56%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+/* auréole du coeur, synchronisée sur le battement */
+.bl-heart-halo {
+  transform-box: fill-box; transform-origin: center;
+  animation: bl-halo .9s ease-in-out infinite;
+}
+@keyframes bl-halo {
+  0%, 100% { opacity: .18; transform: scale(1); }
+  26%      { opacity: .50; transform: scale(1.18); }
+  60%      { opacity: .22; transform: scale(1.02); }
+}
+/* les coronaires se remplissent en diastole */
+.bl-coro { animation: bl-flow 1.1s linear infinite; }
+
+.bl-hstroke { stroke: #9c0d26; stroke-linejoin: round; stroke-linecap: round; }
+.bl-groove  { fill: none; stroke: #9c0d26; stroke-width: 2.6; stroke-linecap: round; opacity: .85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bl-af, .bl-vf, .bl-caf, .bl-cvf, .bl-heart-beat, .bl-heart-halo, .bl-coro { animation: none; }
+  .bl-af, .bl-vf, .bl-caf, .bl-cvf { stroke-dasharray: none; }
+}
+
+/* ===== couche 4 ===== */
+/* ===== ORGANES : traits communs ===== */
+.or-s{stroke-linecap:round;stroke-linejoin:round}
+.or-t{fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== encéphale ===== */
+.or-brain{fill:#c9648c;stroke:#8f3a5c;stroke-width:2.2}
+.or-lobefr{fill:#d6759b}
+.or-lobetemp{fill:#bd5880}
+.or-lobeocc{fill:#b24f77}
+.or-gyr{fill:none;stroke:#ffb3d1;stroke-width:6;stroke-linecap:round}
+.or-fis{fill:none;stroke:#7d2a4b;stroke-width:3.2;stroke-linecap:round}
+.or-cbl{fill:#e2839f;stroke:#8e4159;stroke-width:2}
+.or-lam{fill:none;stroke:#a04d69;stroke-width:1.9;stroke-linecap:round}
+.or-verm{fill:#cb6484;stroke:#8e4159;stroke-width:1.8}
+.or-stem{fill:#f4cdda;stroke:#a86381;stroke-width:2}
+.or-cord{fill:#e9e3f7;stroke:#8f83ad;stroke-width:2}
+.or-caud{fill:none;stroke:#a9a0c4;stroke-width:2;stroke-linecap:round}
+
+/* ===== voies aériennes ===== */
+.or-air{fill:#eef3ff;stroke:#8695ba;stroke-width:2}
+.or-ring{fill:none;stroke:#aebede;stroke-width:2.3;stroke-linecap:round}
+.or-brdark{fill:none;stroke:#8695ba;stroke-linecap:round;stroke-linejoin:round}
+.or-br{fill:none;stroke:#dde7fa;stroke-linecap:round;stroke-linejoin:round}
+.or-bw1{stroke-width:8}
+.or-bw2{stroke-width:5.6}
+.or-bw3{stroke-width:3.8}
+.or-bw4{stroke-width:2.6}
+.or-brdark.or-bw1{stroke-width:10.8}
+.or-brdark.or-bw2{stroke-width:8.2}
+.or-brdark.or-bw3{stroke-width:6.2}
+.or-brdark.or-bw4{stroke-width:4.8}
+
+/* ===== thyroïde ===== */
+.or-thy{fill:#c98fc4;stroke:#7d4a79;stroke-width:2}
+
+/* ===== poumons : 3 teintes = 3 lobes ===== */
+.or-lungA{fill:#ffdce9;stroke:#c96e90;stroke-width:1.8}
+.or-lungB{fill:#ffb0cc;stroke:#c96e90;stroke-width:1.8}
+.or-lungC{fill:#f486af;stroke:#c96e90;stroke-width:1.8}
+.or-scis{fill:none;stroke:#a9476c;stroke-width:3;stroke-linecap:round}
+.or-lungEdge{fill:none;stroke:#a9476c;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+
+/* ===== coeur et gros vaisseaux ===== */
+.or-heart{fill:#e8213f;stroke:#7d0e1c;stroke-width:2.2}
+.or-hgroove{fill:none;stroke:#9d0f1e;stroke-width:2.1;stroke-linecap:round}
+.or-aorta{fill:none;stroke:#c2152f;stroke-width:5.5;stroke-linecap:round}
+.or-aortaD{fill:none;stroke:#a5122a;stroke-width:4.5;stroke-linecap:round}
+.or-pulm{fill:none;stroke:#f2496a;stroke-width:5;stroke-linecap:round}
+
+/* ===== diaphragme ===== */
+.or-diaph{fill:#f9a68e;stroke:#9b3b28;stroke-width:2.4}
+.or-fib{fill:none;stroke:#c86449;stroke-width:1.7;stroke-linecap:round}
+
+/* ===== oesophage ===== */
+.or-oesoOut{stroke:#94687f;stroke-width:9}
+.or-oesoIn{stroke:#dfb9cb;stroke-width:5.6}
+
+/* ===== foie et vesicule ===== */
+.or-liver{fill:#a04a3e;stroke:#571f18;stroke-width:2.4}
+.or-liverL{fill:#b8604f;stroke:#571f18;stroke-width:2.2}
+.or-lig{fill:none;stroke:#571f18;stroke-width:2.6;stroke-linecap:round}
+.or-gall{fill:#6fbf7a;stroke:#2c6a36;stroke-width:2}
+.or-duct{fill:none;stroke:#2c6a36;stroke-width:2.4;stroke-linecap:round}
+
+/* ===== estomac ===== */
+.or-stom{fill:#ff9878;stroke:#a8402a;stroke-width:2.4}
+.or-ruga{fill:none;stroke:#cc5c3e;stroke-width:1.9;stroke-linecap:round}
+.or-pylo{fill:none;stroke:#a8402a;stroke-width:3.4;stroke-linecap:round}
+
+/* ===== rate ===== */
+.or-spleen{fill:#8e5b7e;stroke:#4b2942;stroke-width:2.2}
+
+/* ===== pancréas ===== */
+.or-panc{fill:#f2cd83;stroke:#a8811f;stroke-width:2.2}
+.or-wirsung{fill:none;stroke:#a8811f;stroke-width:1.8;stroke-linecap:round}
+
+/* ===== reins, uretères, vessie ===== */
+.or-kid{fill:#cb6a40;stroke:#4a1a09;stroke-width:2.7}
+.or-kidin{fill:#f0c3ab;stroke:none}
+.or-adr{fill:#e6c08e;stroke:#8d6236;stroke-width:1.9}
+.or-uriOut{stroke:#8e6c10;stroke-width:5}
+.or-uriIn{stroke:#ffd75e;stroke-width:2.8}
+.or-blad{fill:#ffd75e;stroke:#8e6c10;stroke-width:2.3}
+.or-hl{fill:none;stroke:#ffffff;stroke-opacity:.42;stroke-width:2;stroke-linecap:round}
+
+/* ===== intestins ===== */
+.or-colOut{stroke:#9e5719;stroke-width:16}
+.or-colIn{stroke:#f09a52;stroke-width:12.4}
+.or-haus{fill:none;stroke:#b96c28;stroke-width:2;stroke-linecap:round}
+.or-cec{fill:#f09a52;stroke:#9e5719;stroke-width:2.3}
+.or-appOut{stroke:#9e5719;stroke-width:6.6}
+.or-appIn{stroke:#e9954c;stroke-width:3.8}
+.or-greOut{stroke:#bb7638;stroke-width:12}
+.or-greIn{stroke:#ffd0a8;stroke-width:8.8}
+.or-duoOut{stroke:#bb7638;stroke-width:12}
+.or-duoIn{stroke:#ffbe8e;stroke-width:8.8}
+
+/* ===== animations ===== */
+@keyframes or-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.045,1.055)}}
+.or-lungG{animation:or-breathe 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 8%}
+@keyframes or-diaphmove{0%,100%{transform:translateY(0)}50%{transform:translateY(3.5px)}}
+.or-diaphG{animation:or-diaphmove 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes or-beat{0%,100%{transform:scale(1)}11%{transform:scale(1.07)}24%{transform:scale(.985)}40%{transform:scale(1.028)}58%{transform:scale(1)}}
+.or-heartG{animation:or-beat .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 26%}
+@keyframes or-peristal{from{stroke-dashoffset:0}to{stroke-dashoffset:-168}}
+.or-peri{fill:none;stroke:#fff1dc;stroke-width:4.2;stroke-linecap:round;stroke-dasharray:15 153;opacity:.75;animation:or-peristal 9s linear infinite}
+@media (prefers-reduced-motion:reduce){
+  .or-lungG,.or-diaphG,.or-heartG,.or-peri{animation:none}
+}
+
 /* ------------------------------- bulle d'info flottante */
 .pinlabel{
   position:absolute;z-index:6;transform:translate(-50%,-118%);
@@ -531,7 +713,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
             <stop offset="100%" stop-color="#8fd3ff" stop-opacity="0"/>
           </linearGradient>
 
-          <!-- silhouette réutilisable (peau, silhouette fantôme, masque de découpe) -->
+          <!-- ---------- silhouette réutilisable ---------- -->
           <g id="armShape">
             <path class="limbP" d="M150 212 C126 222 118 252 114 288 C110 324 102 354 98 382"/>
             <circle class="fillC" cx="96" cy="400" r="19"/>
