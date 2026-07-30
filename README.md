@@ -1,5 +1,7 @@
 # Dans mon corps 🔎
 
+**→ [Ouvrir le site](https://w3cdotorg.github.io/dans-mon-corps/)**
+
 Un petit explorateur du corps humain pour les enfants (dès 4 ans), en français.
 Une page web unique, sans dépendance ni installation : on ouvre `index.html` et c'est parti.
 
