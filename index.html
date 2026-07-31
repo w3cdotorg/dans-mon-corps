@@ -2290,7 +2290,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
       <p id="i-text">Touche la tête, le ventre, une jambe… et je te raconte ce qu'il y a dedans. Puis fais glisser le gros curseur pour regarder sous la peau&nbsp;!</p>
       <div class="row">
         <button class="btn" type="button" id="say">🔊 Réécouter</button>
-        <button class="btn ghostbtn" type="button" id="sound" aria-pressed="true">🎧 Son allumé</button>
+        <button class="btn ghostbtn" type="button" id="sound" aria-pressed="false">🔇 Son coupé</button>
       </div>
     </div>
 
@@ -2425,7 +2425,7 @@ footer .ghlink:focus-visible{outline:3px solid #ffe6bd;outline-offset:4px}
   const layerEls = Array.from(document.querySelectorAll(".layer"));
 
   let cur = 0;          // couche affichée (entier)
-  let soundOn = true;
+  let soundOn = false;
   let selected = null;  // hotspot sélectionné
   let stars = 0;
 
